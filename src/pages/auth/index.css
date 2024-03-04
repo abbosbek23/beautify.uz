@@ -1,0 +1,15 @@
+.login{
+    background-image: url("../../assets/backgroundLoginImage.svg");
+    background-size: cover;
+    width: 100%;
+   
+}
+
+.box-signin{
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.808);
+}
+.login-form{
+    backdrop-filter: blur(5px);
+    background: none;
+}
