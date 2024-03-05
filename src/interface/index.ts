@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface  IRegisterdata {
     id:number,
     full_name: string,
@@ -11,7 +12,8 @@ export interface  IVerifyemail {
 }
 export interface  ICategory {
     id: number | null,
-    name: string
+    name?: string
     parent: number | null
-   
+    data?: undefined;
+  success:boolean;
 }

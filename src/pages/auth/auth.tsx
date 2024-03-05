@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import { FunctionComponent, useState } from "react";
 import "./index.css";
 import { Types, Api } from "../../modules/auth";
@@ -36,7 +36,7 @@ const Auth: FunctionComponent<AuthProps> = () => {
   });
 
   const [email, setEmail] = useState("");
-  const [activeCodes, setactiveCodes] = useState();
+  const [activeCodes, setactiveCodes] = useState<number | undefined>(undefined);
   const [emailverification, setemailverification] = useState(false);
   const [nextStep, setNextStep] = useState(false);
   const [selectRole, setSelectRole] = useState(0);
@@ -51,7 +51,33 @@ const Auth: FunctionComponent<AuthProps> = () => {
     }
   };
 
-  const onsubmit = async (values: Types.IForm.Register) => {
+  // const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
+  //   // Call your original function with the correct type
+  //   const adaptedData: Types.IForm.Register = {
+  //     id: data.id,
+  //     full_name: data.full_name,
+  //     email: data.email,
+  //     username: data.username,
+  //     is_master:selectedRoles,
+  //     password:data.password
+  //     // Adapt other fields as necessary
+  //   };
+
+  //   await originalSubmitHandler(adaptedData); // Call your original submit handler
+  // };
+
+  const onsubmit =   async (values:any) => {
+    const adaptedData: Types.IForm.Register = {
+      id: values.id,
+      full_name: values.full_name,
+      email: values.email,
+      username: values.username,
+      is_master: selectedRoles,
+      password: values.password,
+      // Adapt other fields as necessary
+    };
+    console.log(adaptedData);
+
     if (values.email) {
       setemailverification(true);
       const { data } = await Api.Register({
@@ -64,12 +90,12 @@ const Auth: FunctionComponent<AuthProps> = () => {
       reset();
     }
   };
-  const onsubmits = async (data) => {
+  const onsubmits = async (data: any) => {
     console.log(data);
   };
   const activeCode = async () => {
     console.log(email, typeof activeCodes);
-    const activatsiyacode = +activeCodes;
+    const activatsiyacode = activeCodes;
     const { data } = await ActiveCode({
       email,
       activate_code: activatsiyacode,
@@ -104,93 +130,104 @@ const Auth: FunctionComponent<AuthProps> = () => {
               className={"rolebasedIcon"}
             >
               <Box onClick={selectedRole} marginTop={2}>
-                <Box onClick={()=>setRoles(true)}>
-                <Box
-                  sx={
-                    selectRole === 0
-                      ? {
-                          width: "800px",
-                          height: "142px",
-                          border: "1px solid #625DD3",
-                          padding: "10px 42px",
-                          cursor:"pointer",
-                          borderRadius: "12px"
-                        }
-                      : {
-                          width: "800px",
-                          height: "142px",
-                          border: "1px solid #B5B5B5",
-                          padding: "10px 42px",
-                          cursor:"pointer",
-                          borderRadius: "12px"
-                        }
-                  }
-                  onClick={() => setSelectRole(0)}
-                >
+                <Box onClick={() => setRoles(true)}>
                   <Box
-                    sx={{display: "flex",width:"20%",alignItems:"center"}}
+                    sx={
+                      selectRole === 0
+                        ? {
+                            width: "800px",
+                            height: "142px",
+                            border: "1px solid #625DD3",
+                            padding: "10px 42px",
+                            cursor: "pointer",
+                            borderRadius: "12px",
+                          }
+                        : {
+                            width: "800px",
+                            height: "142px",
+                            border: "1px solid #B5B5B5",
+                            padding: "10px 42px",
+                            cursor: "pointer",
+                            borderRadius: "12px",
+                          }
+                    }
+                    onClick={() => setSelectRole(0)}
                   >
-                     <img
-                      src={clientIcon}
-                      width="42px"
-                      height="42px"
-                      alt="client"
-                    />
-                   <Typography variant="h5">Mijoz</Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        width: "20%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <img
+                        src={clientIcon}
+                        width="42px"
+                        height="42px"
+                        alt="client"
+                      />
+                      <Typography variant="h5">Mijoz</Typography>
+                    </Box>
+                    <Typography variant="h6">
+                      Mijoz sifatida siz to'g'ri mutaxassislarni topishingiz va
+                      ularga onlayn ro'yxatdan o'tishingiz mumkin bo'ladi.
+                    </Typography>
                   </Box>
-                  <Typography variant="h6">
-                    Mijoz sifatida siz to'g'ri mutaxassislarni topishingiz va
-                    ularga onlayn ro'yxatdan o'tishingiz mumkin bo'ladi.
-                  </Typography>
-                </Box>
                 </Box>
               </Box>
               <Box onClick={selectedRole}>
-                <Box onClick={()=>setRoles(true)}>
-                <Box
-                  sx={
-                    selectRole === 1
-                      ? {
-                          width: "800px",
-                          height: "142px",
-                          border: "1px solid #625DD3",
-                          padding: "10px 42px",
-                          marginTop: "10px",
-                          cursor:"pointer",
-                          borderRadius: "12px"
-                        }
-                      : {
-                          width: "800px",
-                          height: "142px",
-                          border: "1px solid #B5B5B5",
-                          padding: "10px 42px",
-                          marginTop: "10px",
-                          cursor:"pointer",
-                          borderRadius: "12px"
-                        }
-                  }
-                  onClick={() => setSelectRole(1)}
-                >
+                <Box onClick={() => setRoles(true)}>
                   <Box
-                    sx={{ display: "flex", width: "20%", alignItems: "center" }}
+                    sx={
+                      selectRole === 1
+                        ? {
+                            width: "800px",
+                            height: "142px",
+                            border: "1px solid #625DD3",
+                            padding: "10px 42px",
+                            marginTop: "10px",
+                            cursor: "pointer",
+                            borderRadius: "12px",
+                          }
+                        : {
+                            width: "800px",
+                            height: "142px",
+                            border: "1px solid #B5B5B5",
+                            padding: "10px 42px",
+                            marginTop: "10px",
+                            cursor: "pointer",
+                            borderRadius: "12px",
+                          }
+                    }
+                    onClick={() => setSelectRole(1)}
                   >
-                    <img
-                      src={masterIcon}
-                      width="42px"
-                      height="42px"
-                      alt="client"
-                    />
-                    <Typography variant="h5">Master</Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        width: "20%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <img
+                        src={masterIcon}
+                        width="42px"
+                        height="42px"
+                        alt="client"
+                      />
+                      <Typography variant="h5">Master</Typography>
+                    </Box>
+                    <Typography variant="h6">
+                      Master sifatida siz o'zingizning jadvalingizni, narxlar
+                      ro'yxatini o'rnatish uchun ishchi vositalardan
+                      foydalanasiz.
+                    </Typography>
                   </Box>
-                  <Typography variant="h6">
-                    Master sifatida siz o'zingizning jadvalingizni, narxlar
-                    ro'yxatini o'rnatish uchun ishchi vositalardan foydalanasiz.
-                  </Typography>
-                </Box>
                 </Box>
               </Box>
               {/* <button
-                style={{
+
+Muratov Abbosbek, [05.03.2024 16:29]
+style={{
                   marginTop: "20px",
                   width: "800px",
                   background: "#625DD3",
@@ -363,7 +400,7 @@ const Auth: FunctionComponent<AuthProps> = () => {
                           message: "Kamida 4 harf",
                         },
                       })}
-                      onChange={(e) => setactiveCodes(e.target.value)}
+                      onChange={(e) => setactiveCodes(parseInt(e.target.value))}
                       className="login-form"
                       type="number"
                       placeholder="Activatsiya Kodi"
@@ -401,11 +438,10 @@ const Auth: FunctionComponent<AuthProps> = () => {
                     variant="contained"
                     sx={{
                       marginTop: "30px",
-
                       height: "50px",
                       background: "#625DD3",
                     }}
-                    onClick={onsubmit}
+                    onClick={ handleSubmit(onsubmit)}
                   >
                     Emailingizni tasdiqlang
                   </Button>

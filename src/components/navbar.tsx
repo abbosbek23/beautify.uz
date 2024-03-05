@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import logo from "../assets/logo.svg";
 import "./navbar.css";
 import { Box } from "@mui/system";
@@ -14,7 +14,7 @@ interface NavbarProps {
 }
 
 const Navbar: FunctionComponent<NavbarProps> = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   
   const navigate = useNavigate()
 
@@ -39,7 +39,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
           <input placeholder="Search the location or master..." type="text" style={{ width:"400px",fontSize:"18px",marginLeft:"0px",padding:"12px 0px 12px 12px",border:"0px solid white",borderRadius:"100px",outline:"none"}}/>
 			</form>
         </Box>
-        <Box sx={{marginLeft:"18%"}}>
+        <Box >
 		<Button sx={{width:"100px",height:"45px",padding:"16px 38px",borderRadius:"100px",backgroundColor:"#625DD3",color:"white","&:hover": {
          backgroundColor:"#625DD3"
     }}} variant="contained" onClick={()=>navigate("/login")}>Login</Button>

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { GENDER } from "./constants";
 
-export namespace   {
+export namespace IEntity  {
 	export interface User {
 		firstName: string;
 		lastName: string;
@@ -30,7 +30,7 @@ export namespace IForm {
 	}
     export interface ActiveCodes{
         email:string;
-        activate_code:number
+        activate_code?:number | undefined;
     }
 	export interface Register {
 		id:number,
@@ -38,7 +38,7 @@ export namespace IForm {
         email: string,
         username: string,
         password: string,
-        activate_code:number,
+        activate_code?:number | undefined,
         is_master:string
 	}
 	export interface Verification {
@@ -48,13 +48,14 @@ export namespace IForm {
 		email: string;
 	}
 	export interface PostsApi {
-		id:number;
+		id: number | null,
 		name:string;
 		price:string;
 		duration:string;
 		description:string;
-		category:number;
+		category:number | null;
 		image:string;
+		data?:undefined;
 	}
 	export interface Checkpassword {
 		email: string;

@@ -1,5 +1,5 @@
 import {  Route, Routes as Switch } from 'react-router-dom';
-import { Home } from '../pages'; 
+import { Home } from '../pages';
 import Auth from './../pages/auth/auth';
 import Login from '../pages/auth/login';
 // interface RoutesProps {

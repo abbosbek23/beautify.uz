@@ -40,8 +40,8 @@ const Login: FunctionComponent<LoginProps> = () => {
               <input className="login-form" type="text" placeholder="Foydalanuvchi nomi" style={{width: "100%",padding: "16px 22px",marginBottom:"10px ",borderRadius: "12px",border: "1px solid #B5B5B5"}}/>
               <input className="login-form" type="text" placeholder="Maxfiylik kodi" style={{marginTop:'20px',marginBottom:"30px",width: "100%",padding: "16px 22px",borderRadius: "12px",border: "1px solid #B5B5B5"}}/>
               
-                <Grid item xs>
-                  <Link href="#" sx={{marginLeft:"72%",textDecoration:'none',color:"#625DD3"}} variant="body2">
+                <Grid  xs>
+                  <Link to={""} style={{marginLeft:"72%",textDecoration:'none',color:"#625DD3"}}>
                   Parolni unutdingizmi?
                   </Link>
                 </Grid>
