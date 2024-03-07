@@ -13,7 +13,8 @@
 	padding: 12px 20px;
 	background:  #F7F7F7;
 	cursor: pointer;
-	margin-right:10px;
+	margin-left: 0px;
+	margin-right: 10px;
 	margin-bottom:10px;
 	border-radius:100px;
 	
@@ -23,6 +24,7 @@
 	padding: 12px 20px;
 	background:black;
 	color:white;
+	margin-left: 0px;
 	margin-right:10px;
 	margin-bottom:10px;
 	border-radius:100px;

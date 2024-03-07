@@ -33,8 +33,9 @@ const Home: FunctionComponent<HomeProps> = () => {
   const [clickedCategory, setClickedCategory] = useState();
   const [currentParent, setParent] = useState();
   const [newPosts, setNewPosts] = useState(false);
-  // const [active, setActive] = useState(false);
 
+  // const [active, setActive] = useState(false);
+  
   const [category, setCategory] = useState<ICategory[]>([
     {
       name: "",
@@ -44,6 +45,7 @@ const Home: FunctionComponent<HomeProps> = () => {
       success: false,
     },
   ]);
+  console.log(category)
   const [posts, setPosts] = useState<Types.IForm.PostsApi[]>(
    [ {
       id: null,
@@ -61,7 +63,11 @@ const Home: FunctionComponent<HomeProps> = () => {
   useEffect(() => {
     const getCategories = async () => {
       const { data, success } = await getCategory();
+
+      data.unshift(data.splice(36, 1)[0])
+      
       success && setCategory(data);
+
     };
     getCategories();
   }, []);
@@ -76,8 +82,12 @@ const Home: FunctionComponent<HomeProps> = () => {
     
   };
 
-  const CategoryFilter = (id: any) => {
+  const CategoryFilter = async(id: any) => {
     const categoryparent = category.filter((item) => item.parent === id);
+    if(id === 36){
+      const { data } = await NewPostss();
+      setPosts(data)
+    }
     setCategoryFiltered(categoryparent);
     setClickedCategory(id);
   };
@@ -124,12 +134,7 @@ const Home: FunctionComponent<HomeProps> = () => {
               padding: "0px 30px",
             }}
           >
-            <button
-              onClick={newPost}
-              className={newPosts ? "activeddButton" : "activedButton"}
-            >
-              New
-            </button>
+            
             {category
               .filter((item) => item.parent === null)
               .map(({ name, id }: ICategory) => (
@@ -168,7 +173,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                 onClick={() => categoryParent(id)}
                 style={{
                   marginTop: "10px",
-                  width: "100%",
+                 
                   whiteSpace: "nowrap",
                 }}
               >
@@ -181,7 +186,7 @@ const Home: FunctionComponent<HomeProps> = () => {
           <Grid width="100%" container spacing={2} padding={5}>
             <Grid xs={6}>
               <Card sx={{ width: "100%", boxShadow: "none" }}>
-                {/* {posts?.map(
+                {posts?.map(
                   ({
                     name,
                     id,
@@ -194,7 +199,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 
                     </Card>
                   )
-                )} */}
+                )}
                 <CardHeader
                   sx={{ paddingLeft: "0px", paddingRight: "15px" }}
                   avatar={

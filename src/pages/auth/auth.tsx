@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { FunctionComponent, useState } from "react";
 import "./index.css";
 import { Types, Api } from "../../modules/auth";
@@ -42,7 +42,10 @@ const Auth: FunctionComponent<AuthProps> = () => {
   const [selectRole, setSelectRole] = useState(0);
   const [selectedRoles, setSelectedRoles] = useState("");
   const [roles, setRoles] = useState(false);
+  const [selectGenders, setSelectGenders] = useState(0);
+  const [selectGender, setSelectGender] = useState("")
   const navigate = useNavigate();
+
   const selectedRole = () => {
     if (selectRole === 1) {
       setSelectedRoles("true");
@@ -50,7 +53,13 @@ const Auth: FunctionComponent<AuthProps> = () => {
       setSelectedRoles("false");
     }
   };
-
+  const chooseGenders = (value:any) => {
+    if (value === 0){
+      setSelectGender("Erkak")
+    }else{
+      setSelectGender("Ayol")
+    }
+  }
   // const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
   //   // Call your original function with the correct type
   //   const adaptedData: Types.IForm.Register = {
@@ -66,7 +75,7 @@ const Auth: FunctionComponent<AuthProps> = () => {
   //   await originalSubmitHandler(adaptedData); // Call your original submit handler
   // };
 
-  const onsubmit =   async (values:any) => {
+  const onsubmit = async (values: any) => {
     const adaptedData: Types.IForm.Register = {
       id: values.id,
       full_name: values.full_name,
@@ -250,7 +259,7 @@ style={{
             </Box>
           </Container>
         </Box>
-      ) : !nextStep ? (
+      ) : nextStep ? (
         <Box
           sx={{ width: "100%", height: "100vh", overflow: "hidden" }}
           className="login"
@@ -441,7 +450,7 @@ style={{
                       height: "50px",
                       background: "#625DD3",
                     }}
-                    onClick={ handleSubmit(onsubmit)}
+                    onClick={handleSubmit(onsubmit)}
                   >
                     Emailingizni tasdiqlang
                   </Button>
@@ -466,7 +475,7 @@ style={{
                 width: "560px",
                 height: "400px",
                 borderRadius: "15px",
-                background: "rgba(255, 255, 255, 0.50)",
+                background: "rgba(255, 255, 255, 1)",
                 boxShadow: "0px 0px 50px 0px rgba(0, 0, 0, 0.10)",
               }}
             >
@@ -480,26 +489,6 @@ style={{
                   Qo'shimcha Ma'lumotlar
                 </Typography>
                 <input
-                  {...register2("gender", {
-                    // required: "Inputni to'ldir",
-                    minLength: {
-                      value: 4,
-                      message: "Kamida 4 harf",
-                    },
-                  })}
-                  className="login-form"
-                  type="text"
-                  placeholder="Gender"
-                  style={{
-                    marginTop: "20px",
-                    marginBottom: "30px",
-                    width: "100%",
-                    padding: "16px 22px",
-                    borderRadius: "12px",
-                    border: "1px solid #B5B5B5",
-                  }}
-                />
-                <input
                   {...register2("phoneNumber", {
                     // required: "Inputni to'ldir",
                     minLength: {
@@ -511,13 +500,93 @@ style={{
                   type="text"
                   placeholder="Phone Number"
                   style={{
-                    marginBottom: "30px",
+                    marginTop: "20px",
+                    marginBottom: "0px",
                     width: "100%",
                     padding: "16px 22px",
                     borderRadius: "12px",
                     border: "1px solid #B5B5B5",
                   }}
                 />{" "}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <Box
+                    sx={
+                      selectGenders === 0
+                        ? {
+                            width: "100%",
+                            height: "50px",
+                            padding: "15px 22px",
+                            marginRight: "20px",
+                            alignItems: "center",
+                            textAlign: "center",
+                            border: "1px solid #625DD3",
+                            borderRadius: "12px",
+                          }
+                        : {
+                            width: "100%",
+                            height: "50px",
+                            padding: "15px 22px",
+                            marginRight: "20px",
+                            alignItems: "center",
+                            textAlign: "center",
+                            border: "1px solid #B5B5B5 ",
+                            borderRadius: "12px",
+                          }
+                    }
+                    onClick={() => chooseGenders(0)}
+                  >
+                    <Typography
+                      sx={
+                        selectGenders === 0
+                          ? { color: "#625DD3" }
+                          : { color: "#B5B5B5" }
+                      }
+                    >
+                      Erkak
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={
+                      selectGenders === 1
+                        ? {
+                            width: "100%",
+                            height: "50px",
+                            padding: "15px 22px",
+                            alignItems: "center",
+                            textAlign: "center",
+                            border: "1px solid #625DD3",
+                            borderRadius: "12px",
+                          }
+                        : {
+                            width: "100%",
+                            height: "50px",
+                            padding: "15px 22px",
+                            alignItems: "center",
+                            textAlign: "center",
+                            border: "1px solid #B5B5B5 ",
+                            borderRadius: "12px",
+                          }
+                    }
+                    onClick={() => chooseGenders(1)}
+                  >
+                    <Typography
+                      sx={
+                        selectGenders === 1
+                          ? { color: "#625DD3" }
+                          : { color: "#B5B5B5" }
+                      }
+                    >
+                      Ayol
+                    </Typography>
+                  </Box>
+                </Box>
                 <input
                   {...register2("Address", {
                     // required: "Inputni to'ldir",

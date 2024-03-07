@@ -13,7 +13,7 @@ export const registerData = async (body: IRegisterdata) => {
 }
 export const verifyemail = async (body: IVerifyemail) => {
     try {
-      const {data} = await axios.post(`${BASE_URL}/v1/users/activate-code`,body);
+      const {data} = await axios.post(`${BASE_URL}/v1/users/register-activate-code`,body);
       return {data,success:true} 
     } catch (error) {
       console.log(error);
