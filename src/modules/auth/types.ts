@@ -22,11 +22,17 @@ export namespace IEntity  {
 		access: string;
 		refresh: string;
 	}
+	
 }
 export namespace IForm {
 	export interface Login {
 		username: string;
 		password: string;
+	}
+	export interface Region {
+		id:number;
+		name:string;
+		data?:undefined;
 	}
     export interface ActiveCodes{
         email:string;

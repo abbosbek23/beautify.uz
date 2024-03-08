@@ -5,14 +5,16 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useForm } from "react-hook-form";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import "./index.css";
 import { Types, Api } from "../../modules/auth";
 import { ActiveCode } from "../../modules/auth/api";
 import masterIcon from "../../assets/masterIcon.svg";
 import clientIcon from "../../assets/clientIcon.svg";
 import { useNavigate } from "react-router-dom";
-
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { getDistrict, getMahalla, getRegions } from "../../api/api";
 interface AuthProps {
   // search: string;
 }
@@ -35,6 +37,7 @@ const Auth: FunctionComponent<AuthProps> = () => {
     mode: "onBlur",
   });
 
+  
   const [email, setEmail] = useState("");
   const [activeCodes, setactiveCodes] = useState<number | undefined>(undefined);
   const [emailverification, setemailverification] = useState(false);
@@ -43,8 +46,42 @@ const Auth: FunctionComponent<AuthProps> = () => {
   const [selectedRoles, setSelectedRoles] = useState("");
   const [roles, setRoles] = useState(false);
   const [selectGenders, setSelectGenders] = useState(0);
-  const [selectGender, setSelectGender] = useState("")
+  const [selectGender, setSelectGender] = useState("");
+  const [regions, setRegions] = useState<Types.IForm.Region[] | undefined>(undefined);
+  const [districts, setDistricts] = useState<Types.IForm.Region[] | undefined>(undefined);
+  const [mahallas, setMahallas] = useState<Types.IForm.Region[] | undefined>(undefined);
   const navigate = useNavigate();
+  useEffect(()=>{
+    (async ()=>{
+      const {data,success} = await getRegions()
+      console.log(data);
+      success && setRegions(data)
+    })();
+
+  
+  },[])
+
+  const selectDistrict = async (id:any) => {
+    console.log(id);
+   try {
+    const {data,success} = await getDistrict(id)
+    success && setDistricts(data)
+    console.log(data);
+    
+   } catch (error) {
+    console.log(error);
+   }
+  }
+
+  const selectMahalla = async (id:any) => {
+    try {
+      const {data,success} = await getMahalla(id)
+      success && setMahallas(data)
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
 
   const selectedRole = () => {
     if (selectRole === 1) {
@@ -53,13 +90,13 @@ const Auth: FunctionComponent<AuthProps> = () => {
       setSelectedRoles("false");
     }
   };
-  const chooseGenders = (value:any) => {
-    if (value === 0){
-      setSelectGender("Erkak")
-    }else{
-      setSelectGender("Ayol")
+  const chooseGenders = (value: any) => {
+    if (value === 0) {
+      setSelectGender("Erkak");
+    } else {
+      setSelectGender("Ayol");
     }
-  }
+  };
   // const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
   //   // Call your original function with the correct type
   //   const adaptedData: Types.IForm.Register = {
@@ -99,6 +136,23 @@ const Auth: FunctionComponent<AuthProps> = () => {
       reset();
     }
   };
+  const [region, setRegion] = useState("");
+  const [district,setDistrict] = useState("")
+  const [mahalla,setMahalla] = useState("")
+
+  const handleRegion = (event: SelectChangeEvent) => {
+    setRegion(event.target.value);
+    console.log(region);
+  };
+  const handleDistrict = (event: SelectChangeEvent) => {
+    setDistrict(event.target.value)
+    console.log(district);
+  }
+  const handleMahalla = (event: SelectChangeEvent) => {
+    setMahalla(event.target.value)
+    
+  }
+
   const onsubmits = async (data: any) => {
     console.log(data);
   };
@@ -587,8 +641,60 @@ style={{
                     </Typography>
                   </Box>
                 </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Select
+                    sx={{ width: "100%", textAlign:"left"}}
+                    displayEmpty
+                    inputProps={{ "aria-label": "Without label" }}
+                    value={region}
+                    onChange={handleRegion}
+                  > 
+                    <MenuItem value="" sx={{textAlign:"left"}}>
+                      <em>Region</em>
+                    </MenuItem>
+                   {
+                    regions?.map(({id,name}:Types.IForm.Region)=><MenuItem onClick={()=>selectDistrict(id)} value={name} key={id}>
+                    {name}
+                    </MenuItem>)
+                   }
+                  </Select>
+                </Box>
+                <Box>
+                  <Select
+                   sx={{ width: "100%", textAlign:"left"}}
+                   placeholder="District"
+                   displayEmpty
+                   inputProps={{ "aria-label": "Without label" }}
+                   value={district}
+                   onChange={handleDistrict}
+                   >
+                  <MenuItem value="" sx={{textAlign:"left"}}>
+                  <em>District</em>
+                  </MenuItem>  
+                  {
+                    districts?.map(({id,name}:Types.IForm.Region)=><MenuItem onClick={()=>selectMahalla(id)} value={name} key={id}>{name}</MenuItem>)
+                  }
+                  </Select>
+                </Box>
+                <Box>
+                  <Select
+                   sx={{ width: "100%", textAlign:"left"}}
+                   placeholder="District"
+                   displayEmpty
+                   inputProps={{ "aria-label": "Without label" }}
+                   value={mahalla}
+                   onChange={handleMahalla}
+                   >
+                  <MenuItem value="" sx={{textAlign:"left"}}>
+                  <em>Mahalla</em>
+                  </MenuItem>  
+                  {
+                    mahallas?.map(({id,name}:Types.IForm.Region)=><MenuItem value={name} key={id}>{name}</MenuItem>)
+                  }
+                  </Select>
+                </Box>
                 <input
-                  {...register2("Address", {
+                  {...register2("house", {
                     // required: "Inputni to'ldir",
                     minLength: {
                       value: 4,
@@ -597,7 +703,7 @@ style={{
                   })}
                   className="login-form"
                   type="text"
-                  placeholder="Address"
+                  placeholder="Uyingizni kiriting"
                   style={{
                     marginBottom: "10px",
                     width: "100%",
