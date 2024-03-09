@@ -6,6 +6,6 @@ export const Register = ( body : IApi.Register.Request) => axios.post<IApi.Regis
 export const ActiveCode = ( body : IApi.ActiveCodes.Request) => axios.post<IApi.ActiveCodes.Response>(`${BASE_URL}/v1/users/register-activate-code`,body);
 export const NewPostss = () => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service`)
 export const Regions = () => axios.get<IForm.Region[]>(`${BASE_URL}/v1/region`)
-export const SecondRegions = (id: number) => axios.get<IForm.Region[]>(`${BASE_URL}/v1/district?region_id=${id}`)
-export const Mahalla = (id: number) => axios.get<IForm.Region[]>(`${BASE_URL}/v1/mahalla?district_id=${id}`)
+export const SecondRegions = (body: IForm.Region) => axios.get<IForm.Region[]>(`${BASE_URL}/v1/district?region_id=${body}`)
+export const Mahalla = (body: IForm.Region) => axios.get<IForm.Region[]>(`${BASE_URL}/v1/mahalla?district_id=${body}`)
 // export const Posts = (body: 

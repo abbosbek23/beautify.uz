@@ -32,7 +32,7 @@ const Home: FunctionComponent<HomeProps> = () => {
   const [bookmarkedd, setBookmark] = useState(0);
   const [clickedCategory, setClickedCategory] = useState();
   const [currentParent, setParent] = useState();
-  const [newPosts, setNewPosts] = useState(false);
+  // const [newPosts, setNewPosts] = useState(false);
 
   // const [active, setActive] = useState(false);
   
@@ -72,15 +72,15 @@ const Home: FunctionComponent<HomeProps> = () => {
     getCategories();
   }, []);
 
-  const newPost = async () => {
-    const { data } = await NewPostss();
-    setPosts(data);
-    console.log(posts);
+  // const newPost = async () => {
+  //   const { data } = await NewPostss();
+  //   setPosts(data);
+  //   console.log(posts);
     
-    console.log(data);
-    setNewPosts(true);
+  //   console.log(data);
+  //   setNewPosts(true);
     
-  };
+  // };
 
   const CategoryFilter = async(id: any) => {
     const categoryparent = category.filter((item) => item.parent === id);
@@ -196,7 +196,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                     price,
                   }: Types.IForm.PostsApi) => (
                     <Card sx={{ width: "100%", boxShadow: "none" }} key={id}>
-
+                    {name} {description} {duration} {category} {price}
                     </Card>
                   )
                 )}

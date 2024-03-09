@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { FunctionComponent, useEffect, useState } from "react";
 import "./index.css";
 import { Types, Api } from "../../modules/auth";
@@ -32,12 +32,12 @@ const Auth: FunctionComponent<AuthProps> = () => {
     register: register2,
     handleSubmit: handleSubmit2,
     // formState: { errors },
+    control,
     reset,
   } = useForm({
     mode: "onBlur",
   });
 
-  
   const [email, setEmail] = useState("");
   const [activeCodes, setactiveCodes] = useState<number | undefined>(undefined);
   const [emailverification, setemailverification] = useState(false);
@@ -47,52 +47,60 @@ const Auth: FunctionComponent<AuthProps> = () => {
   const [roles, setRoles] = useState(false);
   const [selectGenders, setSelectGenders] = useState(0);
   const [selectGender, setSelectGender] = useState("");
-  const [regions, setRegions] = useState<Types.IForm.Region[] | undefined>(undefined);
-  const [districts, setDistricts] = useState<Types.IForm.Region[] | undefined>(undefined);
-  const [mahallas, setMahallas] = useState<Types.IForm.Region[] | undefined>(undefined);
+  const [regions, setRegions] = useState<Types.IForm.Region[] | undefined>(
+    undefined
+  );
+  const [districts, setDistricts] = useState<Types.IForm.Region[] | undefined>(
+    undefined
+  );
+  const [mahallas, setMahallas] = useState<Types.IForm.Region[] | undefined>(
+    undefined
+  );
   const navigate = useNavigate();
-  useEffect(()=>{
-    (async ()=>{
-      const {data,success} = await getRegions()
+  useEffect(() => {
+    (async () => {
+      const { data, success } = await getRegions();
       console.log(data);
-      success && setRegions(data)
+      success && setRegions(data);
     })();
+  }, []);
 
-  
-  },[])
-
-  const selectDistrict = async (id:any) => {
+  const selectDistrict = async (id: any) => {
     console.log(id);
-   try {
-    const {data,success} = await getDistrict(id)
-    success && setDistricts(data)
-    console.log(data);
-    
-   } catch (error) {
-    console.log(error);
-   }
-  }
-
-  const selectMahalla = async (id:any) => {
     try {
-      const {data,success} = await getMahalla(id)
-      success && setMahallas(data)
+      const { data, success } = await getDistrict(id);
+      success && setDistricts(data);
+      console.log(data);
     } catch (error) {
       console.log(error);
-      
     }
-  }
+  };
+
+  const selectMahalla = async (id: any) => {
+    try {
+      const { data, success } = await getMahalla(id);
+      success && setMahallas(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const selectedRole = () => {
     if (selectRole === 1) {
+      console.log(selectGenders);
+      selectGenders;
       setSelectedRoles("true");
     } else {
+      console.log(selectGenders);
+
       setSelectedRoles("false");
     }
   };
   const chooseGenders = (value: any) => {
     if (value === 0) {
       setSelectGender("Erkak");
+      console.log(selectGender);
+      
     } else {
       setSelectGender("Ayol");
     }
@@ -137,21 +145,20 @@ const Auth: FunctionComponent<AuthProps> = () => {
     }
   };
   const [region, setRegion] = useState("");
-  const [district,setDistrict] = useState("")
-  const [mahalla,setMahalla] = useState("")
+  const [district, setDistrict] = useState("");
+  const [mahalla, setMahalla] = useState("");
 
   const handleRegion = (event: SelectChangeEvent) => {
     setRegion(event.target.value);
     console.log(region);
   };
   const handleDistrict = (event: SelectChangeEvent) => {
-    setDistrict(event.target.value)
+    setDistrict(event.target.value);
     console.log(district);
-  }
+  };
   const handleMahalla = (event: SelectChangeEvent) => {
-    setMahalla(event.target.value)
-    
-  }
+    setMahalla(event.target.value);
+  };
 
   const onsubmits = async (data: any) => {
     console.log(data);
@@ -312,8 +319,8 @@ style={{
               </button> */}
             </Box>
           </Container>
-        </Box>
-      ) : nextStep ? (
+        </Box>  
+      ) : !nextStep ? (
         <Box
           sx={{ width: "100%", height: "100vh", overflow: "hidden" }}
           className="login"
@@ -521,13 +528,13 @@ style={{
           <Container component="main" sx={{ width: "100%", height: "100%" }}>
             <Box
               sx={{
-                marginTop: "12%",
+                marginTop: "3%",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 textAlign: "center",
                 width: "560px",
-                height: "400px",
+                height: "auto",
                 borderRadius: "15px",
                 background: "rgba(255, 255, 255, 1)",
                 boxShadow: "0px 0px 50px 0px rgba(0, 0, 0, 0.10)",
@@ -537,7 +544,7 @@ style={{
                 className="form-group resume-box"
                 onSubmit={handleSubmit2(onsubmits)}
                 id="register2"
-                style={{ marginTop: "40px", padding: "0px 40px" }}
+                style={{ marginTop: "20px", padding: "0px 40px" }}
               >
                 <Typography sx={{ marginBottom: "0px" }} variant="h5">
                   Qo'shimcha Ma'lumotlar
@@ -560,6 +567,7 @@ style={{
                     padding: "16px 22px",
                     borderRadius: "12px",
                     border: "1px solid #B5B5B5",
+                    fontSize: "16px",
                   }}
                 />{" "}
                 <Box
@@ -571,127 +579,225 @@ style={{
                   }}
                 >
                   <Box
-                    sx={
-                      selectGenders === 0
-                        ? {
-                            width: "100%",
-                            height: "50px",
-                            padding: "15px 22px",
-                            marginRight: "20px",
-                            alignItems: "center",
-                            textAlign: "center",
-                            border: "1px solid #625DD3",
-                            borderRadius: "12px",
-                          }
-                        : {
-                            width: "100%",
-                            height: "50px",
-                            padding: "15px 22px",
-                            marginRight: "20px",
-                            alignItems: "center",
-                            textAlign: "center",
-                            border: "1px solid #B5B5B5 ",
-                            borderRadius: "12px",
-                          }
-                    }
-                    onClick={() => chooseGenders(0)}
+                    onClick={() => setSelectGenders(0)}
+                    sx={{ margin: "0px" }}
                   >
-                    <Typography
+                    <Box
                       sx={
                         selectGenders === 0
-                          ? { color: "#625DD3" }
-                          : { color: "#B5B5B5" }
+                          ? {
+                              width: "100%",
+                              height: "50px",
+                              padding: "15px 42px",
+                              marginRight: "20px",
+                              alignItems: "center",
+                              textAlign: "center",
+                              border: "1px solid #625DD3",
+                              borderRadius: "12px",
+                            }
+                          : {
+                              width: "100%",
+                              height: "50px",
+                              padding: "15px 42px",
+                              marginRight: "20px",
+                              alignItems: "center",
+                              textAlign: "center",
+                              border: "1px solid #B5B5B5 ",
+                              borderRadius: "12px",
+                            }
                       }
+                      onClick={() => chooseGenders(0)}
                     >
-                      Erkak
-                    </Typography>
+                      <Typography
+                        sx={
+                          selectGenders === 0
+                            ? { color: "#625DD3" }
+                            : { color: "#B5B5B5" }
+                        }
+                      >
+                        Erkak
+                      </Typography>
+                    </Box>
                   </Box>
                   <Box
-                    sx={
-                      selectGenders === 1
-                        ? {
-                            width: "100%",
-                            height: "50px",
-                            padding: "15px 22px",
-                            alignItems: "center",
-                            textAlign: "center",
-                            border: "1px solid #625DD3",
-                            borderRadius: "12px",
-                          }
-                        : {
-                            width: "100%",
-                            height: "50px",
-                            padding: "15px 22px",
-                            alignItems: "center",
-                            textAlign: "center",
-                            border: "1px solid #B5B5B5 ",
-                            borderRadius: "12px",
-                          }
-                    }
-                    onClick={() => chooseGenders(1)}
+                    onClick={() => setSelectGenders(1)}
+                    sx={{ margin: "0px" }}
                   >
-                    <Typography
+                    <Box
                       sx={
                         selectGenders === 1
-                          ? { color: "#625DD3" }
-                          : { color: "#B5B5B5" }
+                          ? {
+                              width: "100%",
+                              height: "50px",
+                              padding: "15px 55px",
+                              alignItems: "center",
+                              textAlign: "center",
+                              border: "1px solid #625DD3",
+                              borderRadius: "12px",
+                            }
+                          : {
+                              width: "100%",
+                              height: "50px",
+                              padding: "15px 55px",
+                              alignItems: "center",
+                              textAlign: "center",
+                              border: "1px solid #B5B5B5 ",
+                              borderRadius: "12px",
+                            }
                       }
+                      onClick={() => chooseGenders(1)}
                     >
-                      Ayol
-                    </Typography>
+                      <Typography
+                        sx={
+                          selectGenders === 1
+                            ? { color: "#625DD3", marginLeft: "0px" }
+                            : { color: "#B5B5B5", marginLeft: "0px" }
+                        }
+                      >
+                        Ayol
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
                 <Box sx={{ width: "100%" }}>
-                  <Select
-                    sx={{ width: "100%", textAlign:"left"}}
-                    displayEmpty
-                    inputProps={{ "aria-label": "Without label" }}
-                    value={region}
-                    onChange={handleRegion}
-                  > 
-                    <MenuItem value="" sx={{textAlign:"left"}}>
-                      <em>Region</em>
-                    </MenuItem>
-                   {
-                    regions?.map(({id,name}:Types.IForm.Region)=><MenuItem onClick={()=>selectDistrict(id)} value={name} key={id}>
-                    {name}
-                    </MenuItem>)
-                   }
-                  </Select>
+                <Controller
+                    name="region" 
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        sx={{
+                          width: "100%",
+                          textAlign: "left",
+                          marginBottom: "20px",
+                          borderRadius: "12px",
+                        }}
+                        placeholder="Region"
+                        displayEmpty
+                        inputProps={{ "aria-label": "Without label" }}
+                        value={region}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleRegion(e); // Call your handleDistrict function if needed
+                        }}
+                      >
+                        <MenuItem value="" sx={{ textAlign: "left" }}>
+                          <em
+                            style={{
+                              paddingLeft: "10px",
+                              fontFamily: "Inter, sans-serif",
+                              fontStyle: "normal",
+                              color: "#7d7d7d",
+                            }}
+                          >
+                            Region
+                          </em>
+                        </MenuItem>
+                        {regions?.map(({ id, name }: Types.IForm.Region) => (
+                          <MenuItem
+                            onClick={() => selectDistrict(id)}
+                            value={name}
+                            key={id}
+                          >
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
                 </Box>
                 <Box>
-                  <Select
-                   sx={{ width: "100%", textAlign:"left"}}
-                   placeholder="District"
-                   displayEmpty
-                   inputProps={{ "aria-label": "Without label" }}
-                   value={district}
-                   onChange={handleDistrict}
-                   >
-                  <MenuItem value="" sx={{textAlign:"left"}}>
-                  <em>District</em>
-                  </MenuItem>  
-                  {
-                    districts?.map(({id,name}:Types.IForm.Region)=><MenuItem onClick={()=>selectMahalla(id)} value={name} key={id}>{name}</MenuItem>)
-                  }
-                  </Select>
+                  <Controller
+                    name="district"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        sx={{
+                          width: "100%",
+                          textAlign: "left",
+                          marginBottom: "20px",
+                          borderRadius: "12px",
+                        }}
+                        placeholder="District"
+                        displayEmpty
+                        inputProps={{ "aria-label": "Without label" }}
+                        value={district}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleDistrict(e); // Call your handleDistrict function if needed
+                        }}
+                      >
+                        <MenuItem value="" sx={{ textAlign: "left" }}>
+                          <em
+                            style={{
+                              paddingLeft: "10px",
+                              fontFamily: "Inter, sans-serif",
+                              fontStyle: "normal",
+                              color: "#7d7d7d",
+                            }}
+                          >
+                            District
+                          </em>
+                        </MenuItem>
+                        {districts?.map(({ id, name }: Types.IForm.Region) => (
+                          <MenuItem
+                            onClick={() => selectMahalla(id)}
+                            value={name}
+                            key={id}
+                          >
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
                 </Box>
                 <Box>
-                  <Select
-                   sx={{ width: "100%", textAlign:"left"}}
-                   placeholder="District"
-                   displayEmpty
-                   inputProps={{ "aria-label": "Without label" }}
-                   value={mahalla}
-                   onChange={handleMahalla}
-                   >
-                  <MenuItem value="" sx={{textAlign:"left"}}>
-                  <em>Mahalla</em>
-                  </MenuItem>  
-                  {
-                    mahallas?.map(({id,name}:Types.IForm.Region)=><MenuItem value={name} key={id}>{name}</MenuItem>)
-                  }
-                  </Select>
+                <Controller
+                    name="mahalla"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        sx={{
+                          width: "100%",
+                          textAlign: "left",
+                          marginBottom: "20px",
+                          borderRadius: "12px",
+                        }}
+                        placeholder="District"
+                        displayEmpty
+                        inputProps={{ "aria-label": "Without label" }}
+                        value={mahalla}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleMahalla(e); // Call your handleDistrict function if needed
+                        }}
+                      >
+                        <MenuItem value="" sx={{ textAlign: "left" }}>
+                          <em
+                            style={{
+                              paddingLeft: "10px",
+                              fontFamily: "Inter, sans-serif",
+                              fontStyle: "normal",
+                              color: "#7d7d7d",
+                            }}
+                          >
+                            District
+                          </em>
+                        </MenuItem>
+                        {mahallas?.map(({ id, name }: Types.IForm.Region) => (
+                          <MenuItem
+                            value={name}
+                            key={id}
+                          >
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
                 </Box>
                 <input
                   {...register2("house", {
@@ -710,6 +816,7 @@ style={{
                     padding: "16px 22px",
                     borderRadius: "12px",
                     border: "1px solid #B5B5B5",
+                    fontSize: "16px",
                   }}
                 />
                 <Button
@@ -719,7 +826,7 @@ style={{
                   variant="contained"
                   sx={{
                     marginTop: "16px",
-                    mb: 1,
+                    mb: 3,
                     height: "50px",
                     background: "#625DD3",
                   }}
