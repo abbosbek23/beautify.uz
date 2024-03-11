@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { getDistrict, getMahalla, getRegions } from "../../api/api";
+import toast from "react-hot-toast";
 interface AuthProps {
   // search: string;
 }
@@ -47,6 +48,9 @@ const Auth: FunctionComponent<AuthProps> = () => {
   const [roles, setRoles] = useState(false);
   const [selectGenders, setSelectGenders] = useState(0);
   const [selectGender, setSelectGender] = useState("");
+  const [regionId, setRegionId] = useState<number | undefined>(undefined);
+  const [districtId, setDistrictId] = useState<number | undefined>(undefined);
+  const [mahallasId, setMahallaId] = useState<number | undefined>(undefined);
   const [regions, setRegions] = useState<Types.IForm.Region[] | undefined>(
     undefined
   );
@@ -67,6 +71,7 @@ const Auth: FunctionComponent<AuthProps> = () => {
 
   const selectDistrict = async (id: any) => {
     console.log(id);
+    setRegionId(id)
     try {
       const { data, success } = await getDistrict(id);
       success && setDistricts(data);
@@ -77,6 +82,8 @@ const Auth: FunctionComponent<AuthProps> = () => {
   };
 
   const selectMahalla = async (id: any) => {
+    console.log(id);
+    setDistrictId(id)
     try {
       const { data, success } = await getMahalla(id);
       success && setMahallas(data);
@@ -84,6 +91,12 @@ const Auth: FunctionComponent<AuthProps> = () => {
       console.log(error);
     }
   };
+
+  const getMahallaid = (id:any) => {
+    setMahallaId(id)
+    console.log(id);
+    
+  }
 
   const selectedRole = () => {
     if (selectRole === 1) {
@@ -98,11 +111,11 @@ const Auth: FunctionComponent<AuthProps> = () => {
   };
   const chooseGenders = (value: any) => {
     if (value === 0) {
-      setSelectGender("Erkak");
+      setSelectGender("male");
       console.log(selectGender);
       
     } else {
-      setSelectGender("Ayol");
+      setSelectGender("female");
     }
   };
   // const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -134,15 +147,17 @@ const Auth: FunctionComponent<AuthProps> = () => {
 
     if (values.email) {
       setemailverification(true);
+      toast.success("Activation code sent to your email")
       const { data } = await Api.Register({
         ...values,
         is_master: selectedRoles,
       });
       console.log(data);
       setEmail(values.email);
-      setactiveCodes(values.activate_code);
-      reset();
+      
     }
+    setactiveCodes(values.activate_code);
+    reset();
   };
   const [region, setRegion] = useState("");
   const [district, setDistrict] = useState("");
@@ -160,18 +175,39 @@ const Auth: FunctionComponent<AuthProps> = () => {
     setMahalla(event.target.value);
   };
 
-  const onsubmits = async (data: any) => {
-    console.log(data);
+  const onsubmits = async (values: any) => {
+    console.log(values.house  );
+    
+    try {
+      const {data} = await Api.Register2step({
+        phone: values.phone,
+        gender: selectGender,
+        address: {
+          region: regionId,
+          district: districtId,
+          mahalla: mahallasId,
+          house: values.house
+        }
+      })
+      console.log(data);
+      
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
   const activeCode = async () => {
     console.log(email, typeof activeCodes);
     const activatsiyacode = activeCodes;
     const { data } = await ActiveCode({
       email,
-      activate_code: activatsiyacode,
+      activate_code: activatsiyacode
     });
-    console.log(data);
+    
+    // localStorage.setItem("access",data.access_token)
     if (data) {
+      console.log(data.access_token);
+      localStorage.setItem("access",data.access_token)
       setNextStep(true);
       reset();
     }
@@ -550,7 +586,7 @@ style={{
                   Qo'shimcha Ma'lumotlar
                 </Typography>
                 <input
-                  {...register2("phoneNumber", {
+                  {...register2("phone", {
                     // required: "Inputni to'ldir",
                     minLength: {
                       value: 4,
@@ -766,7 +802,7 @@ style={{
                           marginBottom: "20px",
                           borderRadius: "12px",
                         }}
-                        placeholder="District"
+                        placeholder="Mahalla"
                         displayEmpty
                         inputProps={{ "aria-label": "Without label" }}
                         value={mahalla}
@@ -791,6 +827,7 @@ style={{
                           <MenuItem
                             value={name}
                             key={id}
+                            onClick={()=>getMahallaid(id)}
                           >
                             {name}
                           </MenuItem>

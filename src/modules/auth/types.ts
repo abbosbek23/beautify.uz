@@ -47,8 +47,19 @@ export namespace IForm {
         activate_code?:number | undefined,
         is_master:string
 	}
+	export interface Register2steps {
+		phone: string;
+		gender: string;
+		address: {
+			region?: number | undefined;
+			district?: number | undefined;
+			mahalla?: number | undefined;
+			house: string;
+		};
+	}
 	export interface Verification {
 		email: string;
+		data?:undefined;
 	}
 	export interface CheckEmail {
 		email: string;
@@ -102,9 +113,25 @@ export namespace IApi {
 		export interface Request extends IForm.Register {}
 		export interface Response extends IForm.Register {}
 	}
+	export namespace Verification {
+		export interface Request extends IForm.Verification {}
+		export interface Response extends IForm.Verification {}
+	}
+	
+    export namespace ResetPasswords {
+		export interface Request extends IForm.ResetPassword {}
+		export interface Response extends IForm.ResetPassword {}
+	}
+	export namespace Register2steps{
+		export interface Request extends IForm.Register2steps {}
+		export interface Response extends IForm.Register2steps {}
+	}
     export namespace ActiveCodes {
 		export interface Request extends IForm.ActiveCodes {}
-		export interface Response extends IForm.ActiveCodes {}
+		export interface Response{
+			access_token:string;
+			refresh_token:string;
+		}
 	}
 	export namespace Profile {
 		export interface Request {}

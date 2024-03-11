@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import logo from "../assets/logo.svg";
 import "./navbar.css";
 import { Box } from "@mui/system";
@@ -7,7 +8,9 @@ import Button from '@mui/material/Button';
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
-
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import userimg from '.././assets/user.png'
 interface NavbarProps {
   // onSearch: (value: string) => void;
   // onLanguage: (value: string) => void;
@@ -17,10 +20,19 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
   // const [searchQuery, setSearchQuery] = useState("");
   
   const navigate = useNavigate()
+  const user = localStorage.getItem("access")
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
-    {window.location.href === "http://localhost:5173/login" || window.location.href === "http://localhost:5173/register" ?<Box></Box>:<> <Box
+    {window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "register" || window.location.pathname.split("/")[1] === "forgotpassword" ?<Box></Box>:<> <Box
         sx={{ display: "flex", justifyContent: "space-between", alignItems:"center" }}
         width="100%"
         height={100}
@@ -40,9 +52,38 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
 			</form>
         </Box>
         <Box >
-		<Button sx={{width:"100px",height:"45px",padding:"16px 38px",borderRadius:"100px",backgroundColor:"#625DD3",color:"white","&:hover": {
+          {user ? <Box> <Button
+        id="demo-positioned-button"
+        aria-controls={open ? 'demo-positioned-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        sx={{"&hover":{background:"white"}}}
+      >
+       <img src={userimg} width={30} height={30} />
+      </Button>
+      <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        sx={{top:"50px"}}
+      >
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
+      </Menu></Box>:<Button sx={{width:"100px",height:"45px",padding:"16px 38px",borderRadius:"100px",backgroundColor:"#625DD3",color:"white","&:hover": {
          backgroundColor:"#625DD3"
-    }}} variant="contained" onClick={()=>navigate("/login")}>Login</Button>
+    }}} variant="contained" onClick={()=>navigate("/login")}>Login</Button>}
         </Box>
       </Box>
 	  <span style={{width:"100%",height:".5px",display:"block",backgroundColor:"#B5B5B5"}}></span>

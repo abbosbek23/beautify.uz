@@ -20,7 +20,7 @@ const App: FunctionComponent<AppProps> = () => {
 
 	return (
 		<>
-		{ window.location.pathname.split("/")[1] === "login" ?  (
+		{ window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "/forgotpassword" ?  (
  <Routes/>
 		): (
 			<>
