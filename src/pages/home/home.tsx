@@ -11,10 +11,8 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import Button from "@mui/material/Button";
 import Grid from "@mui/system/Unstable_Grid";
-import postImage from "../../assets/8e3saek8.png";
 import ShareIcon from "@mui/icons-material/Share";
 import like from "../../assets/likes.svg";
 import liked from "../../assets/liked.svg";
@@ -32,6 +30,7 @@ const Home: FunctionComponent<HomeProps> = () => {
   const [bookmarkedd, setBookmark] = useState(0);
   const [clickedCategory, setClickedCategory] = useState();
   const [currentParent, setParent] = useState();
+  // const [userprofiledata,setUserProfileData] = useState<Types.IEntity.User>()
   // const [newPosts, setNewPosts] = useState(false);
 
   // const [active, setActive] = useState(false);
@@ -43,44 +42,75 @@ const Home: FunctionComponent<HomeProps> = () => {
       id: null,
       data: undefined,
       success: false,
+      category:null,
     },
   ]);
-  console.log(category)
   const [posts, setPosts] = useState<Types.IForm.PostsApi[]>(
    [ {
       id: null,
       name: "",
       price: "",
-      duration: "",
       description: "",
-      category: null,
+      category: undefined,
+      duration: "",
       image: "",
+      user: {
+        full_name: "",
+        address: {
+          id: null,
+          region: "",
+          district: "",
+          mahalla: "",
+          house: "",
+        },
+        image: "",
+        },
+        is_like: "",
+        is_saved: "",
       data: undefined,
+      filteredPosts:undefined
     },]
   );
   const [categoryfiltered, setCategoryFiltered] = useState<ICategory[]>([]);
 
   useEffect(() => {
-    const getCategories = async () => {
-      const { data, success } = await getCategory();
-
-      data.unshift(data.splice(36, 1)[0])
-      
-      success && setCategory(data);
-
+    const fetchData = async () => {
+      try {
+        // Fetch and set categories
+        const { data: categoryData, success } = await getCategory();
+        if (success) {
+          categoryData.unshift(categoryData.splice(36, 1)[0]);
+          setCategory(categoryData);
+          
+          // Fetch and set new posts
+          const { data: postData } = await NewPostss();
+          const filteredPosts = postData.map(post => ({
+            ...post,
+            category: categoryData.find((cat: any) => cat.id === post.category)
+          }));
+          setPosts(filteredPosts);
+          console.log(filteredPosts);
+        } else {
+          console.error("Failed to fetch categories.");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
-    getCategories();
+    
+    fetchData();
+    
+    // const getUserProfileDatas = async () => {
+
+    //   const {data,success} = await getUserProfile()
+    //   success && setUserProfileData(data) 
+      
+    // }
+    // console.log(userprofiledata);
+    // getUserProfileDatas()
   }, []);
 
-  // const newPost = async () => {
-  //   const { data } = await NewPostss();
-  //   setPosts(data);
-  //   console.log(posts);
-    
-  //   console.log(data);
-  //   setNewPosts(true);
-    
-  // };
+  
 
   const CategoryFilter = async(id: any) => {
     const categoryparent = category.filter((item) => item.parent === id);
@@ -184,27 +214,15 @@ const Home: FunctionComponent<HomeProps> = () => {
         </Box>
         <Box>
           <Grid width="100%" container spacing={2} padding={5}>
-            <Grid xs={6}>
-              <Card sx={{ width: "100%", boxShadow: "none" }}>
                 {posts?.map(
-                  ({
-                    name,
-                    id,
-                    description,
-                    duration, 
-                    category,
-                    price,
-                  }: Types.IForm.PostsApi) => (
-                    <Card sx={{ width: "100%", boxShadow: "none" }} key={id}>
-                    {name} {description} {duration} {category} {price}
-                    </Card>
-                  )
-                )}
-                <CardHeader
+                  ({  description,  category:postCategory, image: postImage, user, price, id }: Types.IForm.PostsApi) => (
+                    <Grid   xs={12} sm={12} md={3} lg={6} key={id}>
+                    <Card sx={{ width: "100%", boxShadow: "none" }} >
+                    <CardHeader
                   sx={{ paddingLeft: "0px", paddingRight: "15px" }}
                   avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      R
+                    <Avatar aria-label="recipe">
+                      {user.image}
                     </Avatar>
                   }
                   action={
@@ -237,11 +255,10 @@ const Home: FunctionComponent<HomeProps> = () => {
                   disableSpacing
                   sx={{ justifyContent: "space-between" }}
                 >
-                  <IconButton>
+                  <IconButton onClick={Likes}>
                     {likes === 0 ? (
                       <img
                         src={like}
-                        onClick={Likes}
                         style={{ marginRight: "10px" }}
                         alt="like"
                       />
@@ -249,19 +266,17 @@ const Home: FunctionComponent<HomeProps> = () => {
                       <img
                         src={liked}
                         style={{ marginRight: "10px" }}
-                        onClick={Likes}
                         alt="likes"
                       />
                     )}
                     {likes}
                   </IconButton>
-                  <IconButton>
+                  <IconButton onClick={Bookmarkes}>
                     {bookmarkedd === 0 ? (
-                      <img src={bookmark} onClick={Bookmarkes} alt="bookmark" />
+                      <img src={bookmark}  alt="bookmark" />
                     ) : (
                       <img
                         src={bookmarked}
-                        onClick={Bookmarkes}
                         alt="bookmarked"
                       />
                     )}
@@ -269,9 +284,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                 </CardActions>
                 <CardContent sx={{ paddingTop: "0px" }}>
                   <Typography variant="body2" color="text.secondary">
-                    This impressive paella is a perfect party dish and a fun
-                    meal to cook together with your guests. Add 1 cup of frozen
-                    peas along with the mussels, if you like.
+                    {description}
                   </Typography>
                 </CardContent>
                 <CardContent
@@ -283,115 +296,26 @@ const Home: FunctionComponent<HomeProps> = () => {
                 >
                   <Typography
                     sx={{
-                      width: "90px",
-                      padding: "12px 20px",
+                      padding: "12px 14px",
                       borderRadius: "100px",
                       background: "rgba(98, 93, 211, 0.15)",
                       color: "#625DD3",
+                      whiteSpace:"nowrap"
                     }}
                   >
-                    Styling
+                    {postCategory?.name}
                   </Typography>
                   <Typography
                     sx={{ fontSize: "22px", fontWeight: 700, color: "black" }}
                   >
-                    250,000 <span style={{ color: "#625DD3" }}>SUM</span>
+                    {price} <span style={{ color: "#625DD3" }}>SUM</span>
                   </Typography>
                 </CardContent>
-              </Card>
-            </Grid>
-            <Grid xs={6}>
-              <Card sx={{ width: "100%", boxShadow: "none" }}>
-                <CardHeader
-                  sx={{ paddingLeft: "0px", paddingRight: "15px" }}
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      R
-                    </Avatar>
-                  }
-                  action={
-                    <>
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          border: "1px solid #B5B5B5",
-                          borderRadius: "100px",
-                        }}
-                      >
-                        Band qilish
-                      </Button>
-                      <IconButton aria-label="settings">
-                        <ShareIcon />
-                      </IconButton>
-                    </>
-                  }
-                  title="Shrimp and Chorizo Paella"
-                  subheader="September 14, 2016"
-                />
-                <CardMedia
-                  sx={{ objectFit: "fill", borderRadius: "20px" }}
-                  component="img"
-                  height="600"
-                  image={postImage}
-                  alt="Paella dish"
-                />
-                <CardActions
-                  disableSpacing
-                  sx={{ justifyContent: "space-between" }}
-                >
-                  <IconButton>
-                    {likes === 0 ? (
-                      <img src={like} onClick={Likes} alt="like" />
-                    ) : (
-                      <img src={liked} onClick={Likes} alt="likes" />
-                    )}
-                    {likes}
-                  </IconButton>
-                  <IconButton>
-                    {bookmarkedd === 0 ? (
-                      <img src={bookmark} onClick={Bookmarkes} alt="bookmark" />
-                    ) : (
-                      <img
-                        src={bookmarked}
-                        onClick={Bookmarkes}
-                        alt="bookmarked"
-                      />
-                    )}
-                  </IconButton>
-                </CardActions>
-                <CardContent sx={{ paddingTop: "0px" }}>
-                  <Typography variant="body2" color="text.secondary">
-                    This impressive paella is a perfect party dish and a fun
-                    meal to cook together with your guests. Add 1 cup of frozen
-                    peas along with the mussels, if you like.
-                  </Typography>
-                </CardContent>
-                <CardContent
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      width: "90px",
-                      padding: "12px 20px",
-                      borderRadius: "100px",
-                      background: "rgba(98, 93, 211, 0.15)",
-                      color: "#625DD3",
-                    }}
-                  >
-                    Styling
-                  </Typography>
-                  <Typography
-                    sx={{ fontSize: "22px", fontWeight: 700, color: "black" }}
-                  >
-                    250,000 <span style={{ color: "#625DD3" }}>SUM</span>
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+                    </Card>
+                    </Grid>
+                  )
+                )}
+              
           </Grid>
         </Box>
       </Box>

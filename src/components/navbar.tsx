@@ -80,7 +80,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem  onClick={()=>localStorage.clear()}>Logout</MenuItem>
       </Menu></Box>:<Button sx={{width:"100px",height:"45px",padding:"16px 38px",borderRadius:"100px",backgroundColor:"#625DD3",color:"white","&:hover": {
          backgroundColor:"#625DD3"
     }}} variant="contained" onClick={()=>navigate("/login")}>Login</Button>}

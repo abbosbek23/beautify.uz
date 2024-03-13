@@ -21,10 +21,11 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
   const {
     register,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
     // reset,
+    getValues
   } = useForm({
-    mode: "onBlur",
+    mode: "onBlur"
   });
 
   const onsubmit = async (values: any) => {
@@ -36,12 +37,14 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
           ...values,
           email:emailreset,
         })
-        navigate("/login") 
+        if(values.activation_code || values.password){
+          navigate("/login") 
+        }
         console.log(data);
+        toast.success(data.detail)
         
-    } catch (error) {
-        console.log(error);
-        
+    } catch (error:any) {
+        toast.error(error.response.data.detail)
     }
   }
   const postEmailReset = async () => {
@@ -50,15 +53,18 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
         toast.success("Password reset code sent to your email.");
         console.log(data);
         setVerifyEmailreset(true)
-    } catch (error) {
+    } catch (error:any) {
+        const errorsaxios = await error.response.data.detail;
+        toast.error(errorsaxios ? errorsaxios:"Email "+error.response.data.email[0])
         console.log(error);
+        
         
     }
   }
 
   return (
     <Box
-      sx={{ width: "100%", height: "100vh", overflow: "hidden" }}
+      sx={{ width: "100%", height: "100vh", overflow: "scroll",overflowX:"hidden" }}
       className="login"
     >
       <Container component="main" sx={{ width: "100%", height: "100%" }}>
@@ -68,7 +74,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: "544px",
+            width: "444px",
             height: "auto",
             borderRadius: "15px",
             background: "#FFF",
@@ -77,26 +83,29 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
           height="100%"
           className={"box-signin"}
         >
-          <Typography component="h1" variant="h4" sx={{ marginTop: "54px" }}>
+          <Typography component="h1" className="forgotpassword" variant="h4" sx={{ marginTop: "24px" }}>
             Forgot Password
           </Typography>
           <Box
             
-            sx={{
+            sx={  verifyEmailreset ? {
               marginTop: "52px",
               paddingLeft: "30px",
               paddingRight: "30px",
-            }}
+            }:{marginTop: "12px",
+            paddingLeft: "30px",
+            paddingRight: "30px",}}
           >
             <form
             className="form-group resume-box"
             onSubmit={handleSubmit(onsubmit)}
             id="resetPassword"
-            style={{ marginTop: "20px", padding: "0px 40px" }}
+            style={verifyEmailreset ? { marginTop: "0px", padding: "0px 40px" }:{ marginTop: "20px", padding: "0px 40px" }}
             >
             <input
               className="login-form"
-              type="text"
+              type="email"
+              required={true}
               placeholder="Email"
               style={{
                 width: "100%",
@@ -121,16 +130,21 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
                       border: "1px solid #B5B5B5",
                     }}
                     {...register("activation_code", {
-                        // required: "Inputni to'ldir",
+                        required: "Activation code is required",
                         minLength: {
                           value: 4,
-                          message: "Kamida 4 harf",
+                          message: "Activation code must be at least 6 characters",
                         },
                       })}
                   />
+                  {
+                    errors.activation_code && (
+                      <p style={{color:"red",}}>{`${errors.activation_code.message}`}</p>
+                    )
+                  }
                   <input
                     className="login-form"
-                    type="text"
+                    type="password"
                     placeholder="New Password"
                     style={{
                       marginTop: "10px",
@@ -141,16 +155,21 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
                       border: "1px solid #B5B5B5",
                     }}
                     {...register("new_password", {
-                        // required: "Inputni to'ldir",
+                        required: "Password required",
                         minLength: {
-                          value: 4,
-                          message: "Kamida 4 harf",
+                          value: 8,
+                          message: "Password must be at least 8 characters",
                         },
                       })}
                   />
+                  {
+                    errors.new_password && (
+                      <p style={{color:"red",}}>{`${errors.new_password.message}`}</p>
+                    )
+                  }
                   <input
                     className="login-form"
-                    type="text"
+                    type="password"
                     placeholder="Confirm Password"
                     style={{
                       marginTop: "10px",
@@ -161,13 +180,15 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
                       border: "1px solid #B5B5B5",
                     }}
                     {...register("confirm_password", {
-                        // required: "Inputni to'ldir",
-                        minLength: {
-                          value: 4,
-                          message: "Kamida 4 harf",
-                        },
+                        required: "Confirm password is required",
+                        validate: (value) =>
+                        value === getValues("new_password") || "New Password must match"
                       })}
-                  /></Box>):("")
+                  />
+                  {errors.confirm_password && (
+                    <p style={{color:"red"}}>{`${errors.confirm_password.message}`}</p>
+                  )}
+                  </Box>):("")
             }
               {
                 verifyEmailreset ? (
@@ -183,10 +204,11 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
 
                 ):(
                   <Button
-                  
+                  type="submit"
+                form="resetPassword"  
                 fullWidth
                 variant="contained"
-                sx={{ marginTop:"20px", mb: 2, height:"50px",background:  "#625DD3"}}
+                sx={{ marginTop:"20px", mb: 4, height:"50px",background:  "#625DD3"}}
                 onClick={postEmailReset}
                 >
                   Reset Email

@@ -358,7 +358,7 @@ style={{
         </Box>  
       ) : !nextStep ? (
         <Box
-          sx={{ width: "100%", height: "100vh", overflow: "hidden" }}
+          sx={{ width: "100%", height: "100vh", overflow: "scroll",overflowX:"hidden" }}
           className="login"
         >
           <Container component="main" sx={{ width: "100%", height: "100%" }}>

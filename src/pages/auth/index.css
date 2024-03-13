@@ -1,8 +1,17 @@
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;800;900&display=swap);
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
 .login{
-    background-image: url("../../assets/backgroundLoginImage.svg");
-    background-size: cover;
+    background-image: url("../../assets/loginImages1.png");
+    background-size:cover;
+    background-position: left;
     width: 100%;
    
+}
+.login::-webkit-scrollbar {
+	display: none;
 }
 
 .box-signin{
@@ -12,4 +21,8 @@
 .login-form{
     backdrop-filter: blur(5px);
     background: none;
+}
+.forgotpassword{
+    font-style: italic;
+    font-weight: 700, bold;
 }

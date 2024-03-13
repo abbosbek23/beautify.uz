@@ -1,7 +1,7 @@
 import { BASE_URL } from "../config";
 import axios from "axios";
 import { IRegisterdata, IVerifyemail} from "../interface";
-import { Mahalla, Regions, SecondRegions } from "../modules/auth/api";
+import { Mahalla, Regions, SecondRegions, UserProfil } from "../modules/auth/api";
 import { Types } from "../modules/auth";
 
 export const registerData = async (body: IRegisterdata) => {
@@ -61,5 +61,17 @@ export const getMahalla = async (body:Types.IForm.Region) => {
     console.log(error);
     return {success:false}
     
+  }
+}
+
+export const getUserProfile = async () => {
+  try {
+    const {data} = await UserProfil()
+    console.log(data);
+    return {data,success:true}
+    
+  } catch (error) {
+    console.log(error);
+    return {success:false}    
   }
 }

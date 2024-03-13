@@ -16,4 +16,5 @@ export interface  ICategory {
     parent: number | null
     data?: undefined;
   success:boolean;
+  category: number | null; 
 }
