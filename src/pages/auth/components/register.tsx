@@ -63,18 +63,23 @@ const Register1step: FunctionComponent<registerProps> = () => {
       const activeCode = async () => {
         console.log(email, typeof activeCodes);
         const activatsiyacode = activeCodes;
-        const { data } = await ActiveCode({
-          email,
-          activate_code: activatsiyacode,
-        });
-        console.log(data);
-        
-        if (data) {
-          console.log(data.access_token);
-          localStorage.setItem("access", data.access_token);
-          navigate("/register2step")
-          reset();
+        try {
+          const { data } = await ActiveCode({
+            email,
+            activate_code: activatsiyacode,
+          });
+          console.log(data);
+          if (data) {
+            console.log(data.access_token);
+            localStorage.setItem("access", data.access_token);
+            navigate("/register2step")
+            reset();
+          }
+          
+        } catch (error:any) {
+          toast.error(error.response.data.error)
         }
+        
       };
 
     return ( 
@@ -158,6 +163,7 @@ const Register1step: FunctionComponent<registerProps> = () => {
                     <p style={{ color: "red" }}>{`${errors.username.message}`}</p>
                   )}
                   <input
+                  type="password"
                     {...register("password", {
                       required: "Password is required",
                       minLength: {

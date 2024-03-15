@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/system/Unstable_Grid";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { FieldError, FieldErrorsImpl, Merge, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Api } from "../../modules/auth";
 import toast from "react-hot-toast";
 import loginImage from "../../assets/loginImage.png";
@@ -15,8 +15,8 @@ import logo from "../../assets/logo.png";
 
 interface LoginProps {
   // search: string;
-  username:string;
-  errors: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null | undefined;
+  // username:string;
+  // errors: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null | undefined;
 }
 
 
@@ -36,10 +36,7 @@ const Login: FunctionComponent<LoginProps> = () => {
     console.log(values);
 
     try {
-      const { data } = await Api.Login({
-        ...values,
-        username:values.name
-      });
+      const { data } = await Api.Login(values);
       if (data) {
         localStorage.setItem("access", data.access);
         navigate("/");
@@ -129,7 +126,7 @@ const Login: FunctionComponent<LoginProps> = () => {
                 lineHeight: "normal" }}> 
                 Login
                 </Box>
-          <Box component="form" sx={{ marginTop: "32px" }}>
+          <Box  sx={{ marginTop: "32px" }}>
           <form
                     className="form-group resume-box"
                     onSubmit={handleSubmit(onsubmit)}
@@ -142,7 +139,7 @@ const Login: FunctionComponent<LoginProps> = () => {
                           required:"Username is required",
                           minLength: {
                             value: 4,
-                            message: "Username must be at least 8 characters",
+                            message: "Username must be at least 4 characters",
                           },
                         })}
                         className="login-form"
