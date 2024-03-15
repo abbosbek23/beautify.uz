@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { FunctionComponent,  useState } from "react";
 import "./index.css";
-import masterIcon from "../../assets/mastericon.svg";
+import masterIcon from "../../assets/mastericon.png";
 import clientIcon from "../../assets/clienticons.svg";
 // import Register1step from "./components/register";
 import {  useNavigate } from "react-router-dom";
