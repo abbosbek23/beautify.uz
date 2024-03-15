@@ -13,14 +13,13 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/system/Unstable_Grid";
-import ShareIcon from "@mui/icons-material/Share";
 import like from "../../assets/likes.svg";
 import liked from "../../assets/liked.svg";
 import bookmark from "../../assets/Bookmark.svg";
 import bookmarked from "../../assets/Bookmarked.svg";
 import { getCategory } from "../../api/api";
 import { ICategory } from "../../interface";
-import { CategoryPosts, NewPostss } from "../../modules/auth/api";
+import {  NewPostss } from "../../modules/auth/api";
 import { Api, Types } from "../../modules/auth";
 import shareIcon from "../../assets/shareIcon.svg"  
 import logouser from "../../assets/user.png"

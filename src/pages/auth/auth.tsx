@@ -7,9 +7,9 @@ import { FunctionComponent,  useState } from "react";
 import "./index.css";
 import masterIcon from "../../assets/mastericon.svg";
 import clientIcon from "../../assets/clienticons.svg";
-import Register1step from "./components/register";
+// import Register1step from "./components/register";
 import {  useNavigate } from "react-router-dom";
-import Register2steps from "./components/register2step";
+// import Register2steps from "./components/register2step";
 import loginImage from "../../assets/loginImage.png";
 import Grid from "@mui/system/Unstable_Grid";
 
@@ -22,7 +22,7 @@ const Auth: FunctionComponent<AuthProps> = () => {
 
   
  
-  const [nextStep, setNextStep] = useState(false);
+  // const [nextStep, setNextStep] = useState(false);
   const [selectRole, setSelectRole] = useState(0);
   const [selectedRoles, setSelectedRoles] = useState(false);
   const [roles, setRoles] = useState(false);
@@ -377,11 +377,7 @@ const Auth: FunctionComponent<AuthProps> = () => {
         //     </Box>
         //   </Container>
         // </Box>
-      ) : nextStep ? (
-        <Register1step/>
-      ) : (
-        <Register2steps phone={""} gender={""} house={""}/>
-      )}
+      ) : ("")}
     </>
   );
 };
