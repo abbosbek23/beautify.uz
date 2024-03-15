@@ -234,7 +234,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                               marginRight: "0px",
                               alignItems: "center",
                               textAlign: "center",
-                              border: "1px solid #625DD3",
+                              border: "1px solid #E2A882",
                               borderRadius: "12px",
                             }
                           : {
@@ -252,7 +252,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                       <Typography
                         sx={
                           selectGenders === 0
-                            ? { color: "#625DD3" }
+                            ? { color: "#E2A882" }
                             : { color: "#B5B5B5" }
                         }
                       >
@@ -272,7 +272,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                               padding: "12px 50px",
                               alignItems: "center",
                               textAlign: "center",
-                              border: "1px solid #625DD3",
+                              border: "1px solid #E2A882",
                               borderRadius: "12px",
                             }
                           : {
@@ -289,7 +289,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                       <Typography
                         sx={
                           selectGenders === 1
-                            ? { color: "#625DD3", marginLeft: "0px" }
+                            ? { color: "#E2A882", marginLeft: "0px" }
                             : { color: "#B5B5B5", marginLeft: "0px" }
                         }
                       >
@@ -497,7 +497,18 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                     marginTop: "16px",
                     mb: 3,
                     height: "50px",
-                    background: "#625DD3",
+                    background: "#F5EFE1",
+                  boxShadow:"none",
+                  color:"#000",
+                  fontWeight:"600",
+                  fontSize:"15px",
+                  fontStyle: "normal",
+                  lineHeight: "normal",
+                  fontFamily:"Inter, sans-serif",
+                  "&:hover": {
+                    background: "#F5EFE1",
+                    boxShadow:"none",
+                  }
                   }}
                   onClick={onsubmits}
                 >
