@@ -19,7 +19,7 @@ const Routes = ( ) => {
 			<Route path='/login' element={<Login username={''} errors={undefined}/>}/>
 			<Route path='/auth' element={<Auth/>}/>
 			<Route path='/register' element={<Register1step/>}/>
-			<Route path='/register2step' element={<Register2steps/>}/>
+			<Route path='/register2step' element={<Register2steps phone={''} gender={''} house={''}/>}/>
 			<Route path='/forgotpassword' element={<ForgotPassword/>} />
 		</Switch>
 	);
