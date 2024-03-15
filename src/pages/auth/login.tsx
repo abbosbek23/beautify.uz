@@ -7,19 +7,18 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { FieldError, FieldErrorsImpl, Merge, useForm } from "react-hook-form";
 import { Api } from "../../modules/auth";
-import { z } from "zod"
-import { zodResolver } from '@hookform/resolvers/zod';
 import toast from "react-hot-toast";
+import loginImage from "../../assets/loginImage.png";
+import usernameImg from "../../assets/loginUsernameImg.svg";
+import passwordImg from "../../assets/loginPasswordImage.svg";
+import logo from "../../assets/logo.png";
 
 interface LoginProps {
   // search: string;
   username:string;
   errors: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null | undefined;
 }
-const signInSchema = z.object({
-  name: z.string().min(8,"Username is required saafa asfa  asf a asf"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-})
+
 
 const Login: FunctionComponent<LoginProps> = () => {
   const {
@@ -29,7 +28,7 @@ const Login: FunctionComponent<LoginProps> = () => {
     // reset,
   } = useForm({
     mode: "onBlur",
-    resolver: zodResolver(signInSchema)
+    // resolver: zodResolver(signInSchema)
   });
   const navigate = useNavigate();
 
@@ -53,94 +52,161 @@ const Login: FunctionComponent<LoginProps> = () => {
   };
   return (
     <Box
-      sx={{ width: "100%", height: "100vh", overflow: "scroll",overflowX:"hidden" }}
-      className="login"
+      sx={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#F5EFE1",
+        height: "100vh",
+      }}
     >
-      <Container component="main" sx={{ width: "100%", height: "100%" }}>
-        <Box
-          sx={{
-            marginTop: "6%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "544px",
-            height: "518px",
-            borderRadius: "15px",
-            // background: "#FFF",
-            background: "rgba(250, 250, 250, 0.908)",
-            // boxShadow:"0px 0px 50px 0px rgba(0, 0, 0, 0.10)",
-          }}
-          height="100%"
-          className={"box-signin"}
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        sx={{ width: "100%" }}
+      >
+     <Container
+          component="main"
+          sx={{ width: "100%", height: "100%", alignItems: "center" }}
         >
-          <Typography component="h1" variant="h4" sx={{ marginTop: "54px" }}>
-            Kirish
-          </Typography>
-          <Typography>
-            Ro’yxatdan o’tmaganmisiz?{" "}
-            <span
-              onClick={() => navigate("/register")}
-              style={{ color: "#625DD3", textDecorationLine: "underline" }}
-            >
-              Xoziroq o’ting
-            </span>
-          </Typography>
-          <Box
+          <Grid
+            container
             sx={{
-              marginTop: "52px",
-              paddingLeft: "30px",
-              paddingRight: "30px",
-              marginLeft:"10px",
-              marginRight:"10px"
+              width: "100%",
+              height: "564px",
+              boxShadow: "0px 0px 100px 0px rgba(0, 0, 0, 0.10)",
+              borderRadius: "30px",
+              margin: "0 auto",
             }}
           >
-            <form
-              className="form-group resume-box"
-              onSubmit={handleSubmit(onsubmit)}
-              id="login"
-              style={{ marginTop: "20px",marginLeft:"0px",marginRight:"0px" }}
+            <Grid
+              xs={12}
+              sm={6}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "55px 0 55px 0",
+              }}
             >
+              <img
+                src={loginImage}
+                alt="Login"
+                style={{ width: "450px", height: "450px" }}
+              />
+            </Grid>
+            <Grid xs={12} sm={6}>
+            <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "30px",
+                  background: "#FFF",
+                  // boxShadow: "0px 0px 50px 0px rgba(0, 0, 0, 0.10)",
+                  padding: "50px 20px 20px 20px",
+                }}
+                className={"box-signin"}
+              >
+                <Box>
+                  <img
+                    src={logo}
+                    style={{ paddingTop: "0px" }}
+                    width={157}
+                    height={37}
+                    alt=""
+                  />
+                </Box>
+                <Box   sx={{ marginTop: "30px",color: "#000",
+                fontFamily: "Inter,sans-serif",
+                fontSize: "25px",
+                fontStyle: "normal",
+                fontWeight: 600,
+                lineHeight: "normal" }}> 
+                Login
+                </Box>
+          <Box component="form" sx={{ marginTop: "32px" }}>
+          <form
+                    className="form-group resume-box"
+                    onSubmit={handleSubmit(onsubmit)}
+                    id="login"
+                  >
               
-              <input
-                {...register("name")}
-                className="login-form"
-                type="text"
-                placeholder="Foydalanuvchi nomi"
-                style={{
-                  width: "100%",
-                  padding: "16px 22px",
-                  marginBottom: "10px ",
-                  borderRadius: "12px",
-                  border: "1px solid #B5B5B5",
-                }}
-              />
+              <div style={{ position: "relative" }}>
+                      <input
+                        {...register("username", {
+                          required:"Username is required",
+                          minLength: {
+                            value: 4,
+                            message: "Username must be at least 8 characters",
+                          },
+                        })}
+                        className="login-form"
+                        type="text"
+                        placeholder="Username"
+                        style={{
+                          width: "100%",
+                          padding: "16px 35px",
+                          marginBottom: "10px",
+                          borderRadius: "12px",
+                          border: "1px solid #B5B5B5",
+                          backgroundImage: `url('${usernameImg}')`,
+                          backgroundRepeat: "no-repeat",
+                          fontSize: "18px",
+                          backgroundSize: "23px 23px",
+                          backgroundPosition: "8px",
+                          alignItems: "center",
+                        }}
+                      />
+                    </div>
+                    {errors.username && (
+                    <p style={{color:"red",marginBottom:"20px"}}>{`${errors.username.message}`}</p>
+                    )}
              
-              <input
-                {...register("password")}
-                className="login-form"
-                type="text"
-                placeholder="Maxfiylik kodi"
-                style={{
-                  marginTop: "20px",
-                  marginBottom: "10px",
-                  width: "100%",
-                  padding: "16px 22px",
-                  borderRadius: "12px",
-                  border: "1px solid #B5B5B5",
-                }}
-              />
+                    <div style={{ position: "relative" }}>
+                      <input
+                        {...register("password", {
+                          required: "Password is required",
+                          minLength: {
+                            value: 8,
+                            message: "Password must be at least 8 characters",
+                          },
+                        })}
+                        className="login-form"
+                        type="text"
+                        placeholder="Password"
+                        style={{
+                          marginTop: "20px",
+                          marginBottom: "17px",
+                          width: "100%",
+                          padding: "16px 35px",
+                          borderRadius: "12px",
+                          border: "1px solid #B5B5B5",
+                          backgroundImage: `url('${passwordImg}')`,
+                          backgroundRepeat: "no-repeat",
+                          fontSize: "18px",
+                          backgroundSize: "23px 23px",
+                          backgroundPosition: "8px",
+                          alignItems: "center",
+                        }}
+                      />
+                    </div>
                {errors.password && (
                 <p style={{color:"red",marginBottom:"20px"}}>{`${errors.password.message}`}</p>
               )}
             </form>
-            <Grid xs>
-              <Link
-                to={"/forgotpassword"}
-                style={{ textDecoration: "none", color: "#625DD3" }}
-              >
-                Parolni unutdingizmi?
-              </Link>
-            </Grid>
+            <Box style={{ textAlign: "right", marginRight: "10px" }}>
+                    <Link
+                      to={"/forgotpassword"}
+                      style={{ textDecoration: "none",fontSize:"18px", color: "#E2A882" }}
+                    >
+                      Forgot your Password
+                    </Link>
+                  </Box>
             <Button
               type="submit"
               fullWidth
@@ -152,15 +218,41 @@ const Login: FunctionComponent<LoginProps> = () => {
                 marginTop: "36px",
                 mb: 2,
                 height: "50px",
-                background: "#625DD3",
-              }}
-              // onClick={handleSubmit(onsubmit)}
+                background: "#F5EFE1",
+                boxShadow:"none",
+                color:"#000",
+                fontWeight:"600",
+                fontSize:"15px",
+                fontStyle: "normal",
+                lineHeight: "normal",
+                fontFamily:"Inter, sans-serif",
+                "&:hover": {
+                  background: "#F5EFE1",
+                  boxShadow:"none",
+                    
+                }
+              }}  
             >
-              Kirish
+              Login
             </Button>
+            <Typography sx={{color:"#B5B5B5",fontWeight: 400}}>
+                  Don’t have an account?{" "}
+                    <span
+                      onClick={() => navigate("/auth")}
+                      style={{
+                        color: "#E2A882",
+                        cursor:"pointer"
+                      }}
+                    >
+                      Sign up here
+                    </span>
+                  </Typography>
           </Box>
         </Box>
+        </Grid>
+        </Grid>
       </Container>
+      </Grid>
     </Box>
   );
 };

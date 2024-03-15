@@ -55,7 +55,7 @@ export namespace IForm {
     username: string;
     password: string;
     activate_code?: number | undefined;
-    is_master: string;
+    is_master: string | null;
   }
   export interface Register2steps {
     phone: string;

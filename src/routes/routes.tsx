@@ -4,6 +4,8 @@ import { Home } from '../pages';
 import Auth from './../pages/auth/auth';
 import Login from '../pages/auth/login';
 import ForgotPassword from '../pages/auth/forgotPassword';
+import Register1step from '../pages/auth/components/register';
+import Register2steps from '../pages/auth/components/register2step';
 // interface RoutesProps {
 // 	// search: string;
 // 	// lang: string;
@@ -15,7 +17,9 @@ const Routes = ( ) => {
 		<Switch>
 			<Route path="/" element={<Home.Home  />} />
 			<Route path='/login' element={<Login username={''} errors={undefined}/>}/>
-			<Route path='/register' element={<Auth/>}/>
+			<Route path='/auth' element={<Auth/>}/>
+			<Route path='/register' element={<Register1step/>}/>
+			<Route path='/register2step' element={<Register2steps/>}/>
 			<Route path='/forgotpassword' element={<ForgotPassword/>} />
 		</Switch>
 	);

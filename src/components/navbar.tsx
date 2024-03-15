@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { FunctionComponent, useState } from "react";
-import logo from "../assets/logo.svg";
+import logo from "../assets/logo.png";
 import "./navbar.css";
 import { Box } from "@mui/system";
 import Button from '@mui/material/Button';
@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import userimg from '.././assets/user.png'
+import like from '.././assets/LikeNavbar.svg'
+import bookmark from '.././assets/BookmarkNavbar.svg'
 interface NavbarProps {
   // onSearch: (value: string) => void;
   // onLanguage: (value: string) => void;
@@ -30,35 +32,64 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+};
+
   return (
     <>
-    {window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "register" || window.location.pathname.split("/")[1] === "forgotpassword" ?<Box></Box>:<> <Box
+    {window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "register" || window.location.pathname.split("/")[1] === "forgotpassword" || window.location.pathname.split("/")[1] === "auth" || window.location.pathname.split("/")[1] === "register2step" ?<Box></Box>:<> <Box
         sx={{ display: "flex", justifyContent: "space-between", alignItems:"center" }}
         width="100%"
         height={100}
-        
         padding={"20px 34px"}
       >
         <Box sx={{marginLeft:"0px"}} >
-          <img width="178px" height="43px" style={{cursor:"pointer"}} onClick={()=>navigate("/")} src={logo} alt="logo" />
+        <img width="128px" height="28px" style={{cursor:"pointer"}} onClick={()=>navigate("/")} src={logo} alt="logo" />
         </Box>
-        <Box  sx={{display:'flex',marginLeft:"10%"}}>
-			<form action="" style={{width:"600px",height:"48px",borderRadius: "100px",border:"1px solid #B5B5B5"}}>
-
-		  <IconButton type="submit" sx={{marginLeft:"10px",marginTop:"0px"}} aria-label="search">
-          <SearchIcon style={{ fill: "blue" }} />
-          </IconButton>
-          <input placeholder="Search the location or master..." type="text" style={{ width:"400px",fontSize:"18px",marginLeft:"0px",padding:"12px 0px 12px 12px",border:"0px solid white",borderRadius:"100px",outline:"none"}}/>
-			</form>
+        <Box  sx={{display:'flex',marginLeft:"10%",width:"50%"}}>
+        <form action="" style={{ width: "100%", height: "48px", borderRadius: "100px", border: "1px solid #B5B5B5",alignItems:"center",padding:"3px" }}>
+    <IconButton type="submit" sx={{ marginLeft: "10px", marginTop: "0px" }} aria-label="search">
+        <SearchIcon style={{ fill: "blue" }} />
+    </IconButton>
+    <input placeholder="Search the location or master..." type="text" style={{ width: "85%", fontSize: "18px", marginLeft: "4px",padding:"11px 10px 0 4px",  border: "0px solid white", borderRadius: "100px", outline: "none" }} />
+</form>
         </Box>
         <Box >
-          {user ? <Box> <Button
+          {user ? <Box>
+            <Button
         id="demo-positioned-button"
         aria-controls={open ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        sx={{"&hover":{background:"white"}}}
+        sx={{':hover': {
+          bgcolor: 'white', // theme.palette.primary.main
+        },}}
+      >
+       <img src={like} width={30} height={30} />
+      </Button>
+      <Button
+        id="demo-positioned-button"
+        aria-controls={open ? 'demo-positioned-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        sx={{':hover': {
+          bgcolor: 'white', // theme.palette.primary.main
+        },}}
+      >
+       <img src={bookmark} width={30} height={30} />
+      </Button>
+             <Button
+        id="demo-positioned-button"
+        aria-controls={open ? 'demo-positioned-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        sx={{':hover': {
+          bgcolor: 'white', // theme.palette.primary.main
+        },}}
       >
        <img src={userimg} width={30} height={30} />
       </Button>
@@ -80,16 +111,17 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem  onClick={()=>localStorage.clear()}>Logout</MenuItem>
-      </Menu></Box>:<Button sx={{width:"100px",height:"45px",padding:"16px 38px",borderRadius:"100px",backgroundColor:"#625DD3",color:"white","&:hover": {
-         backgroundColor:"#625DD3"
+        <MenuItem onClick={() => { handleLogout(); handleClose(); }}>Logout</MenuItem>
+      </Menu>
+      
+      </Box>:<Button sx={{fontSize:"15px",padding:"12px 34px",borderRadius:"12px",backgroundColor:"#E2A882",color:"white","&:hover": {
+         backgroundColor:"#E2A882"
     }}} variant="contained" onClick={()=>navigate("/login")}>Login</Button>}
         </Box>
       </Box>
 	  <span style={{width:"100%",height:".5px",display:"block",backgroundColor:"#B5B5B5"}}></span>
     </>
     }
-     
     </>
   );
 };

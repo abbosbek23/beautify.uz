@@ -20,7 +20,6 @@ export const ActiveCode = ( body : IApi.ActiveCodes.Request) => axios.post<IApi.
 export const Login = ( body : IApi.Login.Request) => axios.post<IApi.Login.Response>(`${BASE_URL}/v1/users/login`,body)
 export const ResetPassword = ( body : IApi.Verification.Request) => axios.post<IApi.Verification.Response>(`${BASE_URL}/v1/users/reset-password`,body);
 export const ResetPasswordConfirm = ( body : IApi.ResetPasswords.Request) => axios.post<IApi.ResetPasswords.Response>(`${BASE_URL}/v1/users/reset-password-confirm`,body);
-export const NewPostss = () => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`)
 export const Regions = () => axios.get<IForm.Region[]>(`${BASE_URL}/v1/region`)
 export const SecondRegions = (body: IForm.Region) => axios.get<IForm.Region[]>(`${BASE_URL}/v1/district?region_id=${body}`)
 export const Mahalla = (body: IForm.Region) => axios.get<IForm.Region[]>(`${BASE_URL}/v1/mahalla?district_id=${body}`)
@@ -29,10 +28,11 @@ export const UserProfil = () => {
         'Authorization': `Bearer ${localStorage.getItem("access")}`,
         'Content-Type': 'application/json' // Assuming JSON is being sent in the body
     };
-
+    
     return axios.get<IApi.Profile.Response>(
         `${BASE_URL}/v1/users/profile`,
         { headers }
-    );
-};
-// export const Posts = (body: 
+        );
+    };
+    export const NewPostss = () => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`)
+    export const CategoryPosts = (body:number) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/category?category_id=${body}`)

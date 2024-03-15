@@ -20,8 +20,10 @@ import bookmark from "../../assets/Bookmark.svg";
 import bookmarked from "../../assets/Bookmarked.svg";
 import { getCategory } from "../../api/api";
 import { ICategory } from "../../interface";
-import { NewPostss } from "../../modules/auth/api";
-import { Types } from "../../modules/auth";
+import { CategoryPosts, NewPostss } from "../../modules/auth/api";
+import { Api, Types } from "../../modules/auth";
+import shareIcon from "../../assets/shareIcon.svg"  
+import logouser from "../../assets/user.png"
 
 interface HomeProps {}
 
@@ -30,11 +32,20 @@ const Home: FunctionComponent<HomeProps> = () => {
   const [bookmarkedd, setBookmark] = useState(0);
   const [clickedCategory, setClickedCategory] = useState();
   const [currentParent, setParent] = useState();
-  // const [userprofiledata,setUserProfileData] = useState<Types.IEntity.User>()
-  // const [newPosts, setNewPosts] = useState(false);
-
-  // const [active, setActive] = useState(false);
+  const [categoryfiltered, setCategoryFiltered] = useState<ICategory[]>([]);
   
+  //timeselect
+  const [selectedTime, setSelectedTime] = useState<string>("00:00");
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTime(event.target.value);
+  };
+
+  const hours = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
+  const minutes = Array.from({ length: 4 }, (_, i) => String(i * 15).padStart(2, '0'));
+  const options = hours.flatMap(hour => minutes.map(minute => `${hour}:${minute}`));
+
+
   const [category, setCategory] = useState<ICategory[]>([
     {
       name: "",
@@ -71,59 +82,59 @@ const Home: FunctionComponent<HomeProps> = () => {
       filteredPosts:undefined
     },]
   );
-  const [categoryfiltered, setCategoryFiltered] = useState<ICategory[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch and set categories
+       
         const { data: categoryData, success } = await getCategory();
         if (success) {
           categoryData.unshift(categoryData.splice(36, 1)[0]);
           setCategory(categoryData);
-          
-          // Fetch and set new posts
+
           const { data: postData } = await NewPostss();
           const filteredPosts = postData.map(post => ({
             ...post,
             category: categoryData.find((cat: any) => cat.id === post.category)
           }));
           setPosts(filteredPosts);
-          console.log(filteredPosts);
-        } else {
-          console.error("Failed to fetch categories.");
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    
-    fetchData();
-    
-    // const getUserProfileDatas = async () => {
 
-    //   const {data,success} = await getUserProfile()
-    //   success && setUserProfileData(data) 
-      
-    // }
-    // console.log(userprofiledata);
-    // getUserProfileDatas()
+    fetchData();
   }, []);
 
   
-
+  const categoryfilteredPosts = async (id:any) => {
+    try {
+      const {data} = await Api.CategoryPosts(id)
+      console.log(data);
+      const filteredPosts = data.map(post =>({
+        ...post,
+        category: category.find((cat:any) => cat.id === post.category)
+      }))
+      setPosts(filteredPosts)
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const CategoryFilter = async(id: any) => {
     const categoryparent = category.filter((item) => item.parent === id);
     if(id === 36){
       const { data } = await NewPostss();
       setPosts(data)
     }
+    categoryfilteredPosts(id)
     setCategoryFiltered(categoryparent);
     setClickedCategory(id);
   };
 
   const categoryParent = (id: any) => {
     setParent(id);
+    categoryfilteredPosts(id)
   };
 
   const Likes = async () => {
@@ -140,6 +151,9 @@ const Home: FunctionComponent<HomeProps> = () => {
       setBookmark(0);
     }
   };
+
+  
+
   return (
     <>
       <Box>
@@ -213,36 +227,39 @@ const Home: FunctionComponent<HomeProps> = () => {
           </Box>
         </Box>
         <Box>
-          <Grid width="100%" container spacing={2} padding={5}>
+          <Grid width="100%" container spacing={2} padding={2}>
                 {posts?.map(
                   ({  description,  category:postCategory, image: postImage, user, price, id }: Types.IForm.PostsApi) => (
-                    <Grid   xs={12} sm={12} md={3} lg={6} key={id}>
+                    <Grid   xs={12} sm={12} md={6} lg={6} key={id} sx={posts.length === 1 ? {marginLeft:"0px"}:{}}>
                     <Card sx={{ width: "100%", boxShadow: "none" }} >
                     <CardHeader
-                  sx={{ paddingLeft: "0px", paddingRight: "15px" }}
+                  sx={{ paddingLeft: "0px", paddingRight: "5px" }}
                   avatar={
                     <Avatar aria-label="recipe">
-                      {user.image}
+                      <img src={user.image === null ? logouser:user.image} width={30} height={30} alt="" />
                     </Avatar>
                   }
                   action={
-                    <>
+                    <Box sx={{display:"flex",alignItems:"center",justifyContent:"center"}}>
                       <Button
                         variant="outlined"
                         sx={{
                           border: "1px solid #B5B5B5",
                           borderRadius: "100px",
+                          color:"#000"
                         }}
                       >
-                        Band qilish
+                        Book
                       </Button>
-                      <IconButton aria-label="settings">
-                        <ShareIcon />
+                      <IconButton aria-label="settings" sx={{"&:hover": {backgroundColor:"white"}}}>
+                        <img src={shareIcon} alt="" />  
                       </IconButton>
-                    </>
+                    </Box>
                   }
-                  title="Shrimp and Chorizo Paella"
-                  subheader="September 14, 2016"
+                  title={user.full_name}
+                  subheader={<Typography sx={{whiteSpace:"nowrap",fontSize:"13px",'@media (max-width: 1150px)': {
+                    whiteSpace:"break-spaces"
+                  }}}>{user.address.region+" "+user.address.district+" "+user.address.mahalla+" "+user.address.house}</Typography>}
                 />
                 <CardMedia
                   sx={{ objectFit: "fill", borderRadius: "20px" }}
@@ -283,7 +300,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                   </IconButton>
                 </CardActions>
                 <CardContent sx={{ paddingTop: "0px" }}>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" sx={{fontSize:"18px"}} color="text.secondary">
                     {description}
                   </Typography>
                 </CardContent>
@@ -298,17 +315,23 @@ const Home: FunctionComponent<HomeProps> = () => {
                     sx={{
                       padding: "12px 14px",
                       borderRadius: "100px",
-                      background: "rgba(98, 93, 211, 0.15)",
-                      color: "#625DD3",
-                      whiteSpace:"nowrap"
+                      background: "#F5EFE1",
+                      // color: "rgb(181, 181, 181, 1)",
+                      whiteSpace:"nowrap",
+                      fontFamily: "Inter,sans-serif",
+                      fontSize: "16px",
+                      fontStyle: "normal",
+                      fontWeight: 400,
+                      lineHeight: "normal"
                     }}
+                    color="text.secondary"
                   >
                     {postCategory?.name}
                   </Typography>
                   <Typography
                     sx={{ fontSize: "22px", fontWeight: 700, color: "black" }}
                   >
-                    {price} <span style={{ color: "#625DD3" }}>SUM</span>
+                    {price} <span style={{ color: "#E2A882" }}>SUM</span>
                   </Typography>
                 </CardContent>
                     </Card>
@@ -318,6 +341,11 @@ const Home: FunctionComponent<HomeProps> = () => {
               
           </Grid>
         </Box>
+        <select value={selectedTime} onChange={handleChange}>
+        {options.map((option) => (
+          <option key={option} value={option}>{option}</option>
+        ))}
+      </select>
       </Box>
     </>
   );
