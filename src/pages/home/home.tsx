@@ -33,18 +33,6 @@ const Home: FunctionComponent<HomeProps> = () => {
   const [currentParent, setParent] = useState();
   const [categoryfiltered, setCategoryFiltered] = useState<ICategory[]>([]);
   
-  //timeselect
-  const [selectedTime, setSelectedTime] = useState<string>("00:00");
-
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTime(event.target.value);
-  };
-
-  const hours = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
-  const minutes = Array.from({ length: 4 }, (_, i) => String(i * 15).padStart(2, '0'));
-  const options = hours.flatMap(hour => minutes.map(minute => `${hour}:${minute}`));
-
-
   const [category, setCategory] = useState<ICategory[]>([
     {
       name: "",
@@ -340,11 +328,7 @@ const Home: FunctionComponent<HomeProps> = () => {
               
           </Grid>
         </Box>
-        <select value={selectedTime} onChange={handleChange}>
-        {options.map((option) => (
-          <option key={option} value={option}>{option}</option>
-        ))}
-      </select>
+        
       </Box>
     </>
   );
