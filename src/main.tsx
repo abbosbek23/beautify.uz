@@ -15,4 +15,6 @@ root.render(
 )
 if (window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "register" || window.location.pathname.split("/")[1] === "forgotpassword" || window.location.pathname.split("/")[1] === "auth" || window.location.pathname.split("/")[1] === "register2step" || window.location.pathname.split("/")[1] === "verificationemail") {
     document.body.style.backgroundColor = "#F5EFE1";
+  }else{
+    document.body.style.backgroundColor = "#FFF"
   }

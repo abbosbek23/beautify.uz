@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Container } from "@mui/system";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/system/Unstable_Grid";
 import { Link, useNavigate } from "react-router-dom";
@@ -31,6 +31,10 @@ const Login: FunctionComponent<LoginProps> = () => {
     // resolver: zodResolver(signInSchema)
   });
   const navigate = useNavigate();
+
+  useEffect(()=>{
+   document.body.style.backgroundColor = "#F5EFE1"
+  },[])
 
   const onsubmit = async (values: any) => {
     console.log(values);

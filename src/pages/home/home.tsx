@@ -71,6 +71,7 @@ const Home: FunctionComponent<HomeProps> = () => {
   );
 
   useEffect(() => {
+    document.body.style.backgroundColor = "#FFF"
     const fetchData = async () => {
       try {
        
