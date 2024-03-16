@@ -38,7 +38,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
 
   return (
     <>
-    {window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "register" || window.location.pathname.split("/")[1] === "forgotpassword" || window.location.pathname.split("/")[1] === "auth" || window.location.pathname.split("/")[1] === "register2step" || window.location.pathname.split("/")[1] === "verificationemail" ?<Box></Box>:<> <Box
+    {window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "register" || window.location.pathname.split("/")[1] === "forgotpassword" || window.location.pathname.split("/")[1] === "auth" || window.location.pathname.split("/")[1] === "register2step" || window.location.pathname.split("/")[1] === "verificationemail" || window.location.pathname.split("/")[1] === "profile" ?<Box></Box>:<> <Box
         sx={{ display: "flex", justifyContent: "space-between", alignItems:"center" }}
         width="100%"
         height={100}
@@ -109,7 +109,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
         }}
         sx={{top:"50px"}}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={()=> {navigate("/profile");handleClose();}}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem onClick={() => { handleLogout(); handleClose(); }}>Logout</MenuItem>
       </Menu>

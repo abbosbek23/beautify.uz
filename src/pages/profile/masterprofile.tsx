@@ -8,15 +8,14 @@ interface MasterProfileProps {
  
 const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
 
-    const masterRole = localStorage.getItem("roles")
-    return ( <>
-        { 
-       masterRole  ? <Box>
+    
+    return ( <Box>
         <Navbarprofile/>
-       </Box>:""
-     
-        }
-        </>
+        <hr/>
+        <Box>
+            Salom MasterProfile
+        </Box>
+        </Box>
     );
 }
  
