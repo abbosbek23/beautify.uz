@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box } from "@mui/system";
-import React,{useState} from "react";
+import React from "react";
 import { Container } from "@mui/system";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
 import { Api } from "../../modules/auth";
@@ -10,7 +9,6 @@ import {toast} from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import loginImage from "../../assets/loginImage.png"; 
 import logo from "../../assets/logo.png";
-import forgotPasswordemail from "../../assets/forgotPasswordemailImg.svg"
 import Grid from "@mui/system/Unstable_Grid";
 interface ForgotPasswordProps {
   // Define props here if any
@@ -18,8 +16,8 @@ interface ForgotPasswordProps {
 
 const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
   
-  const [verifyEmailreset, setVerifyEmailreset] = useState(false);
-  const [emailreset, setEmailreset] = useState("")
+ 
+  
   const navigate = useNavigate();
   const {
     register,
@@ -33,7 +31,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
 
   const onsubmit = async (values: any) => {
     console.log(values);
-    console.log(emailreset);
+    const emailreset = localStorage.getItem("emailreset")
     
     try {
         const {data} = await Api.ResetPasswordConfirm({
@@ -50,21 +48,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
         toast.error(error.response.data.detail)
     }
   }
-  const postEmailReset = async () => {
-    try {
-        const {data} = await Api.ResetPassword({email:emailreset})
-        toast.success("Password reset code sent to your email.");
-        console.log(data);
-        localStorage.setItem("emailreset",data.email)
-        setVerifyEmailreset(true)
-    } catch (error:any) {
-        const errorsaxios = await error.response.data.detail;
-        toast.error(errorsaxios ? errorsaxios:"Email "+error.response.data.email[0])
-        console.log(error);
-        
-        
-    }
-  }
+  
 
   return (
     <Box
@@ -141,14 +125,13 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
                 lineHeight: "normal" }}> 
                 Forgot Password
                 </Box>
-                <Box component="form" sx={{ marginTop: "24px",padding:"0 60px 0 60px" }}>
+                <Box sx={{ marginTop: "24px",padding:"0 60px 0 60px" }}>
                 <form
             className="form-group resume-box"
-            onSubmit={handleSubmit(onsubmit)}
+            onSubmit={handleSubmit(onsubmit)} 
             id="resetPassword"
             >
-              {
-                verifyEmailreset ? (
+              
                   <Box sx={{marginTop:"10px"}}>
                     <input
                     className="login-form"
@@ -178,7 +161,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
                   }
                   <input
                     className="login-form"
-                    type="text"
+                    type="password"
                     placeholder="New Password"
                     style={{
                       width: "100%",
@@ -204,7 +187,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
                   }
                   <input
                     className="login-form"
-                    type="text"
+                    type="password"
                     placeholder="Confirm Password"
                     style={{
                       width: "100%",
@@ -225,33 +208,8 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
                     <p style={{color:"red"}}>{`${errors.confirm_password.message}`}</p>
                   )}
                   </Box>
-                ):(<Box>
-                  <Typography sx={{width:"100%",fontSize:"16px",marginBottom:"32px"}}>
-                    Enter your email for the verification process, we will send a four digit code
-                    </Typography>
-                    <input
-                    className="login-form"
-                    type="text"
-                    placeholder="Email"
-                    style={{
-                      width: "100%",
-                      padding: "16px 38px",
-                      marginBottom: "10px",
-                      borderRadius: "12px",
-                      border: "1px solid #B5B5B5",
-                      backgroundImage: `url('${forgotPasswordemail}')`,
-                      backgroundRepeat: "no-repeat",
-                      fontSize: "18px",
-                      backgroundSize: "22px 22px",
-                      backgroundPosition: "10px 15px",
-                      alignItems: "center",
-                    }}
-                    onChange={(e)=>setEmailreset(e.target.value)}
-                  />
-                </Box>)
-              }
-              {
-                verifyEmailreset ? (
+              
+              
               <Button
                 type="submit"
                 fullWidth
@@ -274,38 +232,12 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
                   boxShadow:"none",
                 }
               }}
+              onClick={handleSubmit(onsubmit)}
               >
                 Change Password
               </Button>
 
-                ):(
-                  <Button
-                  
-                fullWidth
-                variant="contained"
-                sx={{
-                  marginTop: "32px",
-                  mb: 2,
-                  height: "50px",
-                  background: "#F5EFE1",
-                  boxShadow:"none",
-                  color:"#000",
-                  fontWeight:"600",
-                  fontSize:"15px",
-                  fontStyle: "normal",
-                  lineHeight: "normal",
-                  fontFamily:"Inter, sans-serif",
-                  "&:hover": {
-                    background: "#F5EFE1",
-                    boxShadow:"none",
-                  }
-                }}
-                onClick={postEmailReset}
-                >
-                  Reset Email
-                  </Button>  
-                )
-              }
+               
               </form>
               
           </Box>

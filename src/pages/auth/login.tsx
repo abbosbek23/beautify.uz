@@ -166,6 +166,7 @@ const Login: FunctionComponent<LoginProps> = () => {
              
                     <div style={{ position: "relative" }}>
                       <input
+                      
                         {...register("password", {
                           required: "Password is required",
                           minLength: {
@@ -174,7 +175,7 @@ const Login: FunctionComponent<LoginProps> = () => {
                           },
                         })}
                         className="login-form"
-                        type="text"
+                        type="password"
                         placeholder="Password"
                         style={{
                           marginTop: "20px",
@@ -198,7 +199,7 @@ const Login: FunctionComponent<LoginProps> = () => {
             </form>
             <Box style={{ textAlign: "right", marginRight: "10px" }}>
                     <Link
-                      to={"/forgotpassword"}
+                      to={"/verificationemail"}
                       style={{ textDecoration: "none",fontSize:"18px", color: "#E2A882" }}
                     >
                       Forgot your Password

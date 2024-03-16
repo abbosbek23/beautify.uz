@@ -61,10 +61,10 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
 
       const chooseGenders = (value: any) => {
         if (value === 0) {
-          setSelectGender("male");
+          setSelectGender("female");
           console.log(selectGender);
         } else {
-          setSelectGender("female");
+          setSelectGender("male");
         }
       };
 
@@ -86,12 +86,12 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
 
   const onsubmits: SubmitHandler<FieldValues> = async (values) => {
     console.log(values);
-    if(values.phone === '+998  -   -  -  '){
+    if(values.phone.trim().length < 16){
       toast.error("Phone number is required")
     }
     if(selectGender === ""){
-      setSelectGender("male")
-    }
+      setSelectGender("female")
+    }    
     try {
       const { data } = await Api.Register2step({
         phone: values.phone,
@@ -198,7 +198,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                       message: "Phone number must be at least 7 characters",
                     },
                   })}
-                  mask="+99999-999-99-99" // This defines the format of the input using placeholders
+                  mask="+99999 999 99 99" // This defines the format of the input using placeholders
                   style={{
                     width: "100%",
                     padding: "14px 82px 14px 15px",
@@ -222,45 +222,6 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                   }}
                 >
                   <Box
-                    onClick={() => setSelectGenders(0)}
-                    sx={{ margin: "0px" }}
-                  >
-                    <Box
-                      sx={
-                        selectGenders === 0
-                          ? {
-                              width: "100%",
-                              padding: "12px 48px",
-                              marginRight: "0px",
-                              alignItems: "center",
-                              textAlign: "center",
-                              border: "1px solid #E2A882",
-                              borderRadius: "12px",
-                            }
-                          : {
-                              width: "100%",
-                              padding: "12px 48px",
-                              marginRight: "0px",
-                              alignItems: "center",
-                              textAlign: "center",
-                              border: "1px solid #B5B5B5 ",
-                              borderRadius: "12px",
-                            }
-                      }
-                      onClick={() => chooseGenders(0)}
-                    >
-                      <Typography
-                        sx={
-                          selectGenders === 0
-                            ? { color: "#E2A882" }
-                            : { color: "#B5B5B5" }
-                        }
-                      >
-                        Erkak
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Box
                     onClick={() => setSelectGenders(1)}
                     sx={{ margin: "0px" }}
                   >
@@ -269,7 +230,8 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                         selectGenders === 1
                           ? {
                               width: "100%",
-                              padding: "12px 50px",
+                              padding: "12px 48px",
+                              marginRight: "0px",
                               alignItems: "center",
                               textAlign: "center",
                               border: "1px solid #E2A882",
@@ -277,7 +239,8 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                             }
                           : {
                               width: "100%",
-                              padding: "12px 50px",
+                              padding: "12px 48px",
+                              marginRight: "0px",
                               alignItems: "center",
                               textAlign: "center",
                               border: "1px solid #B5B5B5 ",
@@ -289,6 +252,43 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                       <Typography
                         sx={
                           selectGenders === 1
+                            ? { color: "#E2A882" }
+                            : { color: "#B5B5B5" }
+                        }
+                      >
+                        Erkak
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box
+                    onClick={() => setSelectGenders(0)}
+                    sx={{ margin: "0px" }}
+                  >
+                    <Box
+                      sx={
+                        selectGenders === 0
+                          ? {
+                              width: "100%",
+                              padding: "12px 50px",
+                              alignItems: "center",
+                              textAlign: "center",
+                              border: "1px solid #E2A882",
+                              borderRadius: "12px",
+                            }
+                          : {
+                              width: "100%",
+                              padding: "12px 50px",
+                              alignItems: "center",
+                              textAlign: "center",
+                              border: "1px solid #B5B5B5 ",
+                              borderRadius: "12px",
+                            }
+                      }
+                      onClick={() => chooseGenders(0)}
+                    >
+                      <Typography
+                        sx={
+                          selectGenders === 0
                             ? { color: "#E2A882", marginLeft: "0px" }
                             : { color: "#B5B5B5", marginLeft: "0px" }
                         }
@@ -412,7 +412,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                   <Controller
                     name="mahalla"
                     control={control}
-                    rules={{ required: "Select Mahalla is required" }}
+                    rules={{ required: "Select Neighborhood is required" }}
                     render={({ field }) => (
                       <>
                         <Select
@@ -423,7 +423,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                             marginBottom: "10px",
                             borderRadius: "12px",
                           }}
-                          placeholder="Mahalla"
+                          placeholder="Neighborhood"
                           displayEmpty
                           inputProps={{ "aria-label": "Without label" }}
                           value={mahalla}
@@ -442,7 +442,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                                 color: "#7d7d7d",
                               }}
                             >
-                              Mahalla
+                              Neighborhood 
                             </em>
                           </MenuItem>
                           {mahallas?.map(({ id, name }: Types.IForm.Region) => (
@@ -468,20 +468,20 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                       required: "House is required",
                       minLength: {
                         value: 4,
-                        message: "House must be at least 7 characters",
+                        message:""
                       },
                     })}
                     className="login-form"
                     type="text"
                     fullWidth
-                    placeholder="Uyingizni kiriting"
+                    placeholder="House"
                     sx={{
                       marginBottom: "5px",
                       width: "100%",
                       borderRadius: "12px",
                       border:"1px solid #B5B5B5",
                       fontSize: "16px",
-                      padding:"0px"
+                      padding:"0px 0 0 10px"
                     }}
                   />
                 </Box>
