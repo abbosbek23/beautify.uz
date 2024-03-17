@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import loginImage from "../../../assets/loginImage.png";
 import Grid from "@mui/system/Unstable_Grid";
+import {OutlinedInput, InputAdornment,IconButton} from "@mui/material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import passwordImg from "../../../assets/loginPasswordImage.svg";
 import "../index.css"
 
 interface registerProps {
@@ -25,6 +28,9 @@ const Register1step: FunctionComponent<registerProps> = () => {
         formState: { errors },
         reset,
       } = useForm();
+
+      const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+      const handleClickShowPassword = () => setShowPassword(!showPassword);
 
       const [email, setEmail] = useState("");
       const [activeCodes, setactiveCodes] = useState<number | undefined>(undefined);
@@ -162,7 +168,58 @@ const Register1step: FunctionComponent<registerProps> = () => {
                   {errors.username && (
                     <p style={{ color: "red" }}>{`${errors.username.message}`}</p>
                   )}
-                  <input
+                  <div style={{ position: "relative" }}>
+                      <OutlinedInput
+                        {...register("password", {
+                          required: "Password is required",
+                          minLength: {
+                            value: 8,
+                            message: "Password must be at least 8 characters",
+                          },
+                        })}
+                        
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Password"
+                        sx={{
+                          
+                          marginBottom: "10px",
+                          width: "100%",
+                          padding: "0px 35px",
+                          borderRadius: "12px",
+                          border: "1px solid #B5B5B5",
+                          borderBottom:0,
+                          backgroundImage: `url('${passwordImg}')`,
+                          backgroundRepeat: "no-repeat",
+                          fontSize: "18px",
+                          backgroundSize: "23px 23px",
+                          backgroundPosition: "8px",
+                          alignItems: "center",
+                          '&::before': { 
+                            content: '""',
+                            borderBottom:"1px solid #B5B5B5",
+                            borderBottomLeftRadius:"12px"
+                           },
+                           ':hover': {
+                            borderColor:"#B5B5B5",
+                            outline:"none" // theme.palette.primary.main
+                          },
+                          
+                          
+                        }}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              edge="end"
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                    </div>
+                  {/* <input
                   type="password"
                     {...register("password", {
                       required: "Password is required",
@@ -176,7 +233,7 @@ const Register1step: FunctionComponent<registerProps> = () => {
                       padding: "16px 22px",
                       borderRadius: "12px",
                       border: "1px solid #B5B5B5"
-                    }}/>
+                    }}/> */}
                   {errors.password && (
                     <p
                       style={{ color: "red" }}

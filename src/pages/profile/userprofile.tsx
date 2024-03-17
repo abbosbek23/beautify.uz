@@ -2,10 +2,10 @@ import { Box } from "@mui/system";
 import { FunctionComponent, useEffect, useState } from "react";
 import Navbarprofile from "./components/navbarprofile";
 import { IEntity } from "../../modules/auth/types";
-// import { useNavigate } from "react-router-dom";
 import { Api } from "../../modules/auth";
-import userdefaultImage from "../../assets/userimageprofile.png";
 import Typography from "@mui/material/Typography";
+
+
 
 interface UserProfileProps {}
 
@@ -25,6 +25,19 @@ const UserProfile: FunctionComponent<UserProfileProps> = () => {
     getUserdata();
   }, []);
 
+  function getInitials(fullName: string): string {
+    // Ism va familiyani bo'sh joylar orqali ajratib olamiz
+    const names: string[] = fullName.split(' ');
+    
+    // Bosh harflarini olamiz
+    const initials: string[] = names.map(name => name.charAt(0));
+    
+    // Harflarni birlashtiramiz va katta harf qilib qaytarib beramiz
+    return initials.join('').toUpperCase();
+}
+
+// Userdataning to'g'ri tipini qo'llash
+const initials: string = getInitials(userdata?.full_name || "");
   return (
     <Box>
       <Navbarprofile />
@@ -38,32 +51,55 @@ const UserProfile: FunctionComponent<UserProfileProps> = () => {
           margin:"0 auto"
         }}
       ></span>
-      <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "100%", display: "flex", alignItems: "center",marginTop:"20px" }}>
         <Box
           sx={
             userdata?.image === null
               ? {
                   width: "120px",
                   height: "120px",
-                  borderRadius: "100px",
-                  backgroundColor: "#B5B5B5",
                   marginTop: "30px",
                   marginLeft: "40px",
                   marginRight: "24px",
                 }
-              : { width: "120px", height: "120px", borderRadius: "100px" }
+              : { width: "120px", height: "120px",  }
           }
         >
-          <img
-            src={userdata?.image === null ? userdefaultImage : userdata?.image}
-            style={{
-              width: "100%",
-              height: "100%",
-              padding: "10px 5px 13px 18px",
-              objectFit: "fill",
-            }}
-            alt="userimage"
-          />
+          {userdata?.image === null ? (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        padding: "15px",
+        backgroundColor: "#B5B5B5",
+        borderRadius: "100px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography
+        variant="h3"
+        component="div"
+        sx={{
+          color: "#FFFFFF",
+          fontSize: "48px",
+        }}
+      >
+        {initials}
+      </Typography>
+    </div>
+  ) : (
+    <img
+      src={userdata?.image}
+      alt="userimage"
+      style={{
+        width: "100%",
+        height: "100%",
+        borderRadius: "100px",
+      }}
+    />
+  )}
         </Box>
         <Box sx={{ marginLeft: "0px" }}>
           <Typography
@@ -100,6 +136,7 @@ const UserProfile: FunctionComponent<UserProfileProps> = () => {
           </Typography>
         </Box>
       </Box>
+      
     </Box>
   );
 };

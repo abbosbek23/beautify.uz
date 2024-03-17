@@ -33,6 +33,10 @@ const Home: FunctionComponent<HomeProps> = () => {
   const [currentParent, setParent] = useState();
   const [categoryfiltered, setCategoryFiltered] = useState<ICategory[]>([]);
   
+  
+
+  
+
   const [category, setCategory] = useState<ICategory[]>([
     {
       name: "",
@@ -71,6 +75,7 @@ const Home: FunctionComponent<HomeProps> = () => {
   );
 
   useEffect(() => {
+    const morning = [];
     document.body.style.backgroundColor = "#FFF"
     const fetchData = async () => {
       try {
@@ -91,7 +96,7 @@ const Home: FunctionComponent<HomeProps> = () => {
         console.error("Error fetching data:", error);
       }
     };
-
+    
     fetchData();
   }, []);
 

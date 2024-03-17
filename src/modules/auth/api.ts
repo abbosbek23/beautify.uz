@@ -34,5 +34,16 @@ export const UserProfil = () => {
         { headers }
         );
     };
-    export const NewPostss = () => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`)
-    export const CategoryPosts = (body:number) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/category?category_id=${body}`)
+    export const UserUpdateProfile = (body: IApi.ProfileUpdate.Request) => {
+        const headers = {
+            'Authorization': `Bearer ${localStorage.getItem("access")}`
+        };
+    
+        return axios.put<IApi.ProfileUpdate.Response>(
+            `${BASE_URL}/v1/users/profile`,
+            body,
+            { headers }
+        );
+    };
+export const NewPostss = () => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`)
+export const CategoryPosts = (body:number) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/category?category_id=${body}`)

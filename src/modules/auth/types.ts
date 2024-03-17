@@ -194,11 +194,10 @@ export namespace IApi {
   export namespace ProfileUpdate {
     export type Request = {
       first_name?: string;
-      last_name?: string;
       email?: string;
-      phone_number?: string;
+      username?:string;
       gender?: string;
-      birthdate?: string;
+      image?:string;
     };
 
     export type Response = {

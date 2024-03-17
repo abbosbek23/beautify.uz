@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Container } from "@mui/system";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/system/Unstable_Grid";
+import {OutlinedInput, InputAdornment,IconButton} from "@mui/material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';  
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
@@ -14,9 +16,7 @@ import passwordImg from "../../assets/loginPasswordImage.svg";
 import logo from "../../assets/logo.png";
 
 interface LoginProps {
-  // search: string;
-  // username:string;
-  // errors: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | null | undefined;
+ 
 }
 
 
@@ -31,6 +31,10 @@ const Login: FunctionComponent<LoginProps> = () => {
     // resolver: zodResolver(signInSchema)
   });
   const navigate = useNavigate();
+
+
+  const [showPassword, setShowPassword] = useState(false); 
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   useEffect(()=>{
    document.body.style.backgroundColor = "#F5EFE1"
@@ -168,9 +172,8 @@ const Login: FunctionComponent<LoginProps> = () => {
                     <p style={{color:"red",marginBottom:"20px"}}>{`${errors.username.message}`}</p>
                     )}
              
-                    <div style={{ position: "relative" }}>
-                      <input
-                      
+             <div style={{ position: "relative" }}>
+                      <OutlinedInput
                         {...register("password", {
                           required: "Password is required",
                           minLength: {
@@ -178,23 +181,46 @@ const Login: FunctionComponent<LoginProps> = () => {
                             message: "Password must be at least 8 characters",
                           },
                         })}
-                        className="login-form"
-                        type="password"
+                        className="login-form passwordlogin"
+                        type={showPassword ? 'text' : 'password'}
                         placeholder="Password"
-                        style={{
+                        sx={{
                           marginTop: "20px",
                           marginBottom: "17px",
                           width: "100%",
-                          padding: "16px 35px",
+                          padding: "0px 35px",
                           borderRadius: "12px",
                           border: "1px solid #B5B5B5",
+                          borderBottom:0,
                           backgroundImage: `url('${passwordImg}')`,
                           backgroundRepeat: "no-repeat",
                           fontSize: "18px",
                           backgroundSize: "23px 23px",
                           backgroundPosition: "8px",
                           alignItems: "center",
+                          '&::before': { 
+                            content: '""',
+                            borderBottom:"1px solid #B5B5B5",
+                            borderBottomLeftRadius:"12px"
+                           },
+                           ':hover': {
+                            borderColor:"#B5B5B5",
+                            outline:"none" // theme.palette.primary.main
+                          },
+                          
+                          
                         }}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              edge="end"
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
                       />
                     </div>
                {errors.password && (
