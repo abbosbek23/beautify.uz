@@ -111,6 +111,26 @@ export namespace IForm {
     detail: string;
   }
 
+  export interface BookingsMy {
+    id: number | null;
+    date: string;
+    time: string;
+    service: number;
+    status: string;
+    user: {
+      full_name: string;
+      address: {
+        id: 1;
+        region: string;
+        district: string;
+        mahalla: string;
+        house: string;
+      },
+      image: string;
+      data?: undefined;
+    }
+  }
+
   export interface UserProfil {
     first_name?: string;
     last_name?: string;

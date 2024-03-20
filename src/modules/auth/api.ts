@@ -45,5 +45,18 @@ export const UserProfil = () => {
             { headers }
         );
     };
+
+    export const BookingMy = (body:IForm.BookingsMy) => {
+        const headers = {
+            'Authorization': `Bearer ${localStorage.getItem("access")}`,
+            'Content-Type': 'application/json' // Assuming JSON is being sent in the body
+        };
+        
+        return axios.get<IForm.BookingsMy[]>(
+            `${BASE_URL}/v1/booking/my?date=${body}`,
+            { headers },
+            // {body:}
+            );
+        };
 export const NewPostss = () => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`)
-export const CategoryPosts = (body:number) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/category?category_id=${body}`)
+export const CategoryPosts = (body:number) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list?category_id=${body}`)

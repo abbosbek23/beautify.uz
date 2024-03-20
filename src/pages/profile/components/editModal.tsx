@@ -11,6 +11,7 @@ import "../../auth/index.css";
 import Button from "@mui/material/Button";
 import { objectToFormData } from "../../../formdata/formdataprofile";
 
+
 interface EditModalProps {
   open: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -34,8 +35,9 @@ const EditModal: FunctionComponent<EditModalProps> = ({
         console.log(data);
         setSelectGender(data.gender)
         setUserdata(data);
-      } catch (error) {
-        console.log(error);
+      } catch (error:any) {
+        console.log(error.response.data.username);
+       
       }
     };
     getUserdata();
@@ -86,6 +88,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
       reset()
     } catch (error) {
       console.log(error);
+      
     }
      
   };
@@ -280,7 +283,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
                 <Typography
                   sx={{ color: selectGender === 'male' ? "#E2A882" : "#B5B5B5" }}
                 >
-                  Erkak
+                  Male
                 </Typography>
               </Box>
               <Box
@@ -300,7 +303,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
                     marginLeft: "0px"
                   }}
                 >
-                  Ayol
+                  Female
                 </Typography>
               </Box>
                 </Box>

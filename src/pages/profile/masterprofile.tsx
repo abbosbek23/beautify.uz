@@ -5,7 +5,14 @@ import { IEntity } from "../../modules/auth/types";
 import { Api } from "../../modules/auth";
 import Typography from "@mui/material/Typography";
 import MasterService from "./components/masterservice";
-interface MasterProfileProps {
+import postsIcon from "../../assets/postsmasterprofile.svg"
+import inactivepostsicon from "../../assets/postsmasterinactive.svg"
+import calendarIcon from "../../assets/calendaticonmaster.svg"
+import inactivecalendaricon from "../../assets/calendariconmaster.svg"
+import Grid from "@mui/system/Unstable_Grid";
+import MasterCalendar from "./components/mastercalendar";
+import MasterPosts from "./components/masterposts";
+  interface MasterProfileProps {
     
 }
  
@@ -24,6 +31,9 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
       };
       getUserdata();
     }, []);
+
+    const [content, setcontent] = useState(false);
+
   
     function getInitials(fullName: string): string {
       // Ism va familiyani bo'sh joylar orqali ajratib olamiz
@@ -137,7 +147,25 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
         </Box>
       </Box>
       <MasterService/>
-
+      <Box>
+      <Box sx={{ width: '100%', typography: 'body1' }}>
+      <Grid width="100%" container padding={2}>
+      <Grid   xs={12} sm={12} md={6} lg={6}>
+        <Box sx={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",borderBottom:content ? "1px solid #FFF":"1px solid #EED0AC"}} onClick={()=>setcontent(false)}>
+        {content ? <img src={inactivepostsicon} alt="inactivepost"/>:<img src={postsIcon}  alt="activepost" />}
+        </Box>
+      </Grid>
+      <Grid xs={12} sm={12} md={6} lg={6}>
+      <Box sx={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",borderBottom:!content ? "1px solid #FFF":"1px solid #EED0AC"}} onClick={()=>setcontent(true)}>
+       {!content ? <img src={calendarIcon} alt="activecalendar"/>:<img src={inactivecalendaricon}  alt="inactivecalendar" />}
+       </Box>
+      </Grid>
+      </Grid>
+      { 
+        content ? <MasterCalendar/>:<MasterPosts/>
+      }
+    </Box>
+      </Box> 
         </Box>
     );
 }

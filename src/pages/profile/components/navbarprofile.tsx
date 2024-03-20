@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import EditModal from "./editModal";
+import EditModalMaster from "./editModalMaster";
 
 interface NavbarprofileProps {}
 
@@ -33,6 +34,7 @@ const Navbarprofile: FunctionComponent<NavbarprofileProps> = () => {
 
   const handleLogout = () => {
     localStorage.clear();
+    navigate("/")
 };
 const handleOpenModal = () => {
   setIsModalOpen(true);
@@ -193,7 +195,11 @@ const handleCloseModal = () => {
           <MenuItem onClick={() => { handleLogout(); handleClose(); }}>Logout</MenuItem>
         
         </Menu>
-        <EditModal  open={isModalOpen} handleOpen={handleOpenModal} handleClose={handleCloseModal} setIsModalOpen={setIsModalOpen} />
+        {
+          roles ? 
+          <EditModal  open={isModalOpen} handleOpen={handleOpenModal} handleClose={handleCloseModal} setIsModalOpen={setIsModalOpen} />:
+          <EditModalMaster open={isModalOpen} handleOpen={handleOpenModal} handleClose={handleCloseModal} setIsModalOpen={setIsModalOpen}/>     
+        }
         </Box>
         }
       </Box>

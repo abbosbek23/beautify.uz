@@ -75,7 +75,6 @@ const Home: FunctionComponent<HomeProps> = () => {
   );
 
   useEffect(() => {
-    const morning = [];
     document.body.style.backgroundColor = "#FFF"
     const fetchData = async () => {
       try {
@@ -84,7 +83,6 @@ const Home: FunctionComponent<HomeProps> = () => {
         if (success) {
           categoryData.unshift(categoryData.splice(36, 1)[0]);
           setCategory(categoryData);
-
           const { data: postData } = await NewPostss();
           const filteredPosts = postData.map(post => ({
             ...post,
