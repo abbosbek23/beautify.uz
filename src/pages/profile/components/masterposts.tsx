@@ -21,41 +21,32 @@ interface MasterPostsProps {
  
 const MasterPosts: FunctionComponent<MasterPostsProps> = () => {
 
+
+    
     const [likes, setLikes] = useState(0);
     const [bookmarkedd, setBookmark] = useState(0);
-    const [posts, setPosts] = useState<Types.IForm.PostsApi[]>(
-        [ {
-           id: null,
-           name: "",
-           price: "",
-           description: "",
-           category: undefined,
-           duration: "",
-           image: "",
-           user: {
-             full_name: "",
-             address: {
-               id: null,
-               region: "",
-               district: "",
-               mahalla: "",
-               house: "",
-             },
-             image: "",
-             },
-             is_like: "",
-             is_saved: "",
-           data: undefined,
-           filteredPosts:undefined
-         },]
-       );
-      
+    const [userpostsid,setuserpostsid] = useState(0)
+    const [posts, setPosts] = useState<Types.IForm.PostsApi[]>([]);
+       useEffect(()=>{
+        const userProfil = async () => {
+          try {
+            const {data} = await Api.UserProfil()
+            
+            setuserpostsid(data.id)
+          } catch (error) {
+            console.log(error);
+            
+          }
+        }
+        userProfil()
+       })
+       
        useEffect(()=>{
         const fetchData = async () => {
        try {
         const { data: categoryData } = await getCategory();
 
-        const { data: postData } = await Api.NewPostss();
+        const { data: postData } = await Api.UserPosts(userpostsid);
         const filteredPosts = postData.map(post => ({
           ...post,
           category: categoryData.find((cat: any) => cat.id === post.category)
@@ -66,7 +57,8 @@ const MasterPosts: FunctionComponent<MasterPostsProps> = () => {
        }
     }
     fetchData()
-       },[])
+       },[userpostsid])
+
        const Likes = async () => {
         if (likes === 0) {
           setLikes(1);
@@ -85,10 +77,10 @@ const MasterPosts: FunctionComponent<MasterPostsProps> = () => {
 
     return ( 
     <Box>
-    <Grid width="100%" container spacing={2} padding={2}>
+    <Grid width="100%" container spacing={2} padding={4}>
                 {posts?.map(
                   ({  description,  category:postCategory, image: postImage,  price, id }: Types.IForm.PostsApi) => (
-                    <Grid   xs={12} sm={12} md={4} lg={4} key={id} sx={posts.length === 1 ? {marginLeft:"0px"}:{}}>
+                    <Grid container spacing={0} xs={12} sm={12} md={6} lg={4} key={id} sx={posts.length === 1 ? {marginLeft:"0px"}:{}}>
                     <Card sx={{ width: "100%", boxShadow: "none" }} >
                     
                 <CardMedia
@@ -161,7 +153,7 @@ const MasterPosts: FunctionComponent<MasterPostsProps> = () => {
                   <Typography
                     sx={{ fontSize: "22px", fontWeight: 700, color: "black" }}
                   >
-                    {price} <span style={{ color: "#E2A882" }}>SUM</span>
+                     {new Intl.NumberFormat().format(parseFloat(price)*10)} <span style={{ color: "#E2A882" }}>SUM</span>
                   </Typography>
                 </CardContent>
                     </Card>

@@ -73,6 +73,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
       ...values,
       image: values.image[0],
       gender: selectGender,
+      is_master:userdata?.is_master
     };
 
     const datas = objectToFormData(fullData);
@@ -103,7 +104,6 @@ const EditModal: FunctionComponent<EditModalProps> = ({
   return (
     <div>
       <Modal
-        
         centered
         open={open}
         onCancel={() => handleClose()}

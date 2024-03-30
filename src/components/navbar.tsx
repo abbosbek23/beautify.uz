@@ -13,12 +13,14 @@ import MenuItem from '@mui/material/MenuItem';
 import userimg from '.././assets/user.png'
 import like from '.././assets/LikeNavbar.svg'
 import bookmark from '.././assets/BookmarkNavbar.svg'
+import usericon from ".././assets/usericonnavbar.svg"
+import logouticon from ".././assets/logouteditIcon.svg"
 interface NavbarProps {
-  // onSearch: (value: string) => void;
+  onSearch: (value: string) => void;
   // onLanguage: (value: string) => void;
 }
 
-const Navbar: FunctionComponent<NavbarProps> = () => {
+const Navbar: FunctionComponent<NavbarProps> = ({onSearch}) => {
   // const [searchQuery, setSearchQuery] = useState("");
   
   const navigate = useNavigate()
@@ -36,9 +38,11 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
     localStorage.clear();
 };
 
+
+
   return (
     <>
-    {window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "register" || window.location.pathname.split("/")[1] === "forgotpassword" || window.location.pathname.split("/")[1] === "auth" || window.location.pathname.split("/")[1] === "register2step" || window.location.pathname.split("/")[1] === "verificationemail" || window.location.pathname.split("/")[1] === "profile" ?<Box></Box>:<> <Box
+    {window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "register" || window.location.pathname.split("/")[1] === "forgotpassword" || window.location.pathname.split("/")[1] === "auth" || window.location.pathname.split("/")[1] === "register2step" || window.location.pathname.split("/")[1] === "verificationemail" || window.location.pathname.split("/")[1] === "profile" || window.location.pathname.split("/")[1] === "mylikes" || window.location.pathname.split("/")[1] === "mysaved" ?<Box></Box>:<> <Box
         sx={{ display: "flex", justifyContent: "space-between", alignItems:"center" }}
         width="100%"
         height={100}
@@ -52,7 +56,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
     <IconButton type="submit" sx={{ marginLeft: "10px", marginTop: "0px" }} aria-label="search">
         <SearchIcon style={{ fill: "blue" }} />
     </IconButton>
-    <input placeholder="Search the location or master..." type="text" style={{ width: "85%", fontSize: "18px", marginLeft: "4px",padding:"11px 10px 0 4px",  border: "0px solid white", borderRadius: "100px", outline: "none" }} />
+    <input onChange={(e)=>onSearch(e.target.value)} placeholder="Search the location or master..." type="text" style={{ width: "85%", fontSize: "18px", marginLeft: "4px",padding:"11px 10px 0 4px",  border: "0px solid white", borderRadius: "100px", outline: "none" }} />
 </form>
         </Box>
         <Box >
@@ -62,10 +66,11 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
         aria-controls={open ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+       
         sx={{':hover': {
           bgcolor: 'white', // theme.palette.primary.main
         },}}
+        onClick={()=>navigate("mylikes")}
       >
        <img src={like} width={30} height={30} />
       </Button>
@@ -74,10 +79,11 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
         aria-controls={open ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        
         sx={{':hover': {
           bgcolor: 'white', // theme.palette.primary.main
         },}}
+        onClick={()=>navigate("mysaved")}
       >
        <img src={bookmark} width={30} height={30} />
       </Button>
@@ -109,9 +115,36 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
         }}
         sx={{top:"50px"}}
       >
-        <MenuItem onClick={()=> {navigate("/profile");handleClose();}}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={() => { handleLogout(); handleClose(); }}>Logout</MenuItem>
+        <MenuItem onClick={()=> {navigate("/profile");handleClose();}} sx={{
+                        color: "#000",
+                        fontFamily: "Inter,sans-serif",
+                        fontSize: "20px",
+                        fontStyle: "normal",
+                        fontWeight: 400,
+                        lineHeight: "normal",
+                        height:"40px",
+                        display:"flex",
+                        alignItems:"center"
+                      }}><img
+                      style={{ marginLeft: "0px", marginRight: "3px" }}
+                      src={usericon}
+                      alt="editIcon"
+                    /> Profile</MenuItem>
+        <MenuItem onClick={() => { handleLogout(); handleClose();}} sx={{
+                      color: "#FF005C",
+                      fontFamily: "Inter,sans-serif",
+                      fontSize: "20px",
+                      fontStyle: "normal",
+                      fontWeight: 400,
+                      lineHeight: "normal",
+                      height:"40px"
+                    }}><img
+                    width={30}
+                    height={30}
+                    style={{ marginLeft: "0px", marginRight: "3px" }}
+                    src={logouticon}
+                    alt="logouticon"
+                  /> Logout</MenuItem>
       </Menu>
       
       </Box>:<Button sx={{fontSize:"15px",padding:"12px 34px",borderRadius:"12px",backgroundColor:"#E2A882",color:"white","&:hover": {

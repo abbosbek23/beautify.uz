@@ -16,7 +16,9 @@ import { useForm } from "react-hook-form";
 import "../../auth/index.css";
 import Button from "@mui/material/Button";
 import { objectToFormData } from "../../../formdata/formdataprofile";
-
+import telegramIcon from "../../../assets/telegramIconmaster.svg"
+import instagramIcon from "../../../assets/instagramIconmaster.svg"
+import facebookIcon from "../../../assets/facebookIconmaster.svg"
 interface EditModalMasterProps {
   open: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -69,6 +71,7 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
       ...values,
       image: values.image[0],
       gender: selectGender,
+      is_master:userdata?.is_master
     };
 
     const datas = objectToFormData(fullData);
@@ -334,6 +337,7 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
                 </Typography>
               </Box>
             </Box>
+            
               <Typography
                 sx={{
                   color: "#B5B5B5",
@@ -344,6 +348,64 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
                   lineHeight: "normal",
                 }}
               >Social Messengers</Typography>
+              <div style={{position:"relative"}}>
+              <input type="text"
+              placeholder="Telegram" 
+              {...register("telegram")}
+              style={{
+                width: "100%",
+                padding: "16px 35px",
+                marginBottom: "16px",
+                borderRadius: "12px",
+                marginTop:"12px",
+                border: "1px solid #B5B5B5",
+                backgroundImage: `url('${telegramIcon}')`,
+                backgroundRepeat: "no-repeat",
+                fontSize: "18px",
+                backgroundSize: "23px 23px",
+                backgroundPosition: "8px",
+                alignItems: "center",
+              }}
+              />
+              </div>
+              <div style={{position:"relative"}}>
+              <input type="text"
+              placeholder="Instagram" 
+              {...register("instagram")}
+              style={{
+                width: "100%",
+                padding: "16px 35px",
+                marginBottom: "16px",
+                borderRadius: "12px",
+                border: "1px solid #B5B5B5",
+                backgroundImage: `url('${instagramIcon}')`,
+                backgroundRepeat: "no-repeat",
+                fontSize: "18px",
+                backgroundSize: "23px 23px",
+                backgroundPosition: "8px",
+                alignItems: "center",
+              }}
+              />
+              </div>
+              <div style={{position:"relative"}}>
+              <input type="text"
+              placeholder="Facebook" 
+              {...register("facebook")}
+              style={{
+                width: "100%",
+                padding: "16px 35px",
+                marginBottom: "10px",
+                borderRadius: "12px",
+                border: "1px solid #B5B5B5",
+                backgroundImage: `url('${facebookIcon}')`,
+                backgroundRepeat: "no-repeat",
+                fontSize: "18px",
+                backgroundSize: "23px 23px",
+                backgroundPosition: "8px",
+                alignItems: "center",
+              }}
+              />
+              </div>
           </form>
         </Box>
         <Button

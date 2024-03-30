@@ -1,17 +1,17 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Navbar } from './components';
 import { Routes } from './routes'; 
 
 interface AppProps {}
 const App: FunctionComponent<AppProps> = () => {
-	// const [search, setSearch] = useState('');
+	const [search, setSearch] = useState('');
 	// const [lang, setLang] = useState("");
 	
 
-	// const handleSearch = (value: string) => {
-	// 	setSearch(value);
-	// };
+	const handleSearch = (value: string) => {
+		setSearch(value);
+	};
 
 	// const handleLanguage = (value: string) => {
 	// 	setLang(value);
@@ -21,11 +21,11 @@ const App: FunctionComponent<AppProps> = () => {
 	return (
 		<>
 		{ window.location.pathname.split("/")[1] === "login" || window.location.pathname.split("/")[1] === "/forgotpassword" ?  (
- <Routes/>
+ <Routes search={''}/>
 		): (
 			<>
-				  <Navbar/>
-				  <Routes/>
+				  <Navbar onSearch={handleSearch}/>	
+				  <Routes search={search}/>
 		 </>
 		)
 	}

@@ -79,12 +79,13 @@ export namespace IForm {
     name: string;
     price: string;
     description: string;
-    category: ICategory | undefined;
+    category: ICategory | any;
     image: string;
 	duration: string;
     data?: undefined;
 	filteredPosts?: undefined;
 	user: {
+    id:number | null;
 		full_name: string;
 		address: {
 		  id: number | null;
@@ -97,12 +98,22 @@ export namespace IForm {
 	  },
 	  is_like: string;
 	  is_saved: string;
+    favorites_count:number | null;
   }
   export interface Checkpassword {
     email: string;
     code: string;
   }
-
+  export interface MasterFreeTime {
+    date:string;
+    service_ids:number; 
+  }
+  export interface MasterUpdateTime {
+    id: number;
+    day: number;
+    start_time: string;
+    end_time: string;
+  }
   export interface ResetPassword {
     email: string;
     code: string;
@@ -130,6 +141,34 @@ export namespace IForm {
       data?: undefined;
     }
   }
+  
+  export interface CreateService {
+    name:string,
+    price:string,
+    duration:string,
+    description:string,
+    category:number,
+    image:string
+  }
+
+  export interface PostBooking {
+    service: number[],
+    time:string,
+    date:string,
+  }
+
+  export interface Likes {
+    service:number | null,
+  }
+
+  export interface getLikesPosts {
+    id: number,
+    service: number,
+    saved: boolean
+  }
+  export interface Bookmarks {
+    service:number | null,
+  }
 
   export interface UserProfil {
     first_name?: string;
@@ -146,6 +185,25 @@ export namespace IForm {
     is_active: boolean;
     is_spiker: boolean;
   }
+
+  export interface WorkingTime {
+    id:number;
+    day:string;
+    start_time:string;
+    end_time:string;
+  }
+  export interface UpdateTime {
+    day:string;
+    start_time:string;
+    end_time:string;
+  }
+  export interface PostWorkingTimes {
+    id:number;
+    day:number;
+    start_time:string;
+    end_time:string;
+    key:number;
+  }
 }
 
 export interface IToken {
@@ -161,6 +219,53 @@ export namespace IApi {
   export namespace Verification {
     export interface Request extends IForm.Verification {}
     export interface Response extends IForm.Verification {}
+  }
+
+  export namespace WorkingTime {
+    export interface Request extends IForm.WorkingTime {}
+    export interface Response extends IForm.WorkingTime {}
+  }
+
+  export namespace PostBooking {
+    export interface Request extends IForm.PostBooking {}
+    export interface Response extends IForm.PostBooking {}
+  }
+  
+  export namespace getLikesPost {
+    export interface Response extends IForm.getLikesPosts {}
+  }
+  export namespace Likes {
+    export interface Request extends IForm.Likes {}
+    export interface Response {
+      id: number;
+      service: number;
+      like: boolean;
+      likes_count: number; 
+      message: string;
+    }
+  }
+  export namespace Bookmarks {
+    export interface Request extends IForm.Bookmarks {}
+    export interface Response {
+      id: number;
+      service: number;
+      saved: boolean;
+    }
+  }
+
+  export namespace UpdateTime {
+    export interface Request extends IForm.UpdateTime {}
+    export interface Response extends IForm.UpdateTime {}
+  }
+
+  export namespace PostWorkingTimes {
+    export interface Request extends IForm.PostWorkingTimes {}
+    export interface Response extends IForm.PostWorkingTimes {}
+  }
+
+  export namespace CreateService {
+    export interface Request extends IForm.CreateService {}
+    export interface Response extends IForm.PostsApi {}
   }
 
   export namespace ResetPasswords {

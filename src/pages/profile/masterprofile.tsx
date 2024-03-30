@@ -23,7 +23,6 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
       const getUserdata = async () => {
         try {
           const { data } = await Api.UserProfil();
-          console.log(data);
           setUserdata(data);
         } catch (error) {
           console.log(error);
@@ -33,7 +32,8 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
     }, []);
 
     const [content, setcontent] = useState(false);
-
+    console.log(userdata?.id);
+    
   
     function getInitials(fullName: string): string {
       // Ism va familiyani bo'sh joylar orqali ajratib olamiz
@@ -61,7 +61,7 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
           margin:"0 auto"
         }}
       ></span>
-        <Box sx={{ width: "100%", display: "flex", alignItems: "center",marginTop:"20px" }}>
+        <Box sx={{width: "100%", display: "flex", alignItems: "center",marginTop:"20px"}}>
         <Box
           sx={
             userdata?.image === null
@@ -69,10 +69,10 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
                   width: "120px",
                   height: "120px",
                   marginTop: "30px",
-                  marginLeft: "40px",
+                  marginLeft: "110px",
                   marginRight: "24px",
                 }
-              : { width: "120px", height: "120px",  }
+              : {width: "120px", height: "120px",marginRight:"24px",marginLeft:"110px"}
           }
         >
           {userdata?.image === null ? (
@@ -86,6 +86,7 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        
       }}
     >
       <Typography
@@ -146,10 +147,10 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
           </Typography>
         </Box>
       </Box>
-      <MasterService/>
+      <MasterService />
       <Box>
       <Box sx={{ width: '100%', typography: 'body1' }}>
-      <Grid width="100%" container padding={2}>
+      <Grid width="100%" container padding={4}>
       <Grid   xs={12} sm={12} md={6} lg={6}>
         <Box sx={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",borderBottom:content ? "1px solid #FFF":"1px solid #EED0AC"}} onClick={()=>setcontent(false)}>
         {content ? <img src={inactivepostsicon} alt="inactivepost"/>:<img src={postsIcon}  alt="activepost" />}

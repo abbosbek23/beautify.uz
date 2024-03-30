@@ -1,0 +1,11 @@
+.select-image:hover{
+   background-color: #E2A882;
+   color: white;
+   transition: 0.3s linear;
+}
+.text-service{
+font-family: Inter,sans-serif;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
