@@ -58,11 +58,6 @@ const Booking: FunctionComponent<BookingProps> = ({id}) => {
 		setData(true);
 		setBook(false);
 	};
-  const closeAllModal = () => {
-    setSelect(false)
-    setData(false)
-    setBook(false)
-  }
 
     return ( <>
         <Button
@@ -85,7 +80,7 @@ const Booking: FunctionComponent<BookingProps> = ({id}) => {
         style={{ maxWidth: "300px auto" }}
         >
         {
-            isSelect ? (<SelectServiceModal handleForgot={handleForgot} handleRegister={handleRegister} services={services}/>): isDate ? (<DateServiceModal handleLogin={handleLogin}  handleRegister={handleRegister}/>):(<BookModal handleClose={closeAllModal} setBook={setSelect} handleLogin={handleLogin} handleForgot={handleForgot} id={id} setIsmodal={handleCloseModal}/>)
+            isSelect ? (<SelectServiceModal handleForgot={handleForgot} handleRegister={handleRegister} services={services}/>): isDate ? (<DateServiceModal handleLogin={handleLogin}  handleRegister={handleRegister}/>):(<BookModal  handleLogin={handleLogin} handleForgot={handleForgot} id={0} />)
         }
 
         </Modal>

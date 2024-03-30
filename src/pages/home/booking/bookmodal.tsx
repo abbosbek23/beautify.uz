@@ -15,15 +15,12 @@ import "../index.css"
 import toast from "react-hot-toast";
 
 interface BookModalProps {
-    setIsmodal:() => void;
     handleLogin:() => void;
-    handleClose:() => void;
-    setBook:any;
     id: number;
-    handleForgot: () => void;
+    handleForgot:()=>void;
 }
 
-const BookModal: FunctionComponent<BookModalProps> = ({handleForgot,setBook,handleClose,handleLogin, setIsmodal, id }) => {
+const BookModal: FunctionComponent<BookModalProps> = ({handleLogin,handleForgot, id }) => {
     const [userInfo, setUserInfo] = useState<Types.IForm.PostsApi[]>([]);
 
     useEffect(() => {
@@ -83,10 +80,11 @@ const BookModal: FunctionComponent<BookModalProps> = ({handleForgot,setBook,hand
             time:selectTime,
             date:selectedDate
         })
-        handleClose()
-        console.log();
-        
-        window.location.reload();
+        localStorage.removeItem("selectedDate")
+        localStorage.removeItem("totalAmount")
+        localStorage.removeItem("selectTime")
+        localStorage.removeItem("serviceid")
+        handleLogin()
         toast.success(data?"successfully booked":"");
        } catch (error) {
         console.log(error);
