@@ -20,7 +20,7 @@ import {
   import Typography from "@mui/material/Typography";
   import { Api } from "../../../modules/auth";
   import { categorizeTimes } from "./categorytimes";
-  import backIcon from "../../../assets/navbarbackIcon.svg"
+  import backIcon from "../../../assets/navbarbackIcon.svg";
 
 
 interface DateServiceModalProps {
@@ -53,12 +53,15 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
 
     const formatToday = format(today,"yyyy-MM-dd")
     useEffect(()=>{
-        const strings: any = localStorage.getItem("serviceid"); // String yoki null bo'lishi mumkin
-        const number: number[] = JSON.parse(strings)
-        console.log( number)
       const getTodayTimes = async() => {
        try {
-        const { data } = await Api.getFreeTimemaster(formatToday,number);
+        const strings: string = localStorage.getItem("serviceid") ?? "";// String sifatida sonlar
+        const numbers: number[] = JSON.parse(strings); // JSON.parse() orqali stringni massivga o'tkazamiz
+        console.log(numbers);
+        const { data } = await Api.getFreeTimemaster(formatToday,numbers);
+        console.log(localStorage.getItem("serviceid"));
+        console.log("salom");
+                
         if (Array.isArray(data) && data.every(item => typeof item === 'string')) {
           const time = categorizeTimes(data);
           console.log(time);
@@ -74,7 +77,8 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
       }
       getTodayTimes() 
     },[])
-
+     console.log(freeTimes);
+     
     const handleDayClick = async (day: any) => {
       if (!isPast(day) || isEqual(day, today)) {
           setSelectedDay(day);
@@ -86,11 +90,11 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
           if (isToday(day)) {
               handleTimeClick(format(new Date(), "HH:mm"));
           } else {
-              const strings: any = localStorage.getItem("serviceid"); // String yoki null bo'lishi mumkin
-              const number: number[] = JSON.parse(strings)
-              console.log( number)
               try {
-                  const { data } = await Api.getFreeTimemaster(formattedDay,number);
+                const strings: string = localStorage.getItem("serviceid") ?? "";// String sifatida sonlar
+        const numbers: number[] = JSON.parse(strings); // JSON.parse() orqali stringni massivga o'tkazamiz
+        console.log(numbers);
+                  const { data } = await Api.getFreeTimemaster(formattedDay,numbers);
                   if (Array.isArray(data) && data.every(item => typeof item === 'string')) {
                       const time = categorizeTimes(data);
                       setFreeTimes(time);
@@ -161,7 +165,7 @@ const colStartClasses = ["", "2", "3", "4", "5", "6", "7"];
       
  const finalStepBooking = () => {
   if(clickedTime){  
-    localStorage.setItem("selectedDate", selectDay);
+    localStorage.setItem("selectedDate", selectDay || formatToday);
     localStorage.setItem("selectTime", clickedTime || "");
     handleRegister()
   }

@@ -152,7 +152,7 @@ export namespace IForm {
   }
 
   export interface PostBooking {
-    service: number[],
+    service_ids: number[],
     time:string,
     date:string,
   }
