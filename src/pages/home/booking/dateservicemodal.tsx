@@ -61,7 +61,6 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
         
         const { data } = await Api.getFreeTimemaster(formatToday,numbers);
         
-                
         if (Array.isArray(data) && data.every(item => typeof item === 'string')) {
           const time = categorizeTimes(data);
            // Pass data to categorizeTimes
@@ -149,7 +148,11 @@ const renderFreeTimes = (times: string[] | undefined) => {
           sx={{
               backgroundColor: clickedTime === time ? "black" : "white",
               color: clickedTime === time ? "white" : "black",
-              cursor: isTimeLessThanNow(time, selectedDay) ? "not-allowed" : "pointer"
+              cursor: isTimeLessThanNow(time, selectedDay) ? "not-allowed" : "pointer",
+              ":hover": {
+                backgroundColor:"black",
+                color:"#FFF"
+              }
           }}
       >
           {time}
