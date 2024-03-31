@@ -18,16 +18,16 @@ interface BookModalProps {
     handleLogin:() => void;
     id: number;
     handleForgot:()=>void;
+    handleCloseModal:()=>void;
 }
 
-const BookModal: FunctionComponent<BookModalProps> = ({handleLogin,handleForgot, id }) => {
+const BookModal: FunctionComponent<BookModalProps> = ({handleLogin,handleForgot,handleCloseModal, id }) => {
     const [userInfo, setUserInfo] = useState<Types.IForm.PostsApi[]>([]);
 
     useEffect(() => {
         const getUserInfo = async () => {
             try {
                 const { data } = await Api.Userservices(id);
-                console.log(data);
                 setUserInfo(data);
             } catch (error) {
                 console.log(error);
@@ -36,7 +36,6 @@ const BookModal: FunctionComponent<BookModalProps> = ({handleLogin,handleForgot,
         getUserInfo();
     }, []);
 
-    console.log(userInfo.map(item => item.user?.full_name));
 
     function getInitials(fullName: string): string {
         const names: string[] = fullName.split(' ');
@@ -60,7 +59,6 @@ const BookModal: FunctionComponent<BookModalProps> = ({handleLogin,handleForgot,
       const serviceIdsString = localStorage.getItem("serviceid");
       const serviceIds = serviceIdsString ? JSON.parse(serviceIdsString) : [];
       const services = findObjectsByIds(serviceIds, userInfo);
-      console.log(services);
       
      const postBooking = async() => {
       const serviceid = localStorage.getItem("serviceid")
@@ -70,7 +68,6 @@ const BookModal: FunctionComponent<BookModalProps> = ({handleLogin,handleForgot,
       
       const serviceIds = serviceid ? JSON.parse(serviceid) : [];
       if (serviceid === null || selectTime === null || selectedDate === null) {
-        console.error("localStorage dan qabul qilingan qiymatlar noto'g'ri");
         return;
       }
 
@@ -80,6 +77,8 @@ const BookModal: FunctionComponent<BookModalProps> = ({handleLogin,handleForgot,
             time:selectTime,
             date:selectedDate
         })
+
+        handleCloseModal()
         localStorage.removeItem("selectedDate")
         localStorage.removeItem("totalAmount")
         localStorage.removeItem("selectTime")

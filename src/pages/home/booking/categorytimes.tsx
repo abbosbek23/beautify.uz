@@ -20,7 +20,6 @@ export const categorizeTimes = (times: any[]) => {
             time.night.push(times[i]);
         }
     }
-    console.log(time);
     
     return time;
 }

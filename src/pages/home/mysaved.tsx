@@ -49,7 +49,7 @@ const Mysaved: FunctionComponent<MysavedProps> = () => {
               try {
                const { data: categoryData } = await getCategory();
        
-               const { data: postData } = await Api.NewPostss();
+               const { data: postData } = await Api.NewPostss({search:""});
                const filteredPosts = postData.map(post => ({
                  ...post,
                  category: categoryData.find((cat: any) => cat.id === post.category)

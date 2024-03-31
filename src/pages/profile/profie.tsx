@@ -19,7 +19,6 @@ const Profile: FunctionComponent<ProfileProps> = () => {
       const getUserdata = async () => {
         try {
           const { data } = await Api.UserProfil();
-          console.log(data);
           setUserdata(data);
         } catch (error) {
           console.log(error);

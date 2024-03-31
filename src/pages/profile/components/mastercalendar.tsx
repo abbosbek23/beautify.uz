@@ -21,37 +21,33 @@ import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { Box } from "@mui/system";
 import { Api, Types } from "../../../modules/auth";
 
+
 interface Calendar {}
 const Calendar: React.FC = () => {
   const today = startOfToday();
-  const [selectedDay, setSelectedDay] = useState<any>(today);
-  const [selectDay, setSelectDay] = useState<any>("");
+  const [selectedDay, setSelectedDay] = useState<Date>(today);
   const [selectDays, setSelectDays] = useState<any>("");
   const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   const firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
 
   const [bookinglist, setBookinglist] = useState<Types.IForm.BookingsMy[]>([]);
 
-  const handleDayClick = async (day: any) => {
+  const handleDayClick = async (day: Date) => {
     if (!isPast(day) || isEqual(day, today)) {
       setSelectedDay(day);
-      const formattedDay = format(day, "yyyy-MM-dd");
       const formattedDays = format(day, "MMMM dd");
-      setSelectDay(formattedDay);
-      setSelectDays(formattedDays);
-    }
-    try {
-      const { data } = await Api.BookingMy(selectDay);
-      setBookinglist(data);
-    } catch (error) {
-      console.log(error);
+      setSelectDays(formattedDays)
+      try {
+        const formattedDay = format(day, "yyyy-MM-dd");
+        const { data } = await Api.BookingMy(formattedDay); // day o'zgaruvchisini BookingsMy turiga o'zgartiring
+        setBookinglist(data); 
+      } catch (error) {
+        console.log(error);
+        
+      }
     }
   };
-
-  const todays = () => {
-    const date = new Date();
-    return format(date, "MMMM dd");
-  };
+  
 
   const colStartClasses = ["", "2", "3", "4", "5", "6", "7"];
 
@@ -170,8 +166,8 @@ const Calendar: React.FC = () => {
             <Button
               onClick={() => handleDayClick(day)}
               sx={{
-                ...(!isEqual(day, selectedDay) || (isPast(day) && !isToday(day))
-                  ? { color: "gray", backgroundColor: "white" }
+                ...(!isEqual(day, selectedDay) || (isPast(day) && isToday(day))
+                  ? { color: "black", backgroundColor: "white" }
                   : { color: "white", backgroundColor: "black" }),
                 // ...(!isEqual(day, selectedDay) && isToday(day) && { color: 'red', backgroundColor: 'yellow' }),
                 ...(!isEqual(day, selectedDay) && {
@@ -203,6 +199,11 @@ const Calendar: React.FC = () => {
                 margin: "0 auto",
                 cursor:
                   isPast(day) && !isToday(day) ? "not-allowed" : "pointer",
+                  ":hover": {
+                    bgcolor: isPast(day) && !isToday(day) ? "white":"black",
+                     color: isPast(day) && !isToday(day) ? "#gray":"white",
+                     
+                   },
               }}
             >
               <time
@@ -228,27 +229,21 @@ const Calendar: React.FC = () => {
             marginTop:"20px"
           }}
         >
-          {selectDays ? selectDays : todays()}
+        {selectDays}
         </Typography>
         <Box sx={{marginTop:"20px"}}>
-          {bookinglist[0] ? (
+          {
             bookinglist?.map((item) => (
-              <Box key={item.id}>
+              <Box key={item.id} sx={{display:"flex",alignItems:"center",marginBlock:"10px"}}>
+                <Typography sx={{marginRight:"0px"}}>{item.time}</Typography>
+                <span style={{width:"3px",height:"18px",backgroundColor:
+            item.status === "approved" ? "green" :
+            item.status === "rejected" ? "red" :
+            item.status === "pending" ? "yellow" : "",marginLeft:"10px",marginRight:"10px" }}></span>
                 <Typography>{item.user.full_name}</Typography>
               </Box>
             ))
-          ) : (
-            <Box>
-              <Typography sx={{ marginLeft: "20px",color:"#000",
-fontFamily: "Inter,sans-serif",
-fontSize: "18px",
-fontStyle: "normal",
-fontWeight: 400,
-lineHeight: "normal", }}>
-                Empty for booking
-              </Typography>
-            </Box>
-          )}
+            }
         </Box>
       </Box>
     </div>

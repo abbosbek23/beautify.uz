@@ -20,7 +20,7 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import { Api, Types } from "../../../modules/auth";
+import { Api } from "../../../modules/auth";
 import { ICategory } from "../../../interface";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -93,9 +93,7 @@ const AddServiceModal: FunctionComponent<AddServiceModalProps> = ({
   const [defaultcategory, setDefaultCategory] = useState("");
   const [selectedTime, setSelectedTime] = useState<string>("00:15");
   const [selectedCategory, setSelectedCategory] = useState<number>(0)
-  const [addservice,setAddservice] = useState<Types.IForm.PostsApi>()
-  
-  console.log(addservice);
+   
   
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -124,8 +122,7 @@ const AddServiceModal: FunctionComponent<AddServiceModalProps> = ({
         
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-        const { data } = await Api.AddService(datas);
-        setAddservice(data)  
+        const { data } = await Api.AddService(datas);  
         setIsModalOpen(false)
         reset()
       } catch (error) {

@@ -65,8 +65,6 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
     getUserdata();
   }, []);
 
-  const stringnumber = posts.map((item) => item.price);
-  console.log(stringnumber);
   
   // const floatNumbers = stringnumber.map((str) => parseInt(str));
   
@@ -107,6 +105,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                   width: "100%",
                   padding: "20px",
                   borderRadius: "18px",
+                  height:"331px",
                   border: "1px solid #B5B5B5",
                 }}
               >
@@ -351,7 +350,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                   }}
                   className={"services"}
                 >
-                  {posts.map(
+                  {posts.length > 0 ? (posts.map(
                     ({
                      
                       duration,
@@ -370,7 +369,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                            
                           }}
                         >
-                          <Box sx={{ marginLeft: "0px",marginRight:"0px", width: "40%" }}>
+                          <Box sx={{ marginLeft: "0px",marginRight:"0px", width: "100%" }}>
                             <Typography
                               sx={{
                                 color: "#000",
@@ -384,14 +383,15 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                               {name}
                             </Typography>
                           </Box>
-                          <Box sx={{ display: "flex" ,alignItems:"center"}}>
+                          <Box sx={{ display: "flex" ,alignItems:"center",width:"100%",textAlign:"center",marginRight:"0px"}}>
                             <img
                               src={clockIcon}
                               width={24}
                               height={24}
                               alt="clockIcon"
+                              style={{marginRight:"0px",marginLeft:"0px"}}
                             />
-                            <Typography sx={{fontSize:"22px"}}>{duration}</Typography>
+                            <Typography sx={{fontSize:"22px",marginRight:"0px",textAlign:"center"}}>{duration}</Typography>
                           </Box>
                           <Typography
                             sx={{
@@ -401,6 +401,8 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                               fontStyle: "normal",
                               fontWeight: 700,
                               lineHeight: "normal",
+                              width:"100%",
+                              textAlign:"end"
                             }}
                           >
                             {new Intl.NumberFormat().format(parseFloat(price)*10)}
@@ -424,6 +426,12 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                         </Box>
                       </Box>
                     )
+                  )):(
+                    <Box>
+                    <Typography sx={{textAlign:"center",fontSize:"24px",marginTop:"10px"}}>
+                      You Don't have Service
+                    </Typography>
+                    </Box>
                   )}
                 </Box>
                 

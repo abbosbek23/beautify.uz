@@ -18,7 +18,6 @@ const Booking: FunctionComponent<BookingProps> = ({id}) => {
     const getMasterServices = async() => {
         try {
             const {data} = await Api.Userservices(id)
-            console.log(data);
             setServices(data)   
         } catch (error) {
             console.log(error);
@@ -31,12 +30,14 @@ const Booking: FunctionComponent<BookingProps> = ({id}) => {
       };
     
       const handleCloseModal = () => {
-        localStorage.removeItem("serviceid")
-        localStorage.removeItem("totalAmount")
-        localStorage.removeItem("selectTime")
-        localStorage.removeItem("selectedDate")
+        localStorage.removeItem("serviceid");
+        localStorage.removeItem("totalAmount");
+        localStorage.removeItem("selectTime");
+        localStorage.removeItem("selectedDate");
         setIsModalOpen(false);
-      };
+        setSelect(true);
+         // Open SelectServiceModal
+    };
 
     const [isSelect, setSelect] = useState(true);
 	const [isDate, setData] = useState(false);
@@ -46,12 +47,13 @@ const Booking: FunctionComponent<BookingProps> = ({id}) => {
 		setSelect(true);
 		setData(false);
 		setBook(false);
-    console.log(isBook);
 	};
     const handleRegister = () => {
 		setSelect(false);
 		setData(false);
 		setBook(true);
+        console.log(isBook);
+        
 	};
 	const handleForgot = () => {
 		setSelect(false);
@@ -80,7 +82,7 @@ const Booking: FunctionComponent<BookingProps> = ({id}) => {
         style={{ maxWidth: "300px auto" }}
         >
         {
-            isSelect ? (<SelectServiceModal handleForgot={handleForgot} handleRegister={handleRegister} services={services}/>): isDate ? (<DateServiceModal handleLogin={handleLogin}  handleRegister={handleRegister}/>):(<BookModal  handleLogin={handleLogin} handleForgot={handleForgot} id={0} />)
+            isSelect ? (<SelectServiceModal handleForgot={handleForgot} handleRegister={handleRegister} services={services}/>): isDate ? (<DateServiceModal handleLogin={handleLogin}  handleRegister={handleRegister}/>):(<BookModal handleCloseModal={handleCloseModal} handleLogin={handleLogin} handleForgot={handleForgot} id={id} />)
         }
 
         </Modal>

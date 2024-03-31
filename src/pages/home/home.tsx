@@ -69,6 +69,18 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
     },]
   );
 
+//   useEffect(() => {
+//     const getPosts = async () => {
+//         try {
+//             const { data } = await Api.NewPostss({ search });
+//             setPosts(data);
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     }
+//     getPosts();
+// }, [search]); 
+
   useEffect(() => {
     document.body.style.backgroundColor = "#FFF"
     const fetchData = async () => {
@@ -78,7 +90,7 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
         if (success) {
           categoryData.unshift(categoryData.splice(36, 1)[0]);
           setCategory(categoryData);
-          const { data: postData } = await NewPostss();
+          const { data: postData } = await NewPostss({search});
           const filteredPosts = postData.map(post => ({
             ...post,
             category: categoryData.find((cat: any) => cat.id === post.category)
@@ -92,7 +104,9 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
     };
     
     fetchData();
-  }, []);
+  }, [search]);
+
+ 
 
 
   
@@ -113,9 +127,8 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
     const categoryparent = category.filter((item) => item.parent === id);
     
     if(id === 36){
-      const { data } = await NewPostss();
+      const { data } = await NewPostss({search});
       setPosts(data)
-      console.log(id);
       setCategoryFiltered(categoryparent);
     setClickedCategory(id);
     return
@@ -133,7 +146,6 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
 
 
   
-console.log(posts);
 
   
 

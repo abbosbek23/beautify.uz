@@ -111,10 +111,9 @@ const EditModalService: FunctionComponent<EditModalServiceProps> = ({
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
             const { data } = await Api.UpdateService(datas,service?.id);
-            console.log(data);
             setIsModalOpen(false)
             reset()
-            toast.success("Your service is updated");
+            toast.success(data?"Your service is updated":"");
           } catch (error) {
             console.log(error);
           }

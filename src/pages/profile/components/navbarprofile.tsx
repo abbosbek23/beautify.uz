@@ -24,10 +24,11 @@ interface NavbarprofileProps {}
 const Navbarprofile: FunctionComponent<NavbarprofileProps> = () => {
   const [userdata, setUserdata] = useState<IEntity.User>();
   const navigate = useNavigate();
-  const roles = localStorage.getItem("roles");
+  // const roles = localStorage.getItem("roles");
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenUser,setIsModalOpenUser] = useState(false)
   const [workingModal, setWorkingModal] = useState(false)
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -45,9 +46,17 @@ const Navbarprofile: FunctionComponent<NavbarprofileProps> = () => {
     setIsModalOpen(true);
     setAnchorEl(null);
   };
+  const handleOpenModalUser = () => {
+    setIsModalOpenUser(true)
+    setAnchorEl(null)
+  }
+  const handleCloseModalUser = () => {
+    setIsModalOpenUser(false);
+  };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setIsModalOpenUser(false)
   };
 
   const handleOpenModalWork = () => {
@@ -128,64 +137,6 @@ const Navbarprofile: FunctionComponent<NavbarprofileProps> = () => {
           height={32}
           alt="bookmarkpage"
         />
-        {roles ? (
-          <Box>
-            <Button
-              id="demo-positioned-button"
-              aria-controls={anchorEl ? "demo-positioned-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={anchorEl ? "true" : undefined}
-              onClick={handleClick}
-              sx={{
-                ":hover": {
-                  bgcolor: "white", // theme.palette.primary.main
-                },
-              }}
-            >
-              <img
-                src={settingsnavbar}
-                style={{ cursor: "pointer" }}
-                width={32}
-                height={32}
-                alt="settingsprofile"
-              />
-            </Button>
-            <Menu
-              id="demo-positioned-menu"
-              aria-labelledby="demo-positioned-button"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              sx={{ top: "50px" }}
-            >
-              <MenuItem
-                onClick={() => {
-                  navigate("/profile");
-                  handleClose();
-                }}
-              >
-                Profile
-              </MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleLogout();
-                  handleClose();
-                }}
-              >
-                Logout
-              </MenuItem>
-            </Menu>
-          </Box>
-        ) : (
           <Box>
             <Button
               id="demo-positioned-button"
@@ -222,10 +173,10 @@ const Navbarprofile: FunctionComponent<NavbarprofileProps> = () => {
               }}
               sx={{ top: "50px" }}
             >
-              {roles ? (
+              {!userdata?.is_master ? (
                 <Box>
                   <MenuItem
-                      onClick={handleOpenModal}
+                      onClick={handleOpenModalUser}
                       sx={{
                         color: "#000",
                         fontFamily: "Inter,sans-serif",
@@ -363,12 +314,12 @@ const Navbarprofile: FunctionComponent<NavbarprofileProps> = () => {
                 </Box>
               )}
             </Menu>
-            {roles ? (
+            {!userdata?.is_master ? (
               <EditModal
-                open={isModalOpen}
-                handleOpen={handleOpenModal}
-                handleClose={handleCloseModal}
-                setIsModalOpen={setIsModalOpen}
+                open={isModalOpenUser}
+                handleOpen={handleOpenModalUser}
+                handleClose={handleCloseModalUser}
+                setIsModalOpen={setIsModalOpenUser}
               />
             ) : (
               <EditModalMaster
@@ -379,7 +330,7 @@ const Navbarprofile: FunctionComponent<NavbarprofileProps> = () => {
               />
             )}
           </Box>
-        )}
+       
         <WorkingTimes open={workingModal} setIsModalOpen={setWorkingModal} handleOpen={handleOpenModalWork} handleClose={handleCloseModalWork}/>
       </Box>
     </Box>

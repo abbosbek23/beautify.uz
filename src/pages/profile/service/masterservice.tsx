@@ -29,7 +29,6 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
     const getUserData = async () => {
       try {
         const { data } = await Api.UserProfil();
-        console.log(data);
         setUserID(data);
       } catch (error) {
         console.log(error);
@@ -41,8 +40,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
   
   const deleteService = async(id:any) => {
      const {data}:any = await Api.DeleteService(id)
-     console.log(data);
-      toast.success("Your service deleted")
+      toast.success(data?"Your service deleted":"")
       setDeleteServices(true) 
      
     }
@@ -51,7 +49,6 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
       const userServices = async () => {
         try {
           const { data } = await Api.Userservices(userID.id);
-          console.log(data);
           setServices(data);
         } catch (error) {
           console.log(error);

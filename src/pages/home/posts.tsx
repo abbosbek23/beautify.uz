@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import logouser from "../../assets/user.png";
 import like from "../../assets/likes.svg";
 import liked from "../../assets/liked.svg";
@@ -59,14 +59,30 @@ const Posts: FunctionComponent<PostsProps> = ({
 }) => {
     const [likes, setLike] = useState(is_like ? 1 : 0);
     const [bookmarkedd, setBookmark] = useState(is_bookmark ? 1 : 0);
+    const [showMore, setShowMore] = useState(false);
+    const [ismaster,setIsmaster] = useState<boolean>()
 
+    useEffect(()=>{
+     const getInfoProfile = async() => {
+      try {
+        const {data} = await Api.UserProfil()
+        setIsmaster(data.is_master)
+      } catch (error) {
+        console.log(error);
+        
+      }
+     }
+     getInfoProfile()
+    },[])
 
+    
     const LikesPost = async() => {
       try {
-        const { data } = await Api.Like({
+        const {data} = await Api.Like({
           service: id,
         });
-        console.log(data);
+        console.log(data.message);
+        
       } catch (error) {
         console.log(error);
       }
@@ -75,10 +91,11 @@ const Posts: FunctionComponent<PostsProps> = ({
 
     const SavedPost = async() => {
       try {
-        const { data } = await Api.Bookmarks({
+        const  data  = await Api.Bookmarks({
           service: id,
         });
-        console.log(data);
+        console.log(data.data.id);
+        
       } catch (error) {
         console.log(error);
       }
@@ -98,9 +115,11 @@ return (
                 </Avatar>
               }
               action={
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginRight: "10px" }}>
+                
+                  ismaster ? ("") : (<Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginRight: "10px" }}>
                   <Booking id={user.id} />
-                </Box>
+                </Box>)
+                 
               }
               title={user.full_name}
               subheader={
@@ -108,10 +127,10 @@ return (
                   sx={{
                     whiteSpace: "nowrap",
                     fontSize: "13px",
-                    "@media (max-width: 1150px)": { whiteSpace: "break-spaces" },
+                    "@media (max-width: 1150px)": { whiteSpace:"nowrap",fontSize:"10px" },
                   }}
                 >
-                  {user.address.region + " " + user.address.district + " " + user.address.mahalla + " " + user.address.house}
+                  {user.address.region + " " + user.address.district + " " + user.address.mahalla}
                 </Typography>
               }
             />
@@ -170,10 +189,19 @@ return (
                           )}
                         </Box>
             </CardActions>
-            <CardContent sx={{ paddingTop: "0px" }}>
-              <Typography variant="body2" sx={{ fontSize: "18px" }} color="text.secondary">
-                {description}
-              </Typography>
+            <CardContent sx={{ paddingTop: "0px",paddingBottom:"0px"}}>
+            {description && (
+  <CardContent sx={{ paddingTop: "0px" }}>
+    <Typography variant="body2" sx={{ fontSize: "18px", height: showMore ? "auto" : "30px", overflow: "hidden" }} color="text.secondary">
+      {description}
+    </Typography>
+    {description.length > 40 && (
+      <Typography onClick={() => setShowMore(!showMore)} sx={{ cursor: "pointer", color: "black" }}>
+        {showMore ? "short" : "..."}
+      </Typography>
+    )}
+  </CardContent>
+)}
             </CardContent>
             <CardContent sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <Typography

@@ -121,9 +121,42 @@ export namespace IForm {
     confirm_password: string;
     detail: string;
   }
+  
+  export interface BookingUserMaster {
+    id: number;
+    date: string;
+    time: string;
+    service: {
+        id: number;
+        name: string;
+        duration: string;
+        price: string;
+      }[] 
+    status: string;
+    user: {
+        id: number;
+        full_name: string;
+        phone: string;
+        address: {
+            id: number;
+            region: string;
+            district: string;
+            mahalla: string;
+            house: string;
+        };
+        image: string;
+        is_master:boolean;
+    };
+}
+
+export interface UpdateStatusBooking {
+  id:number;
+  status:string;
+}
+
 
   export interface BookingsMy {
-    id: number | null;
+    id: number ;
     date: string;
     time: string;
     service: number;
@@ -231,6 +264,11 @@ export namespace IApi {
     export interface Response extends IForm.PostBooking {}
   }
   
+  export namespace UpdateStatusBooking {
+    export interface Request  {status:string;}
+    export interface Response extends IForm.UpdateStatusBooking {}
+  }
+
   export namespace getLikesPost {
     export interface Response extends IForm.getLikesPosts {}
   }
@@ -251,6 +289,11 @@ export namespace IApi {
       service: number;
       saved: boolean;
     }
+  }
+
+  export namespace BookingUserMaster {
+    export interface Request extends IForm.BookingUserMaster {}
+    export interface Response extends IForm.BookingUserMaster {}
   }
 
   export namespace UpdateTime {

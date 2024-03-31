@@ -24,7 +24,6 @@ const Auth: FunctionComponent<AuthProps> = () => {
  
   // const [nextStep, setNextStep] = useState(false);
   const [selectRole, setSelectRole] = useState(0);
-  const [selectedRoles, setSelectedRoles] = useState(false);
   const [roles, setRoles] = useState(false);
   
   const navigate = useNavigate();
@@ -36,18 +35,14 @@ const Auth: FunctionComponent<AuthProps> = () => {
   const selectedRole = (id: number) => {
     let roleString: string;
     if (id === 1) {
-        setSelectedRoles(true);
         roleString = "true";
     } else {
-        setSelectedRoles(false);
         roleString = "false";
     }
-    console.log(selectedRoles);
     localStorage.setItem("roles", roleString);
     navigate("/register");
 };
 
-  console.log(selectedRoles);
   
   
   

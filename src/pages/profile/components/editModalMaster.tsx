@@ -19,6 +19,7 @@ import { objectToFormData } from "../../../formdata/formdataprofile";
 import telegramIcon from "../../../assets/telegramIconmaster.svg"
 import instagramIcon from "../../../assets/instagramIconmaster.svg"
 import facebookIcon from "../../../assets/facebookIconmaster.svg"
+import toast from "react-hot-toast";
 interface EditModalMasterProps {
   open: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -38,7 +39,6 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
     const getUserdata = async () => {
       try {
         const { data } = await Api.UserProfil();
-        console.log(data);
         setSelectGender(data.gender);
         setUserdata(data);
       } catch (error: any) {
@@ -65,8 +65,6 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
   });
 
   const onsubmit = async (values: any) => {
-    console.log(values);
-    console.log(values.image[0]);
     const fullData = {
       ...values,
       image: values.image[0],
@@ -75,13 +73,12 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
     };
 
     const datas = objectToFormData(fullData);
-    console.log(datas);
 
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       const { data } = await Api.UserUpdateProfile(datas);
-      console.log(data);
+      toast.success(data ? "Profile edited successfully" : "");
       setIsModalOpen(false);
       reset();
     } catch (error) {
@@ -163,9 +160,7 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
                   opacity: 0,
                   pointerEvents: "none",
                 }}
-                {...register("image", {
-                  required: "Image is required",
-                })}
+                {...register("image")}
               />
               <img
                 width={30}

@@ -47,7 +47,7 @@ const Register1step: FunctionComponent<registerProps> = () => {
           is_master: selectedRoles,
         });
 
-        console.log(data);
+        toast.success(data?"Register 1 step is completed":"")
         setEmail(values.email);
         setemailverification(true)
       }
@@ -67,7 +67,6 @@ const Register1step: FunctionComponent<registerProps> = () => {
     };
 
       const activeCode = async () => {
-        console.log(email, typeof activeCodes);
         const activatsiyacode = activeCodes;
         try {
           const { data } = await ActiveCode({
@@ -76,7 +75,6 @@ const Register1step: FunctionComponent<registerProps> = () => {
           });
           console.log(data);
           if (data) {
-            console.log(data.access_token);
             localStorage.setItem("access", data.access_token);
             navigate("/register2step")
             reset();

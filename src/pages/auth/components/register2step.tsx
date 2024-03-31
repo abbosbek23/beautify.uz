@@ -36,7 +36,6 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
       useEffect(() => {
         (async () => {
           const { data, success } = await getRegions();
-          console.log(data);
           success && setRegions(data);
         })();
       }, []);
@@ -62,7 +61,6 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
       const chooseGenders = (value: any) => {
         if (value === 0) {
           setSelectGender("female");
-          console.log(selectGender);
         } else {
           setSelectGender("male");
         }
@@ -74,18 +72,17 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
 
   const handleRegion = (event: SelectChangeEvent) => {
     setRegion(event.target.value);
-    console.log(region);
+  
   };
   const handleDistrict = (event: SelectChangeEvent) => {
     setDistrict(event.target.value);
-    console.log(district);
   };
   const handleMahalla = (event: SelectChangeEvent) => {
     setMahalla(event.target.value);
   };
 
   const onsubmits: SubmitHandler<FieldValues> = async (values) => {
-    console.log(values);
+   
     if(values.phone.trim().length < 16){
       toast.error("Phone number is required")
     }
@@ -103,7 +100,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
           house: values.house,
         },
       });
-      console.log(data);
+     toast.success(data?"Register process is completed":"")
       navigate("/")
     } catch (error) {
       console.log(error);

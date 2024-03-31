@@ -49,7 +49,7 @@ export const UserProfil = () => {
         );
     };
 
-    export const BookingMy = (body:IForm.BookingsMy) => {
+    export const BookingMy = (body:any) => {
         const headers = {
             'Authorization': `Bearer ${localStorage.getItem("access")}`,
             'Content-Type': 'application/json' // Assuming JSON is being sent in the body
@@ -61,6 +61,34 @@ export const UserProfil = () => {
             // {body:}
             );
         };
+
+    export const BookingsUserMaster = (body:any) => {
+        const headers = {
+            'Authorization': `Bearer ${localStorage.getItem("access")}`,
+        };
+        
+        return axios.get<IApi.BookingUserMaster.Response[]>(
+            `${BASE_URL}/v1/booking/my`,
+            { 
+                params: body,
+                headers: headers
+            }
+            );
+        };
+
+        export const UpdateStatus = (body: IApi.UpdateStatusBooking.Request,id:any) => {
+            const headers = {
+                'Authorization': `Bearer ${localStorage.getItem("access")}`
+            };
+        
+            return axios.put<IApi.UpdateStatusBooking.Response>(
+                `${BASE_URL}/v1/booking/${id}`,
+                body,
+                { headers }
+            );
+        };   
+    
+        
 export const getallCategory = () => axios.get<ICategory[]>(`${BASE_URL}/v1/category`)
 
 export const AddService = (body: IApi.CreateService.Request) => {
@@ -160,7 +188,7 @@ export const PostBookings = (body: IApi.PostBooking.Request) => {
     );
 };
 
-export const NewPostss = () => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`)
+export const NewPostss = (search:any) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`,{params:search})
 export const Like = (body: IApi.Likes.Request) => {
     const headers = {
         'Authorization': `Bearer ${localStorage.getItem("access")}`,

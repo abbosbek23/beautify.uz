@@ -37,7 +37,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   const onsubmit = async (values: any) => {
-    console.log(values);
+
     const emailreset = localStorage.getItem("emailreset")
     
     try {
@@ -48,7 +48,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
         if(values.activation_code || values.password){
           navigate("/login") 
         }
-        console.log(data);
+  
         toast.success(data.detail)
         
     } catch (error:any) {

@@ -23,8 +23,7 @@ const Verificationreset: FunctionComponent<VerificationresetProps> = () => {
     const postEmailReset = async () => {
         try {
             const {data} = await Api.ResetPassword({email:emailreset})
-            toast.success("Password reset code sent to your email.");
-            console.log(data);
+            toast.success(data?"Password reset code sent to your email.":"");
             localStorage.setItem("emailreset",emailreset)
             navigate("/forgotpassword")
         } catch (error:any) {

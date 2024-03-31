@@ -32,7 +32,6 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
     }, []);
 
     const [content, setcontent] = useState(false);
-    console.log(userdata?.id);
     
   
     function getInitials(fullName: string): string {

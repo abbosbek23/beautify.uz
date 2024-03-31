@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import "../../auth/index.css";
 import Button from "@mui/material/Button";
 import { objectToFormData } from "../../../formdata/formdataprofile";
+import toast from "react-hot-toast";
 
 
 interface EditModalProps {
@@ -32,7 +33,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
     const getUserdata = async () => {
       try {
         const { data } = await Api.UserProfil();
-        console.log(data);
+        
         setSelectGender(data.gender)
         setUserdata(data);
       } catch (error:any) {
@@ -67,8 +68,6 @@ const EditModal: FunctionComponent<EditModalProps> = ({
 
 
   const onsubmit = async (values: any) => {
-    console.log(values);
-    console.log(values.image[0]);
     const fullData = {
       ...values,
       image: values.image[0],
@@ -84,7 +83,7 @@ const EditModal: FunctionComponent<EditModalProps> = ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       const { data } = await Api.UserUpdateProfile(datas);
-      console.log(data);
+      toast.success(data ? "Profile Updated successfully":"")
       setIsModalOpen(false)
       reset()
     } catch (error) {

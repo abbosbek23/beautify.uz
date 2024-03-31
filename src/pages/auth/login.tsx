@@ -41,7 +41,7 @@ const Login: FunctionComponent<LoginProps> = () => {
   },[])
 
   const onsubmit = async (values: any) => {
-    console.log(values);
+ 
 
     try {
       const { data } = await Api.Login(values);
@@ -49,7 +49,6 @@ const Login: FunctionComponent<LoginProps> = () => {
         localStorage.setItem("access", data.access);
         navigate("/");
       }
-      console.log(data);
     } catch (error) {
       console.log(error);
       toast.error("Login or password is wrong")

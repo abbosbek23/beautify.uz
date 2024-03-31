@@ -42,7 +42,6 @@ const SelectServiceModal: FunctionComponent<SelectServiceModalProps> = ({
       }
     });
   };
-  console.log(checked);
   
 
   const handleArray = () => {

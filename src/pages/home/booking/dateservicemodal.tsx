@@ -50,6 +50,7 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
     }
     console.log(errors);
     
+    
 
     const formatToday = format(today,"yyyy-MM-dd")
     useEffect(()=>{
@@ -57,14 +58,12 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
        try {
         const strings: string = localStorage.getItem("serviceid") ?? "";// String sifatida sonlar
         const numbers: number[] = JSON.parse(strings); // JSON.parse() orqali stringni massivga o'tkazamiz
-        console.log(numbers);
+        
         const { data } = await Api.getFreeTimemaster(formatToday,numbers);
-        console.log(localStorage.getItem("serviceid"));
-        console.log("salom");
+        
                 
         if (Array.isArray(data) && data.every(item => typeof item === 'string')) {
           const time = categorizeTimes(data);
-          console.log(time);
            // Pass data to categorizeTimes
           setFreeTimes(time);
           // setBookinglist(data);
@@ -77,7 +76,6 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
       }
       getTodayTimes() 
     },[])
-     console.log(freeTimes);
      
     const handleDayClick = async (day: any) => {
       if (!isPast(day) || isEqual(day, today)) {
@@ -93,7 +91,6 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
               try {
                 const strings: string = localStorage.getItem("serviceid") ?? "";// String sifatida sonlar
         const numbers: number[] = JSON.parse(strings); // JSON.parse() orqali stringni massivga o'tkazamiz
-        console.log(numbers);
                   const { data } = await Api.getFreeTimemaster(formattedDay,numbers);
                   if (Array.isArray(data) && data.every(item => typeof item === 'string')) {
                       const time = categorizeTimes(data);

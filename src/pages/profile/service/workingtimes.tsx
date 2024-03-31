@@ -32,8 +32,8 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
   const [checkedupdate, setCheckedupdate] = useState<any>([]);
   // const [changeid,setChangeid] = useState<any>(0)
   const [check, setCheck] = useState(false);
-  
   console.log(startTime,endTime,check);
+  
   
 
   const handleChange = (event: any, id: any) => {
@@ -76,8 +76,7 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
         },
         item.id // Passing 'item.id' as the second argument
       );
-      console.log(data);
-      toast.success("Successfully edit start time")
+      toast.success(data?"Successfully edit start time":"")
       
     } catch (error) {
       console.log(error);
@@ -168,7 +167,6 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
     const getUpdatedDays = async () => {
       try {
         const { data } = await Api.getUpdatedTimes()
-        console.log(data);
         
         setChecked(data.map((item) => ({
           day: item.day,

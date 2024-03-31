@@ -11,6 +11,7 @@ import Profile from '../pages/profile/profie';
 import MasterService from '../pages/profile/service/masterservice';
 import Mylikes from '../pages/home/mylikes';
 import Mysaved from '../pages/home/mysaved';
+import MyBooking from '../pages/home/mybooking/mybooking';
 interface RoutesProps {
 	search: string;
 	// lang: string;
@@ -30,6 +31,7 @@ const Routes = ({ search}:RoutesProps) => {
 			<Route path='/profile' element={<Profile/>}/>
 			<Route path='/mylikes' element={<Mylikes/>}/>
 			<Route path='/mysaved' element={<Mysaved/>}/>
+			<Route path='/mybooking' element={<MyBooking/>}/>
 			<Route path='/profile/service' element={<MasterService/>}/>
 		</Switch>
 	);
