@@ -151,9 +151,13 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
 
 
   useEffect(() => {
+    console.log("salom");
+    
     const getDays = async () => {
       try {
         const { data } = await Api.UserWorkingDay();
+        console.log(data);
+        
         setDays(data);
       } catch (error) {
         console.log(error);
@@ -207,10 +211,10 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
             textAlign: "center",
           }}
         >
-          Edit Service
+          Edit Working Times
         </Typography>
         <Box>
-          {days.map((item) => (
+          {days && days.map((item) => (
             <Box
               key={item.id}
               display={"flex"}

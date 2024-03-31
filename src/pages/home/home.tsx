@@ -15,6 +15,7 @@ import { Api, Types } from "../../modules/auth";
 // import SelectServiceModal from "./booking/selectservicemodal";
 
 import Posts from "./posts";
+import { Typography } from "antd";
 
 interface HomeProps {
   search:string;
@@ -113,7 +114,6 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
   const categoryfilteredPosts = async (id:any) => {
     try {
       const {data} = await Api.CategoryPosts(id)
-      console.log(data);
       const filteredPosts = data.map(post =>({
         ...post,
         category: category.find((cat:any) => cat.id === post.category)
@@ -126,7 +126,7 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
   const CategoryFilter = async(id: any) => {
     const categoryparent = category.filter((item) => item.parent === id);
     
-    if(id === 36){
+    if(id === 1){
       const { data } = await NewPostss({search});
       setPosts(data)
       setCategoryFiltered(categoryparent);
@@ -222,8 +222,9 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
           </Box>
         </Box>
         <Box>
-         {/* <Posts posts={posts}/>  */}
-         <Grid container spacing={2} padding={2} sx={{margin:"0px"}}>
+         {
+          posts.length <0 ? (<Typography>This Category don't has posts</Typography>):(
+            <Grid container spacing={2} padding={2} sx={{margin:"0px"}}>
   {posts?.map(({ description, category: postCategory, favorites_count, image: postImage, user, price, id, is_like, is_saved }: Types.IForm.PostsApi) => (
     <Grid container
     spacing={0}
@@ -237,6 +238,9 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
     </Grid>
   ))}
 </Grid>
+          )
+         }
+         
 </Box>
         
         

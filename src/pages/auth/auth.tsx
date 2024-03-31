@@ -154,7 +154,7 @@ const Auth: FunctionComponent<AuthProps> = () => {
                           height="42px"
                           alt="client"
                         />
-                        <Typography sx={{fontSize: "22px",marginLeft:"10px"}}>Mijoz</Typography>
+                        <Typography sx={{fontSize: "22px",marginLeft:"10px"}}>Client</Typography>
                       </Box>
                       <Typography sx={{fontSize:"18px",color:"#B5B5B5"}}>
                       As a client, you will be able to find the right specialists and register with them online.

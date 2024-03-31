@@ -83,9 +83,9 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
 
   const onsubmits: SubmitHandler<FieldValues> = async (values) => {
    
-    if(values.phone.trim().length < 16){
-      toast.error("Phone number is required")
-    }
+   
+      console.log(values.house);
+      
     if(selectGender === ""){
       setSelectGender("female")
     }    
@@ -187,29 +187,29 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
               <Box sx={{marginTop: "5px", paddingLeft: "0px", paddingRight: "0px",marginLeft:"0px",marginRight:"0px" }}>
               <form  onSubmit={handleSubmit(onsubmits)} id="register" >
                
-                <InputMask
-                  {...register("phone", {
-                    required: "Phone number is required",
-                    minLength: {
-                      value: 7,
-                      message: "Phone number must be at least 7 characters",
-                    },
-                  })}
-                  mask="+99999 999 99 99" // This defines the format of the input using placeholders
-                  style={{
-                    width: "100%",
-                    padding: "14px 82px 14px 15px",
-                    borderRadius: "12px",
-                    border: "1px solid #B5B5B5",
-                    fontSize: "16px",
-                    marginTop: "15px",
-                  }}
-                  defaultValue="+998"
-                  maskChar=" "
-                />
-                {errors.phone && (
-                  <p style={{ color: "red" }}>{errors.phone.message}</p>
-                )}
+              <InputMask
+  {...register("phone", {
+    required: "Phone number is required",
+    pattern: {
+      value: /^(\+\d{3})?\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/,
+      message: "Invalid phone number format",
+    },
+  })}
+  mask="+99999 999 99 99" // This defines the format of the input using placeholders
+  style={{
+    width: "100%",
+    padding: "14px 82px 14px 15px",
+    borderRadius: "12px",
+    border: "1px solid #B5B5B5",
+    fontSize: "16px",
+    marginTop: "15px",
+  }}
+  defaultValue="+998"
+  maskChar=" "
+/>
+{errors.phone && (
+  <p style={{ color: "red" }}>{errors.phone.message}</p>
+)}
                 <Box
                   sx={{
                     display: "flex",
@@ -253,7 +253,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                             : { color: "#B5B5B5" }
                         }
                       >
-                        Erkak
+                        Male
                       </Typography>
                     </Box>
                   </Box>
@@ -266,7 +266,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                         selectGenders === 0
                           ? {
                               width: "100%",
-                              padding: "12px 50px",
+                              padding: "12px 40px",
                               alignItems: "center",
                               textAlign: "center",
                               border: "1px solid #E2A882",
@@ -274,7 +274,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                             }
                           : {
                               width: "100%",
-                              padding: "12px 50px",
+                              padding: "12px 40px",
                               alignItems: "center",
                               textAlign: "center",
                               border: "1px solid #B5B5B5 ",
@@ -290,7 +290,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                             : { color: "#B5B5B5", marginLeft: "0px" }
                         }
                       >
-                        Ayol
+                        Female
                       </Typography>
                     </Box>
                   </Box>
@@ -462,11 +462,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                 <Box sx={{ width: "100%" }}>
                   <OutlinedInput
                     {...register("house", {
-                      required: "House is required",
-                      minLength: {
-                        value: 4,
-                        message:""
-                      },
+                      required: "House is required"
                     })}
                     className="login-form"
                     type="text"

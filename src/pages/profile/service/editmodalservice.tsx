@@ -52,7 +52,7 @@ const EditModalService: FunctionComponent<EditModalServiceProps> = ({
     open,
     setIsModalOpen,
     handleClose,
-    service
+    service,
   }) => {
 
     const [file, setFile] = useState(null);
@@ -145,6 +145,11 @@ const EditModalService: FunctionComponent<EditModalServiceProps> = ({
     
         getCategories();
     }, [setIsModalOpen]);
+
+    const priceString = service?.price?.replace(/\u00A0/g, ''); // Remove non-breaking space character
+const price = priceString ? new Intl.NumberFormat().format(parseFloat(priceString) * 10) : '';
+
+    
 
     return ( 
     <div>
@@ -246,7 +251,7 @@ const EditModalService: FunctionComponent<EditModalServiceProps> = ({
                 },
               })}
               type="number"
-              defaultValue={service?.price}
+              defaultValue={price ? price:"000"}
               placeholder="Price"
               style={{
                 width: "100%",
@@ -437,7 +442,7 @@ const EditModalService: FunctionComponent<EditModalServiceProps> = ({
             },
           }}
         >
-          Create
+          Update
         </Button>
         
       </Modal>

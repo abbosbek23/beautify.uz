@@ -93,7 +93,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
         }}
       ></span>
       <Box sx={{ width: "100%", alignItems: "center", textAlign: "center" }}>
-        {userID  ? (    
+        {services   ? (    
           <Box sx={{ padding: "20px" }}>
             <Box
               sx={{
@@ -126,7 +126,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                     lineHeight: "normal",
                     padding: "0px",
                     borderRadius: "12px",
-                    border: "1.5px dashed #E2A882",
+                    textTransform:"initial",
                     marginTop: "0px",
                     marginRight: "0px",
                   }}
@@ -160,7 +160,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                   marginTop:"30px"   
                 }}
               >
-                <Box sx={{ marginLeft: "0px"  }}>
+                <Box sx={{ marginLeft: "0px",width:"100%",marginRight:"0px"}}>
                   <Typography
                     className="text-service"
                     sx={{ fontSize: "24px", color: "#000",textAlign:"start" }}
@@ -169,7 +169,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                   </Typography>
                   <Typography
                     className="text-service"
-                    sx={{ fontSize: "22px", color: "#B5B5B5",textAlign:"start",width:"50%" }}
+                    sx={{ fontSize: "22px", color: "#B5B5B5",textAlign:"start",width:"100%" }}
                   >
                     {item.description}
                   </Typography>
@@ -190,7 +190,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                   </Box>
                 </Box>
                 <Box sx={{marginRight:"0px", position:"relative"}}>
-                  <Box sx={{marginRight:"0px",width:"100%",textAlign:"end",marginTop:"5px"}}>
+                  <Box sx={{marginRight:"0px",width:"100%",textAlign:"end",marginTop:"5px",display:"flex"}}>
                     <img width={24} height={24} style={{marginLeft:"0px",marginRight:"10px",cursor:"pointer"}} onClick={()=>getService(item)} src={serviceedit} alt="editIcon" />
                     <img width={24} height={24} style={{marginLeft:"0px",cursor:"pointer"}} onClick={()=>deleteService(item.id)} src={servicedelete} alt="deleteIcon" />
                   </Box>
