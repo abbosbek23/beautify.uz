@@ -49,6 +49,8 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
       }
     });
   };
+  console.log(checked);
+  
   
   const handleChangeStartTime = async (value: any, id: any) => {
   // Item ID ni solishtiramiz

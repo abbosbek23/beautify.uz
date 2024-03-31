@@ -195,7 +195,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                     <img width={24} height={24} style={{marginLeft:"0px",cursor:"pointer"}} onClick={()=>deleteService(item.id)} src={servicedelete} alt="deleteIcon" />
                   </Box>
                   <Typography className="text-service" sx={{color:"#E2A882",fontSize:"22px",fontWeight:700,position:"absolute",bottom:"0px",right:"0px"}}>
-                    {item.price}
+                    {new Intl.NumberFormat().format(parseFloat(item.price) * 10)}
                     <span className="text-service" style={{marginLeft:"3px",color:"#000",fontSize:"22px",fontWeight:700}}>SUM</span>
                   </Typography>
                 </Box>
