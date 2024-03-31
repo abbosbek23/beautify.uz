@@ -15,6 +15,7 @@ const Booking: FunctionComponent<BookingProps> = ({id}) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [services, setServices] = useState<Types.IForm.PostsApi[]>([])
+    const role = localStorage.getItem("access")
     const getMasterServices = async() => {
         try {
             const {data} = await Api.Userservices(id)
@@ -75,7 +76,7 @@ const Booking: FunctionComponent<BookingProps> = ({id}) => {
         </Button>
         <Modal
         centered
-        open={isModalOpen}
+        open={role ? isModalOpen:false}
         onCancel={() => handleCloseModal()}
         footer={null}
         width={500}

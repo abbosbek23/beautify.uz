@@ -61,6 +61,7 @@ const Posts: FunctionComponent<PostsProps> = ({
     const [bookmarkedd, setBookmark] = useState(is_bookmark ? 1 : 0);
     const [showMore, setShowMore] = useState(false);
     const [ismaster,setIsmaster] = useState<boolean>()
+    
 
     useEffect(()=>{
      const getInfoProfile = async() => {
@@ -117,7 +118,7 @@ return (
               action={
                 
                   ismaster ? ("") : (<Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginRight: "10px" }}>
-                  <Booking id={user.id} />
+                   <Booking id={user.id} />
                 </Box>)
                  
               }
