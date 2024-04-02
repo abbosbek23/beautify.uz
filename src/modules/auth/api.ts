@@ -188,7 +188,22 @@ export const PostBookings = (body: IApi.PostBooking.Request) => {
     );
 };
 
-export const NewPostss = (search:any) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`,{params:search,headers:{Authorization: `Bearer ${localStorage.getItem("access")}`}})
+export const NewPostss = (search: any) => {
+    // Tokeni localStorage'dan al
+    const token = localStorage.getItem("access");
+    
+    // Headerları belirle
+    const headers: any = {};
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
+    
+    // GET isteğini yap ve sonucu döndür
+    return axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`, {
+        params: search,
+        headers: headers
+    });
+};
 export const Like = (body: IApi.Likes.Request) => {
     const headers = {
         'Authorization': `Bearer ${localStorage.getItem("access")}`,

@@ -22,12 +22,12 @@ interface HomeProps {
 }
 
 const Home: FunctionComponent<HomeProps> = ({search}) => {
-  console.log(search);
+  
   
   const [clickedCategory, setClickedCategory] = useState();
   const [currentParent, setParent] = useState();
   const [categoryfiltered, setCategoryFiltered] = useState<ICategory[]>([]);
-  const [refetch,] = useState(false)
+  const [refetch,setRefetch] = useState(false) 
 
   
 
@@ -70,17 +70,17 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
     },]
   );
 
-//   useEffect(() => {
-//     const getPosts = async () => {
-//         try {
-//             const { data } = await Api.NewPostss({ search });
-//             setPosts(data);
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     }
-//     getPosts();
-// }, [search]); 
+  useEffect(() => {
+    const getPosts = async () => {
+        try {
+            const { data } = await Api.NewPostss({ search });
+            setPosts(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    getPosts();
+}, [search]); 
 
 const fetchData = async () => {
   try {
@@ -108,10 +108,10 @@ const fetchData = async () => {
   }, [search]);
 
   useEffect(() => {
-    if (refetch) {
+   
       fetchData();
-    }
-  }, [refetch]);
+     
+    }, []);
 
  console.log(posts);
  
