@@ -27,7 +27,7 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
   const [clickedCategory, setClickedCategory] = useState();
   const [currentParent, setParent] = useState();
   const [categoryfiltered, setCategoryFiltered] = useState<ICategory[]>([]);
-  const [refetch,setRefetch] = useState(false) 
+  // const [refetch,setRefetch] = useState(false) 
 
   
 
