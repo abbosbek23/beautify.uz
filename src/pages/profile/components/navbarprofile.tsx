@@ -125,6 +125,7 @@ const Navbarprofile: FunctionComponent<NavbarprofileProps> = () => {
       >
         <img
           src={like}
+          onClick={()=>navigate("mylikes")}
           width={32}
           height={32}
           style={{ marginRight: "10px", cursor: "pointer" }}
@@ -132,6 +133,7 @@ const Navbarprofile: FunctionComponent<NavbarprofileProps> = () => {
         />
         <img
           src={bookmark}
+          onClick={()=>navigate("mysaved")}
           style={{ cursor: "pointer" }}
           width={32}
           height={32}

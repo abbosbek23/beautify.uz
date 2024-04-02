@@ -32,7 +32,7 @@ const SelectServiceModal: FunctionComponent<SelectServiceModalProps> = ({
     const isChecked = event.target.checked;
 
     setChecked((prev: any[]) => {
-      const formattedPrice = parseFloat(price) * 10;
+      const formattedPrice = parseFloat(price) * 1;
       if (isChecked) {
         setTotalPrice((prev) => prev + formattedPrice);
         return [...prev, id];
@@ -131,7 +131,7 @@ const SelectServiceModal: FunctionComponent<SelectServiceModalProps> = ({
                   lineHeight: "normal",
                 }}
               >
-                {new Intl.NumberFormat().format(parseFloat(item.price) * 10)}
+                {new Intl.NumberFormat().format(parseFloat(item.price) * 1)}
                 <span style={{ marginLeft: "3px" }}>SUM</span>
               </Typography>
             </Box>

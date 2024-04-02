@@ -33,10 +33,11 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
     const today = startOfToday();
     const [selectedDay, setSelectedDay] = useState<any>(today);
     const [selectDay, setSelectDay] = useState<any>("");
-    const [selectDays, setSelectDays] = useState<any>("");
-    const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
+    // const [selectDays, setSelectDays] = useState<any>("");
+    // const [currentMonth, setCurrentMonth] = useState();
+    
     // const [bookinglist, setBookinglist] = useState<any>([]);
-    const firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
+    const firstDayCurrentMonth = parse(format(today, "MMM-yyyy"), "MMM-yyyy", new Date());
     const [freeTimes,setFreeTimes] = useState<any>([])
     const [clickedTime, setClickedTime] = useState<string | null>(null);
 
@@ -45,10 +46,10 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
     //   return format(date, "yyyy-MM-dd");
     // };
 
-    const errors = () => {
-      console.log(selectDay,selectDays,setCurrentMonth);
-    }
-    console.log(errors);
+    // const errors = () => {
+    //   console.log(selectDay,selectDays,setCurrentMonth);
+    // }
+    // console.log(errors);
     
     
 
@@ -80,9 +81,9 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
       if (!isPast(day) || isEqual(day, today)) {
           setSelectedDay(day);
           const formattedDay = format(day, "yyyy-MM-dd");
-          const formattedDays = format(day, "MMMM dd");
+          // const formattedDays = format(day, "MMMM dd");
           setSelectDay(formattedDay);
-          setSelectDays(formattedDays);
+          // setSelectDays(formattedDays);
   
           if (isToday(day)) {
               handleTimeClick(format(new Date(), "HH:mm"));
@@ -91,6 +92,7 @@ const DateServiceModal: FunctionComponent<DateServiceModalProps> = ({handleRegis
                 const strings: string = localStorage.getItem("serviceid") ?? "";// String sifatida sonlar
         const numbers: number[] = JSON.parse(strings); // JSON.parse() orqali stringni massivga o'tkazamiz
                   const { data } = await Api.getFreeTimemaster(formattedDay,numbers);
+                  
                   if (Array.isArray(data) && data.every(item => typeof item === 'string')) {
                       const time = categorizeTimes(data);
                       setFreeTimes(time);

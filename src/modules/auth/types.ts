@@ -192,6 +192,7 @@ export interface UpdateStatusBooking {
 
   export interface Likes {
     service:number | null,
+    like:boolean;
   }
 
   export interface getLikesPosts {
@@ -201,6 +202,7 @@ export interface UpdateStatusBooking {
   }
   export interface Bookmarks {
     service:number | null,
+    saved:boolean;
   }
 
   export interface UserProfil {

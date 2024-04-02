@@ -29,6 +29,7 @@ const Mysaved: FunctionComponent<MysavedProps> = () => {
 
     const [save,setSave] = useState<Types.IForm.getLikesPosts[]>([])
     const [posts,setPost] = useState<Types.IForm.PostsApi[]>([])
+    const [showMore, setShowMore] = useState(false);
 
     useEffect(()=>{
         const getSavedPost = async() => {
@@ -38,7 +39,6 @@ const Mysaved: FunctionComponent<MysavedProps> = () => {
               setSave(data)
           } catch (error) {
               console.log(error);
-              
           }
         }
         getSavedPost()
@@ -100,7 +100,7 @@ const Mysaved: FunctionComponent<MysavedProps> = () => {
       </Box>
       <Box>
       <Grid container spacing={2} padding={2} sx={{margin:"0px"}}>
-      {save.map(({ service }) => {
+      { save.length > 0 ? (save.map(({ service }) => {
   const likedPost = posts.find((post) => post.id === service);
   if (likedPost) {
     return (
@@ -129,11 +129,20 @@ const Mysaved: FunctionComponent<MysavedProps> = () => {
                             />
                         </Box>
           </CardActions>
-          <CardContent sx={{ paddingTop: "0px" }}>
-            <Typography variant="body2" sx={{ fontSize: "18px" }} color="text.secondary">
-              {likedPost.description}
-            </Typography>
-          </CardContent>
+          <CardContent sx={{ paddingTop: "0px",paddingBottom:"0px"}}>
+            {likedPost.description && (
+  <CardContent sx={{ paddingTop: "0px" }}>
+    <Typography variant="body2" sx={{ fontSize: "18px", height: showMore ? "auto" : "30px", overflow: "hidden" }} color="text.secondary">
+      {likedPost.description}
+    </Typography>
+    {likedPost.description.length > 10 && (
+      <Typography onClick={() => setShowMore(!showMore)} sx={{ cursor: "pointer", color: "black" }}>
+        {showMore ? "short" : "..."}
+      </Typography>
+    )}
+  </CardContent>
+)}
+            </CardContent>
           <CardContent sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <Typography
               sx={{
@@ -152,7 +161,7 @@ const Mysaved: FunctionComponent<MysavedProps> = () => {
               {likedPost.category.name}
             </Typography>
             <Typography sx={{ fontSize: "22px", fontWeight: 700, color: "black" }}>
-              {new Intl.NumberFormat().format(parseFloat(likedPost.price) * 10)} <span style={{ color: "#E2A882" }}>SUM</span>
+              {new Intl.NumberFormat().format(parseFloat(likedPost.price) * 1)} <span style={{ color: "#E2A882" }}>SUM</span>
             </Typography>
           </CardContent>
         </Card>
@@ -160,7 +169,7 @@ const Mysaved: FunctionComponent<MysavedProps> = () => {
     );
   }
         return null;
-      })}
+      })):(<Box><Typography sx={{fontSize:"25px",textAlign:"center"}}>Your don't have saved services</Typography></Box>) }
       </Grid>
       </Box>
         </Box>

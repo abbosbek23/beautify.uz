@@ -6,6 +6,7 @@ import locationIcon from "../../../assets/locationIconProfile.svg";
 import clockIcon from "../../../assets/clockIconProfile.svg";
 import EditStatusModal from "./editStatusbooking";
 import { Button } from "@mui/material";
+import { format } from 'date-fns'
 
 interface MyBookingProps {}
 const MyBooking: FunctionComponent<MyBookingProps> = () => {
@@ -134,15 +135,15 @@ const MyBooking: FunctionComponent<MyBookingProps> = () => {
                                         {
                                             item.user.is_master === true ? (""):(<Button
                                                 sx={{
-                                                    border: "1px solid #B5B5B5",
+                                                    border: "1px solid #E2A882",
                                                     borderRadius: "100px",
-                                                    color: "#000",
+                                                    color: "#E2A882",
                                                     backgroundColor: "white",
                                                     padding: "12px 10px",
                                                     fontSize: "14px",
                                                     ":hover": {
-                                                        bgcolor: "black",
-                                                        color: "white",
+                                                        bgcolor: "#E2A882",
+                                                        color: "white", 
                                                     },
                                                 }}
                                                 className="activedButton"
@@ -170,7 +171,8 @@ const MyBooking: FunctionComponent<MyBookingProps> = () => {
                                     </Box>
                                     <Box sx={{ display: "flex", gap: "20px" }}>
                                         <img src={clockIcon} style={{ marginLeft: "0px", marginRight: "0px" }} width={30} height={30} alt="clockIcon" />
-                                        <Typography>{item.time}</Typography>
+                                        
+                                        <Typography>{format(new Date(item.date), 'MMMM dd')} /{item.time}</Typography>
                                     </Box>
                                 </Box>
                                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "16px", padding: "0 15px 15px 15px" }}>
@@ -179,7 +181,7 @@ const MyBooking: FunctionComponent<MyBookingProps> = () => {
                                         <Typography sx={{ fontSize: "14px", color: "#B5B5B5" }}>{item.service.map(item => item.duration)}</Typography>
                                     </Box>
                                     <Typography sx={{ fontSize: "15px", color: "#E2A882", fontFamily: "Inter,sans-serif", fontWeight: "600" }}>
-                                        {(new Intl.NumberFormat().format(item.service.reduce((total, serviceItem) => total + parseInt(serviceItem.price), 0) * 10))}
+                                        {(new Intl.NumberFormat().format(item.service.reduce((total, serviceItem) => total + parseInt(serviceItem.price), 0) * 1))}
                                         <span style={{ marginLeft: "3px", color: "#000", fontFamily: "Inter,sans-serif", fontWeight: "600" }}>SUM</span>
                                     </Typography>
                                 </Box>

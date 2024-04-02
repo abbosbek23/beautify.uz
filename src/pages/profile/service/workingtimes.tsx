@@ -26,13 +26,12 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
   setIsModalOpen,
   handleClose,
 }) => {
-  const [startTime, setStartTime] = useState("09:00");
-  const [endTime, setEndTime] = useState("18:00");
+  // const [startTime, setStartTime] = useState("09:00");
+  // const [endTime, setEndTime] = useState("18:00");
   const [checked, setChecked] = useState<any>([]);
   const [checkedupdate, setCheckedupdate] = useState<any>([]);
   // const [changeid,setChangeid] = useState<any>(0)
-  const [check, setCheck] = useState(false);
-  console.log(startTime,endTime,check);
+  // const [check, setCheck] = useState(false);
   
   
 
@@ -41,15 +40,14 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
     // setChangeid(id)
     setChecked((prev: any[]) => {
       if (isChecked) {
-        setCheck(true); 
+        // setCheck(true); 
         return [...prev, { day: id,start_time:"09:00",end_time:"18:00"}];
       } else {
-        setCheck(false);
+        // setCheck(false);
         return prev.filter((item) => item.day !== id);
       }
     });
   };
-  console.log(checked);
   
   
   const handleChangeStartTime = async (value: any, id: any) => {
@@ -59,7 +57,7 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
   // Item topilsa
   if (item) {
     // Qiymatni o'zgartiramiz
-    setStartTime(value);
+    // setStartTime(value);
     // Yangilangan qiymatni ro'yxatga o'zgartiramiz
     setChecked((prev: any) =>
       prev.map((prevItem: any) =>
@@ -101,7 +99,7 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
     // Item topilsa
     if (item) {
       // Qiymatni o'zgartiramiz
-      setEndTime(value);
+      // setEndTime(value);
       // Yangilangan qiymatni ro'yxatga o'zgartiramiz
       setChecked((prev: any) => prev.map((prevItem: any) => prevItem.day === id ? { ...prevItem, end_time: value } : prevItem));
 
@@ -152,13 +150,10 @@ const WorkingTimes: FunctionComponent<WorkingTimesProps> = ({
   }
 
 
-  useEffect(() => {
-    console.log("salom");
-    
+  useEffect(() => { 
     const getDays = async () => {
       try {
         const { data } = await Api.UserWorkingDay();
-        console.log(data);
         
         setDays(data);
       } catch (error) {

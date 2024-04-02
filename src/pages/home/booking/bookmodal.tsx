@@ -232,7 +232,7 @@ lineHeight: "normal"}}>Select Date</Typography>
                         fontSize: "18px",
                         fontStyle: "normal",
                         fontWeight: 600,
-                        lineHeight: "normal"}}>{new Intl.NumberFormat().format(parseFloat(item.price) * 10)} <span style={{color:"#000"}}>SUM</span></Typography>
+                        lineHeight: "normal"}}>{new Intl.NumberFormat().format(parseFloat(item.price) * 1)} <span style={{color:"#000"}}>SUM</span></Typography>
                     </Box>
                     <Typography sx={{color:"#B5B5B5",
                      fontFamily: "Inter,sans-serif",

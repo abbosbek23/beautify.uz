@@ -30,7 +30,9 @@ const Routes = ({ search}:RoutesProps) => {
 			<Route path='/forgotpassword' element={<ForgotPassword/>} />
 			<Route path='/profile' element={<Profile/>}/>
 			<Route path='/mylikes' element={<Mylikes/>}/>
+			<Route path='/profile/mylikes' element={<Mylikes/>}/>
 			<Route path='/mysaved' element={<Mysaved/>}/>
+			<Route path='/profile/mysaved' element={<Mysaved/>}/>
 			<Route path='/mybooking' element={<MyBooking/>}/>
 			<Route path='/profile/service' element={<MasterService/>}/>
 		</Switch>

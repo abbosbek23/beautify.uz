@@ -405,7 +405,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                               textAlign:"end"
                             }}
                           >
-                            {new Intl.NumberFormat().format(parseFloat(price)*10)}
+                            {new Intl.NumberFormat().format(parseFloat(price)*1)}
                             <span
                               style={{
                                 color: "#000",

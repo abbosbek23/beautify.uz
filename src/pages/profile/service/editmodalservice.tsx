@@ -37,6 +37,7 @@ interface EditModalServiceProps {
     data?: undefined;
     success: boolean;
     category: number | null;
+    price:string;
 }
 
 const schema = yup.object().shape({
@@ -53,6 +54,7 @@ const EditModalService: FunctionComponent<EditModalServiceProps> = ({
     setIsModalOpen,
     handleClose,
     service,
+    price
   }) => {
 
     const [file, setFile] = useState(null);
@@ -95,9 +97,10 @@ const EditModalService: FunctionComponent<EditModalServiceProps> = ({
       resolver: yupResolver(schema),
     });
 
+    console.log(service);
+    
+
     const onSubmit = async (values: any) => {
-        
-        
           const fullData = {
             ...values,
             category:selectedCategory === 0 ? service?.category:selectedCategory,
@@ -146,9 +149,11 @@ const EditModalService: FunctionComponent<EditModalServiceProps> = ({
         getCategories();
     }, [setIsModalOpen]);
 
-    const priceString = service?.price?.replace(/\u00A0/g, ''); // Remove non-breaking space character
-const price = priceString ? new Intl.NumberFormat().format(parseFloat(priceString) * 10) : '';
-
+    const parsedPrice = typeof price === 'string' ? parseFloat(price) : price;
+    console.log(parsedPrice.toFixed(0));
+    console.log(typeof price);
+    
+        
     
 
     return ( 
@@ -251,7 +256,7 @@ const price = priceString ? new Intl.NumberFormat().format(parseFloat(priceStrin
                 },
               })}
               type="number"
-              defaultValue={price ? price:"000"}
+              defaultValue={parseFloat(price).toFixed(0)}
               placeholder="Price"
               style={{
                 width: "100%",

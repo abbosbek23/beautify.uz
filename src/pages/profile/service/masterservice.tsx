@@ -61,7 +61,8 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
   const handleEditOpenModal = () => {
     setEditModalOpen(true);
   };
-
+  console.log(service?.price);
+  const price: string = service?.price ?? "";
 
 
   const handleOpenModal = () => {
@@ -195,7 +196,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                     <img width={24} height={24} style={{marginLeft:"0px",cursor:"pointer"}} onClick={()=>deleteService(item.id)} src={servicedelete} alt="deleteIcon" />
                   </Box>
                   <Typography className="text-service" sx={{color:"#E2A882",fontSize:"22px",fontWeight:700,position:"absolute",bottom:"0px",right:"0px"}}>
-                    {new Intl.NumberFormat().format(parseFloat(item.price) * 10)}
+                    {new Intl.NumberFormat().format(parseFloat(item.price) * 1)}
                     <span className="text-service" style={{marginLeft:"3px",color:"#000",fontSize:"22px",fontWeight:700}}>SUM</span>
                   </Typography>
                 </Box>
@@ -205,7 +206,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
             handleOpen={handleEditOpenModal}
             handleClose={handleEditCloseModal}
             setIsModalOpen={setEditModalOpen}
-            service={service} id={null} parent={null} success={false} category={null}/>
+            service={service} price={price} id={null} parent={null} success={false} category={null}/>
           </Box>
         ) : (
           <Box>

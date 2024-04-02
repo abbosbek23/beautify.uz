@@ -42,19 +42,20 @@ const EditStatusModal: FunctionComponent<EditStatusModalProps> = ({
         width={500}
         style={{ maxWidth: "300px auto" }}
       >
-        <Typography sx={{ textAlign: "center", fontSize: "21px" }}>
+        <Typography sx={{ textAlign: "center", fontSize: "28px",marginTop:"20px" }}>
           Edit Status Booking
         </Typography>
         <Box sx={{ textAlign: "center", marginTop: "20px" }}>
           <Button
             sx={{
-              padding: "10px 50px",
-              fontSize: "18px",
+              padding: "10px 40px",
+              fontSize: "16px",
               backgroundColor: "white",
               color: "#E2A882",
               border: "1px solid #B5B5B5",
-              borderRadius: "10px",
-              marginRight: "10px",
+              borderRadius: "12px",
+              marginRight: "16px",
+              marginBottom:"20px",
               ":hover": {
                 backgroundColor:"#E2A882",
                 color:"white"
@@ -66,13 +67,14 @@ const EditStatusModal: FunctionComponent<EditStatusModalProps> = ({
           </Button>
           <Button
             sx={{
-              padding: "10px 50px",
-              fontSize: "18px",
+              padding: "10px 40px",
+              fontSize: "16px",
               backgroundColor: "white",
               color: "#E2A882",
               border: "1px solid #B5B5B5",
-              borderRadius: "10px",
+              borderRadius: "12px",
               marginRight: "10px",
+              marginBottom:"20px",
               ":hover": {
                 backgroundColor:"#E2A882",
                 color:"white"

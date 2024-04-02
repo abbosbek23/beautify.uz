@@ -124,7 +124,7 @@ export const DeleteService = (id:number) => {
     );
 };  
 export const Userservices = (body:number) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list?user_id=${body}`)
-export const UserPosts = (body:number) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list?user_id=${body}`)
+export const UserPosts = (body:number) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list?user_id=${body}`,{headers:{Authorization:`Bearer ${localStorage.getItem("access")}`}})
 export const UserWorkingDay = () => {
     const headers = {
         'Authorization': `Bearer ${localStorage.getItem("access")}`,
@@ -188,7 +188,7 @@ export const PostBookings = (body: IApi.PostBooking.Request) => {
     );
 };
 
-export const NewPostss = (search:any) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`,{params:search})
+export const NewPostss = (search:any) => axios.get<IForm.PostsApi[]>(`${BASE_URL}/v1/service/list`,{params:search,headers:{Authorization: `Bearer ${localStorage.getItem("access")}`}})
 export const Like = (body: IApi.Likes.Request) => {
     const headers = {
         'Authorization': `Bearer ${localStorage.getItem("access")}`,
@@ -200,6 +200,7 @@ export const Like = (body: IApi.Likes.Request) => {
         { headers }
     );
 };
+
 export const getLikes = () => {
     const headers = {
         'Authorization': `Bearer ${localStorage.getItem("access")}`,

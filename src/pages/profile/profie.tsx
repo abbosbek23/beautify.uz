@@ -11,8 +11,6 @@ interface ProfileProps {
 }
  
 const Profile: FunctionComponent<ProfileProps> = () => {
-    const roles = localStorage.getItem("roles")
-    console.log(roles);
     const [userdata, setUserdata] = useState<IEntity.User>();
     const navigate = useNavigate()
     useEffect(() => {

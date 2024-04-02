@@ -27,7 +27,7 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
   const [clickedCategory, setClickedCategory] = useState();
   const [currentParent, setParent] = useState();
   const [categoryfiltered, setCategoryFiltered] = useState<ICategory[]>([]);
-  // const [Liked,setLiked] = useState(false)
+  const [refetch,] = useState(false)
 
   
 
@@ -82,31 +82,38 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
 //     getPosts();
 // }, [search]); 
 
+const fetchData = async () => {
+  try {
+   
+    const { data: categoryData, success } = await getCategory();
+    if (success) {
+      categoryData.unshift(categoryData.splice(36, 1)[0]);
+      setCategory(categoryData);
+      const { data: postData } = await NewPostss({search});
+      const filteredPosts = postData.map(post => ({
+        ...post,
+        category: categoryData.find((cat: any) => cat.id === post.category)
+      }));
+      setPosts(filteredPosts);
+      
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
   useEffect(() => {
     document.body.style.backgroundColor = "#FFF"
-    const fetchData = async () => {
-      try {
-       
-        const { data: categoryData, success } = await getCategory();
-        if (success) {
-          categoryData.unshift(categoryData.splice(36, 1)[0]);
-          setCategory(categoryData);
-          const { data: postData } = await NewPostss({search});
-          const filteredPosts = postData.map(post => ({
-            ...post,
-            category: categoryData.find((cat: any) => cat.id === post.category)
-          }));
-          setPosts(filteredPosts);
-          
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
     
     fetchData();
   }, [search]);
 
+  useEffect(() => {
+    if (refetch) {
+      fetchData();
+    }
+  }, [refetch]);
+
+ console.log(posts);
  
 
 
@@ -234,7 +241,7 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
     lg={6}
     key={id}
     sx={posts.length === 1 ? { marginLeft: "0px" } : {}}>
-      <Posts is_bookmark={is_saved} is_like={is_like} favorites_count={favorites_count} id={id} posts={posts} description={description} categoryPosition={postCategory} imagePost={postImage} user={user} price={price} name={""} />
+      <Posts fetchData={fetchData}  is_bookmark={is_saved} is_like={is_like} favorites_count={favorites_count} id={id} posts={posts} description={description} categoryPosition={postCategory} imagePost={postImage} user={user} price={price} name={""} />
     </Grid>
   ))}
 </Grid>

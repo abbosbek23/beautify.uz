@@ -1,94 +1,110 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FunctionComponent, useEffect, useState } from "react";
-import logouser from "../../assets/user.png";
-import like from "../../assets/likes.svg";
-import liked from "../../assets/liked.svg";
-import bookmark from "../../assets/Bookmark.svg";
-import bookmarked from "../../assets/Bookmarked.svg";
-import Booking from "./booking/booking";
-import {
-  Typography,
-  Avatar,
-  CardActions,
-  CardContent,
-  CardMedia,
-  CardHeader,
-  Card,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import { Api,} from "../../modules/auth";
+import { Card,CardMedia,CardHeader,Avatar,Box,CardContent,CardActions,Typography } from "@mui/material";
+import { FunctionComponent, useState } from "react";
+import { Api } from "../../../modules/auth";
+import logouser from "../../../assets/user.png";
+import like from "../../../assets/likes.svg";
+import liked from "../../../assets/liked.svg";
+import bookmark from "../../../assets/Bookmark.svg";
+import bookmarked from "../../../assets/Bookmarked.svg";
 
-interface PostsProps {
-     name: string;
-  id: number | null;
-  description: string;
-  categoryPosition: {
+interface MasterPostProps {
     name: string;
-  };
-  imagePost: string;
-  user: {
     id: number | null;
-    full_name: string;
-    address: {
-      id: number | null;
-      region: string;
-      district: string;
-      mahalla: string;
-      house: string;
+    description: string;
+    categoryPosition: {
+      name: string;
     };
-    image: string;
-  };
-  price: string;
-  posts: any;
-    is_like: any;
-    is_bookmark: any;
-    favorites_count:number | null;
-    // setRefetch:(value:boolean)=>void;
-    fetchData:()=>void;
-  }
-
-const Posts: FunctionComponent<PostsProps> = ({
-  is_bookmark,
-  is_like,
-  id,
-  description,
-  categoryPosition,
-  imagePost,
-  user,
-  price,
-  favorites_count,
-  // setRefetch,
-  fetchData
+    imagePost: string;
+    user: {
+      id: number | null;
+      full_name: string;
+      address: {
+        id: number | null;
+        region: string;
+        district: string;
+        mahalla: string;
+        house: string;
+      };
+      image: string;
+    };
+    price: string;
+    posts: any;
+      is_like: any;
+      is_bookmark: any;
+      favorites_count:number | null;
+      // setRefetch:(value:boolean)=>void;
+      fetchData:()=>void;
+}
+ 
+const MasterPost: FunctionComponent<MasterPostProps> = ({
+    is_bookmark,
+    is_like,
+    id,
+    description,
+    categoryPosition,
+    imagePost,
+    user,
+    price,
+    favorites_count,
+    // setRefetch,
+    fetchData
 }) => {
 
-    // const [bookmarkedd, setBookmark] = useState(is_bookmark ? 1 : 0);
-    const [showMore, setShowMore] = useState(false);
-    const [ismaster,setIsmaster] = useState<boolean>()
-    
-    
-    useEffect(()=>{
-     const getInfoProfile = async() => {
-      try {
-        const {data} = await Api.UserProfil()
-        setIsmaster(data.is_master)
-      } catch (error) {
-        console.log(error);
-        
-      }
-     }
-     getInfoProfile()
-    },[])
+     console.log(is_like);
+     
 
-    
     const LikesPost = async () => {
-      console.log(is_like);
-      
-        if(is_like){
+        
+        
+          if(is_like){
+            try {
+              await Api.Like({
+                service: id,
+                like: !is_like, 
+              });
+              fetchData()
+              console.log(is_like);
+            } catch (error) {
+              console.log(error);
+              
+            }         
+            
+          }else if(is_like === false){
+            try {
+              await Api.Like({
+                service: id,
+                like: !is_like, 
+              });
+              fetchData()
+            } catch (error) {
+              console.log(error);
+              
+            }    
+  
+          }else{
+            try {
+              await Api.Like({
+                service:id,
+                like:false
+              })
+              fetchData()
+            } catch (error) {
+              console.log(error);
+              
+            }
+          }
+          
+          // Increment or decrement favorites_count based on the current state of likes
+          // Update the state of likes and favorites_count
+        
+      };
+      const SavedPost = async() => {
+        if(is_bookmark){
           try {
-            await Api.Like({
+            await Api.Bookmarks({
               service: id,
-              like: false, 
+              saved: false, 
             });
             fetchData()
             
@@ -97,23 +113,23 @@ const Posts: FunctionComponent<PostsProps> = ({
             
           }         
           
-        }else if(is_like === false){
+        }else if(is_bookmark === false){
           try {
-            await Api.Like({
+            await Api.Bookmarks({
               service: id,
-              like: !is_like, 
+              saved: !is_bookmark, 
             });
             fetchData()
           } catch (error) {
             console.log(error);
             
           }    
-
+  
         }else{
           try {
-            await Api.Like({
+            await Api.Bookmarks({
               service:id,
-              like:false
+              saved:false
             })
             fetchData()
           } catch (error) {
@@ -121,56 +137,13 @@ const Posts: FunctionComponent<PostsProps> = ({
             
           }
         }
-        
-        // Increment or decrement favorites_count based on the current state of likes
-        // Update the state of likes and favorites_count
-      
-    };
-    const SavedPost = async() => {
-      if(is_bookmark){
-        try {
-          await Api.Bookmarks({
-            service: id,
-            saved: false, 
-          });
-          fetchData()
-          
-        } catch (error) {
-          console.log(error);
-          
-        }         
-        
-      }else if(is_bookmark === false){
-        try {
-          await Api.Bookmarks({
-            service: id,
-            saved: !is_bookmark, 
-          });
-          fetchData()
-        } catch (error) {
-          console.log(error);
-          
-        }    
+    }
 
-      }else{
-        try {
-          await Api.Bookmarks({
-            service:id,
-            saved:false
-          })
-          fetchData()
-        } catch (error) {
-          console.log(error);
-          
-        }
-      }
-  }
 
-return (
-    // <Grid width="100%" container spacing={2} padding={2}>
-    //   {posts.map(({ description,is_like,favorites_count,is_saved, category: postCategory, image: postImage, user, price, id}) => (
-       
-          <Card sx={{ width: "100%", boxShadow: "none" }}>
+    const [showMore, setShowMore] = useState(false);
+    return ( 
+        
+        <Card sx={{ width: "100%", boxShadow: "none" }}>
             <CardHeader
               sx={{ paddingLeft: "0px", paddingRight: "5px" }}
               avatar={
@@ -178,13 +151,7 @@ return (
                   <img src={user.image === null ? logouser : user.image} width={40} height={40} alt="" />
                 </Avatar>
               }
-              action={
-                
-                  ismaster ? ("") : (<Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginRight: "10px" }}>
-                   <Booking id={user.id} />
-                </Box>)
-                 
-              }
+              
               title={user.full_name}
               subheader={
                 <Typography
@@ -289,7 +256,8 @@ return (
               </Typography>
             </CardContent>
           </Card>
-  );
-};
-
-export default Posts;
+        
+     );
+}
+ 
+export default MasterPost;
