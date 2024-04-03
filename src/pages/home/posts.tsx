@@ -176,7 +176,7 @@ return (
               avatar={<Avatar aria-label="recipe" src={user.image || logouser} sx={{ width: 40, height: 40 }} />}
               action={!ismaster && <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginRight: "10px" }}><Booking id={user.id} /></Box>}
         title={user.full_name}
-        subheader={<Typography sx={{ whiteSpace: "nowrap", fontSize: "13px","@media (max-width:500px)":{whiteSpace:"wrap"}, "@media (min-width: 1150px)": { whiteSpace: "nowrap", fontSize: "10px" } }}>{`${user.address.region} ${user.address.district} ${user.address.mahalla}`}</Typography>}
+        subheader={<Typography sx={{ whiteSpace: "nowrap", fontSize: "13px","@media (max-width:700px)":{whiteSpace:"wrap"}, "@media (min-width: 1150px)": { whiteSpace: "nowrap", fontSize: "10px" } }}>{`${user.address.region} ${user.address.district} ${user.address.mahalla}`}</Typography>}
       />
             <CardMedia sx={{ objectFit: "fill", borderRadius: "20px","@media (max-width:450px)":{height:"300px"} }} component="img" height="600" image={imagePost} alt="Paella dish" />
             <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
