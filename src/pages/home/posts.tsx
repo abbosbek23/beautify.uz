@@ -178,7 +178,7 @@ return (
         title={user.full_name}
         subheader={<Typography sx={{ whiteSpace: "nowrap", fontSize: "13px","@media (max-width:450px)":{whiteSpace:"wrap"}, "@media (min-width: 1150px)": { whiteSpace: "nowrap", fontSize: "10px" } }}>{`${user.address.region} ${user.address.district} ${user.address.mahalla}`}</Typography>}
       />
-            <CardMedia sx={{ objectFit: "fill", borderRadius: "20px" }} component="img" height="600" image={imagePost} alt="Paella dish" />
+            <CardMedia sx={{ objectFit: "fill", borderRadius: "20px","@media (max-width:450px)":{width:"300px",height:"300px"} }} component="img" height="600" image={imagePost} alt="Paella dish" />
             <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
             <Box
                           onClick={LikesPost}
