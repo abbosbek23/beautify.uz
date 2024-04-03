@@ -519,6 +519,7 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   padding: "55px 0 55px 0",
+                  "@media (max-width:450px)":{display:"none"}
                 }}>
                 <img
                   src={loginImage}

@@ -92,6 +92,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 padding: "55px 0 55px 0",
+                "@media (max-width:450px)":{display:"none"}
               }}
             >
               <img
@@ -112,6 +113,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = () => {
             background: "#FFF",
             // boxShadow: "0px 0px 50px 0px rgba(0, 0, 0, 0.10)",
             padding: "50px 20px 20px 20px",
+            "@media (max-width:450px)":{padding:"50px 0px"}
           }}
           className={"box-signin"}
         >

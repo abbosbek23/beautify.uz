@@ -355,6 +355,7 @@ const Register1step: FunctionComponent<registerProps> = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   padding: "55px 0 55px 0",
+                  "@media (max-width:450px)":{display:"none"}
                 }}
               >
                 <img

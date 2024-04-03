@@ -74,15 +74,15 @@ const Navbar: FunctionComponent<NavbarProps> = ({onSearch}) => {
         height={100}
         padding={"20px 34px"}
       >
-        <Box sx={{marginLeft:"0px"}} >
-        <img width="128px" height="28px" style={{cursor:"pointer"}} onClick={()=>navigate("/")} src={logo} alt="logo" />
+        <Box sx={{width:"128px",height:"28px",marginLeft:"0px","@media (max-width:450px)":{width:"100px",height:"30px"},}} >
+        <img width="100%" height="100%" style={{cursor:"pointer"}} onClick={()=>navigate("/")} src={logo} alt="logo" />
         </Box>
-        <Box  sx={{display:'flex',marginLeft:"10%",width:"50%"}}>
+        <Box  sx={{display:'flex',marginLeft:"10%",width:"50%", "@media (max-width:450px)":{display:"none"},}}>
         <form action="" style={{ width: "100%", height: "48px", borderRadius: "100px", border: "1px solid #B5B5B5",alignItems:"center",padding:"3px" }}>
     <input onChange={(e)=>onSearch(e.target.value)} placeholder="Search the location or master..." type="text" style={{ width: "85%", fontSize: "18px", marginLeft: "4px",padding:"11px 10px 0 4px",  border: "0px solid white", borderRadius: "100px", outline: "none" }} />
 </form>
         </Box>
-        <Box >
+        <Box sx={{"@media (max-width:450px)":{marginRight:"0px"}}}>
           {user ? <Box>
             <Button
         id="demo-positioned-button"
@@ -90,12 +90,12 @@ const Navbar: FunctionComponent<NavbarProps> = ({onSearch}) => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
        
-        sx={{':hover': {
+        sx={{minWidth:"30px","@media (max-width:450px)":{padding:"0px"},':hover': {
           bgcolor: 'white', // theme.palette.primary.main
         },}}
         onClick={()=>navigate("mylikes")}
       >
-       <img src={like} width={30} height={30} />
+       <img src={like} style={{marginLeft:"0px",marginRight:"0px"}} width={"100%"} height={"100%"} />
       </Button>
       <Button
         id="demo-positioned-button"
@@ -103,12 +103,12 @@ const Navbar: FunctionComponent<NavbarProps> = ({onSearch}) => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         
-        sx={{':hover': {
+        sx={{marginLeft:"20px",minWidth:"30px","@media (max-width:450px)":{padding:"0px",marginLeft:'20px'},':hover': {
           bgcolor: 'white', // theme.palette.primary.main
         },}}
         onClick={()=>navigate("mysaved")}
       >
-       <img src={bookmark} width={30} height={30} />
+       <img src={bookmark} width={"100%"} height={"100%"} />
       </Button>
              <Button
         id="demo-positioned-button"
@@ -116,11 +116,11 @@ const Navbar: FunctionComponent<NavbarProps> = ({onSearch}) => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        sx={{':hover': {
+        sx={{marginLeft:"20px",minWidth:"30px","@media (max-width:450px)":{padding:"0px",marginLeft:"20px"},':hover': {
           bgcolor: 'white', // theme.palette.primary.main
         },}}
       >
-       <img src={userimg} width={30} height={30} />
+       <img src={userimg} width={"30px"} height={"30px"} />
       </Button>
       {
         userdata?.is_master ? (

@@ -114,25 +114,30 @@ const initials: string = getInitials(userdata?.full_name || "");
           >
             {userdata?.full_name}
           </Typography>
-          <Typography
-            sx={{
-              color: "#B5B5B5",
-              fontFamily: "Inter",
-              fontSize: "22px",
-              fontStyle: "normal",
-              fontWeight: 400,
-              lineHeight: "normal",
-              marginTop:"10px"
-            }}
-          >
-            {userdata?.address.region +
-              " " +
-              userdata?.address.district +
-              " " +
-              userdata?.address.mahalla +
-              " " +
-              userdata?.address.house}
-          </Typography>
+          {
+            userdata?.address === null ? (
+              <Typography>Salom</Typography>
+            ):( <Typography
+              sx={{
+                color: "#B5B5B5",
+                fontFamily: "Inter",
+                fontSize: "22px",
+                fontStyle: "normal",
+                fontWeight: 400,
+                lineHeight: "normal",
+                marginTop:"10px"
+              }}
+            >
+              {userdata?.address.region +
+                " " +
+                userdata?.address.district +
+                " " +
+                userdata?.address.mahalla +
+                " " +
+                userdata?.address.house}
+            </Typography>)
+          }
+         
         </Box>
       </Box>
       

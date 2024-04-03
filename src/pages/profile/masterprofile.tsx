@@ -70,8 +70,9 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
                   marginTop: "30px",
                   marginLeft: "110px",
                   marginRight: "24px",
+                  "@media (max-width:450px)":{marginLeft:"20px"}
                 }
-              : {width: "120px", height: "120px",marginRight:"24px",marginLeft:"110px"}
+              : {width: "120px", height: "120px",marginRight:"24px",marginLeft:"110px","@media (max-width:450px)":{marginLeft:"20px"}}
           }
         >
           {userdata?.image === null ? (
@@ -120,30 +121,33 @@ const MasterProfile: FunctionComponent<MasterProfileProps> = () => {
               fontStyle: "normal",
               fontWeight: 600,
               lineHeight: "normal",
-              marginTop:"10px"
+              marginTop:"10px",
+              "@media (max-width:450px)":{fontSize:'25px'}
             }}
           >
             {userdata?.full_name}
           </Typography>
-          <Typography
-            sx={{
-              color: "#B5B5B5",
-              fontFamily: "Inter",
-              fontSize: "22px",
-              fontStyle: "normal",
-              fontWeight: 400,
-              lineHeight: "normal",
-              marginTop:"10px"
-            }}
-          >
-            {userdata?.address.region +
-              " " +
-              userdata?.address.district +
-              " " +
-              userdata?.address.mahalla +
-              " " +
-              userdata?.address.house}
-          </Typography>
+          {
+  userdata?.address === null ? (
+    // Render nothing if address is null
+    <Typography>Salom</Typography>
+  ) : (
+    // Render address details if address is not null
+    <Typography
+      sx={{
+        color: "#B5B5B5",
+        fontFamily: "Inter",
+        fontSize: "22px",
+        fontStyle: "normal",
+        fontWeight: 400,
+        lineHeight: "normal",
+        marginTop: "10px"
+      }}
+    >
+      {`${userdata?.address.region || ""} ${userdata?.address.district || ""} ${userdata?.address.mahalla || ""} ${userdata?.address.house || ""}`}
+    </Typography>
+  )
+}
         </Box>
       </Box>
       <MasterService />

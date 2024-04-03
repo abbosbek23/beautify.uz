@@ -69,16 +69,17 @@ const Calendar: React.FC = () => {
 
   return (
     <div style={{ padding: "0px 45px 0px 45px" }}>
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           padding: "0px 45px 0 65px",
+          "@media (max-width:450px)":{paddingLeft:"10px",paddingRight:"10px"}
         }}
       >
-        <h2 style={{ flex: "auto", fontWeight: "bold", color: "gray" }}>
+        <Typography sx={{ flex: "auto", fontWeight: "bold", color: "gray",fontSize:"30px","@media (max-width:450px)":{fontSize:"16px",marginLeft:"0px"} }}>
           {format(firstDayCurrentMonth, "MMMM yyyy")}
-        </h2>
+        </Typography>
         <div style={{ display: "flex" }}>
           <Button
             type="button"
@@ -126,7 +127,7 @@ const Calendar: React.FC = () => {
             />
           </Button>
         </div>
-      </div>
+      </Box>
       <Box
         sx={{
           display: "grid",
@@ -154,14 +155,15 @@ const Calendar: React.FC = () => {
         }}
       >
         {days.map((day, index) => (
-          <div
+          <Box
             key={index}
-            style={{
+            sx={{
               padding: "0.5rem",
               ...(index === 0 &&
                 colStartClasses[getDay(day)] && {
                   gridColumnStart: colStartClasses[getDay(day)],
                 }),
+                "@media (max-width:450px)":{padding:"10px 0"} 
             }}
           >
             <Button
@@ -205,6 +207,7 @@ const Calendar: React.FC = () => {
                      color: isPast(day) && !isToday(day) ? "#gray":"white",
                      
                    },
+                   "@media (max-width:450px)":{padding:"10px",width:"80%",marginLeft:"0px",marginRight:'0px',minWidth:"20px"}   
               }}
             >
               <time
@@ -214,7 +217,7 @@ const Calendar: React.FC = () => {
                 {format(day, "d")}
               </time>
             </Button>
-          </div>
+          </Box>
         ))}
       </Box>
       <hr />

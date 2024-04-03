@@ -187,18 +187,24 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
                     style={{ marginLeft: "0px", marginRight: "8px" }}
                     alt="gender"
                   />
-                  <Typography
-                    sx={{
-                      color: "#000",
-                      fontFamily: "Inter,sans-serif",
-                      fontSize: "22px",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      lineHeight: "normal",
-                    }}
-                  >
-                    {userdata?.address.region}
-                  </Typography>
+                  {
+                    userdata?.address === null ? (
+                      <Typography>Salom</Typography>
+                    ):(<Typography
+                      sx={{
+                        color: "#000",
+                        fontFamily: "Inter,sans-serif",
+                        fontSize: "22px",
+                        fontStyle: "normal",
+                        fontWeight: 400,
+                        lineHeight: "normal",
+                      }}
+                    >
+                      
+                      {userdata?.address.region}
+                    </Typography>)
+                  }
+                  
                 </Box>
                 <Box>
                   <img src={line} width="100%" height={1} alt="line" />
