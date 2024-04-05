@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from "axios";
-import { IApi,   IForm } from "./types";
+import { IApi, IForm } from "./types";
 import { BASE_URL } from "../../config";
 import { ICategory } from "../../interface";
 
@@ -10,7 +10,7 @@ export const Register = ( body : IApi.Register.Request) => axios.post<IApi.Regis
 export const Register2step = (body: IApi.Register2steps.Request) => {
     const headers = {
         'Authorization': `Bearer ${localStorage.getItem("access")}`,
-        'Content-Type': 'application/json' // Assuming JSON is being sent in the body
+        'Content-Type': 'application/json'
     };
 
     return axios.post<IApi.Register2steps.Response>(
