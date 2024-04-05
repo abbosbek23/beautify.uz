@@ -71,7 +71,7 @@ export const getUserProfile = async () => {
     return {data,success:true}
     
   } catch (error) {
-    console.log(error);
+    console.log(error,"salo,");
     return {success:false}    
   }
 }

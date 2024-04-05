@@ -2,7 +2,7 @@ import { Box } from "@mui/system";
 import { FunctionComponent, useEffect, useState } from "react";
 import Navbarprofile from "./components/navbarprofile";
 import { IEntity } from "../../modules/auth/types";
-import { Api } from "../../modules/auth";
+import { Api, Types } from "../../modules/auth";
 import Typography from "@mui/material/Typography";
 
 
@@ -19,6 +19,18 @@ const UserProfile: FunctionComponent<UserProfileProps> = () => {
         setUserdata(data);
       } catch (error) {
         console.log(error);
+        const refreshTokenString = localStorage.getItem("refresh");
+        if (refreshTokenString) {
+            try {
+                const refreshToken: Types.IEntity.Tokens = JSON.parse(refreshTokenString);
+                const { data } = await Api.RefreshToken(refreshToken);
+                console.log(data);
+            } catch (parseError) {
+                console.log("Error parsing refresh token:", parseError);
+            }
+        } else {
+            console.log("No refresh token found.");
+        }
       }
     };
     getUserdata();

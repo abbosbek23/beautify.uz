@@ -77,10 +77,19 @@ const Home: FunctionComponent<HomeProps> = ({search}) => {
             setPosts(data);
         } catch (error) {
             console.log(error);
+            const refreshTokenString = localStorage.getItem("refresh");
+            if (refreshTokenString) {
+               
+                const { data } = await Api.RefreshToken({refresh:refreshTokenString});
+                console.log(data);
+            } else {
+                console.log("No refresh token found.");
+            }
         }
     }
     getPosts();
 }, [search]); 
+
 
 const fetchData = async () => {
   try {
@@ -99,6 +108,14 @@ const fetchData = async () => {
     }
   } catch (error) {
     console.error("Error fetching data:", error);
+    const refreshTokenString = localStorage.getItem("refresh");
+    if (refreshTokenString) {
+        const { data } = await Api.RefreshToken({refresh:refreshTokenString});
+        console.log(data);
+        localStorage.setItem("access",data.access)
+    } else {
+        console.log("No refresh token found.");
+    }
   }
 };
   useEffect(() => {

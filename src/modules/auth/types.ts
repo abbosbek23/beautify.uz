@@ -30,8 +30,8 @@ export namespace IEntity {
   }
   export interface Tokens {
     email: any;
-    access: string;
-    refresh: string;
+    access: string | null;
+    refresh: string | null;
   }
 }
 export namespace IForm {
@@ -204,6 +204,7 @@ export interface UpdateStatusBooking {
     service:number | null,
     saved:boolean;
   }
+
 
   export interface UserProfil {
     first_name?: string;

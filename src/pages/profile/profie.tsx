@@ -20,6 +20,18 @@ const Profile: FunctionComponent<ProfileProps> = () => {
           setUserdata(data);
         } catch (error) {
           console.log(error);
+          const refreshTokenString = localStorage.getItem("refresh");
+          if (refreshTokenString) {
+              try {
+                 
+                  const { data } = await Api.RefreshToken({refresh:refreshTokenString});
+                  console.log(data,"salom ");
+              } catch (parseError) {
+                  console.log("Error parsing refresh token:", parseError);
+              }
+          } else {
+              console.log("No refresh token found.");
+          }
           localStorage.clear()
           navigate("/")
         }

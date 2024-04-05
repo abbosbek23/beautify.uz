@@ -45,8 +45,11 @@ const Login: FunctionComponent<LoginProps> = () => {
 
     try {
       const { data } = await Api.Login(values);
+      console.log(data);
+      
       if (data) {
         localStorage.setItem("access", data.access);
+        localStorage.setItem("refresh",data.refresh)
         navigate("/");
       }
     } catch (error) {

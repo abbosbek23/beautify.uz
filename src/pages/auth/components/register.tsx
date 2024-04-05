@@ -72,6 +72,7 @@ const Register1step: FunctionComponent<registerProps> = () => {
       console.log(data);
       if (data) {
         localStorage.setItem("access", data.access_token);
+        localStorage.setItem("refresh",data.refresh_token)
         navigate("/register2step");
         reset();
       }
