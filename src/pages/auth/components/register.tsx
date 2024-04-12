@@ -81,6 +81,8 @@ const Register1step: FunctionComponent<registerProps> = () => {
         activate_code: activatsiyacode,
       });
       console.log(data);
+      console.log(activatsiyacode);
+      
       if (data) {
         localStorage.setItem("access", data.access_token);
         localStorage.setItem("refresh",data.refresh_token)
@@ -88,7 +90,14 @@ const Register1step: FunctionComponent<registerProps> = () => {
         reset();
       }
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      if(activeCodes === undefined){
+        toast.error("Active code field required")
+      }else{
+
+        toast.error(error.response.data.error);
+      }
+      
+      
     }
   };
 
