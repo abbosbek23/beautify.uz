@@ -36,17 +36,20 @@ const Register1step: FunctionComponent<registerProps> = () => {
   const onsubmit = async (values: any) => {
     const selectedRoles = localStorage.getItem("roles");
     try {
-      toast.success("Activation code sent to your email");
       if (values.email) {
         const { data } = await Api.Register({
           ...values,
           is_master: selectedRoles,
         });
 
-        toast.success(data ? "Register 1 step is completed" : "");
         setEmail(values.email);
         setemailverification(true);
+        if(data.full_name){
+          toast.success("Activation code sent to your email");
+
+        }
       }
+      
     } catch (error: any) {
       setemailverification(false);
       const email = error.response.data?.email;
@@ -57,7 +60,15 @@ const Register1step: FunctionComponent<registerProps> = () => {
       if (username) {
         toast.error(username);
       }
-      console.log(error);
+      console.log(error.response.status);
+      
+      if(error.response.status === 400 ){
+        console.log(error.response);
+        
+      }else{
+        console.log("salom");
+        
+      }
     }
     setactiveCodes(values.activate_code);
   };

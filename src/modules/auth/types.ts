@@ -66,6 +66,7 @@ export namespace IForm {
       mahalla?: number | undefined;
       house: string;
     };
+    
   }
   export interface Verification {
     email: string;
@@ -250,7 +251,11 @@ export interface IToken {
 export namespace IApi {
   export namespace Register {
     export interface Request extends IForm.Register {}
-    export interface Response extends IForm.Register {}
+    export interface Response extends IForm.Register {
+      response: any;
+      code: any;
+      ok: any;
+}
   }
   export namespace Verification {
     export interface Request extends IForm.Verification {}
