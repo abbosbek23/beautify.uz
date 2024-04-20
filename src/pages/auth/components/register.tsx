@@ -93,11 +93,8 @@ const Register1step: FunctionComponent<registerProps> = () => {
       if(activeCodes === undefined){
         toast.error("Activation code field required")
       }else{
-
         toast.error(error.response.data.error);
       }
-      
-      
     }
   };
 

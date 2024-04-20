@@ -33,7 +33,9 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
   handleClose,
 }) => {
   const [userdata, setUserdata] = useState<IEntity.User>();
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  console.log(userdata);
+  
   const [selectGender, setSelectGender] = useState<string | undefined>();
   useEffect(() => {
     const getUserdata = async () => {
@@ -41,6 +43,10 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
         const { data } = await Api.UserProfil();
         setSelectGender(data.gender);
         setUserdata(data);
+        // console.log(data);
+        
+        // console.log(data);
+        
       } catch (error: any) {
         console.log(error.response.data.username);
       }
@@ -64,15 +70,30 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
     mode: "onBlur",
   });
 
-  const onsubmit = async (values: any) => {
-    const fullData = {
-      ...values,
-      image: values.image[0],
-      gender: selectGender,
-      is_master:userdata?.is_master
-    };
+  const uploadesImage = (event:any) => {
+    const file = event.target.files[0];
+    if (file) {
+      // You can handle the selected file here
+      setSelectedFile(file)
+    }
+  }
 
-    const datas = objectToFormData(fullData);
+  const onsubmit = async (values: any) => {
+    
+    
+
+    if(selectedFile === null){
+     
+        
+      const fullData = {
+        ...values,
+        gender: selectGender,
+        is_master:userdata?.is_master
+      };
+      const datas = objectToFormData(fullData);
+     console.log(fullData);
+     
+
 
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -84,6 +105,42 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
     } catch (error) {
       console.log(error);
     }
+    }else{
+      const fullData = {
+        ...values,
+        image:selectedFile,
+        gender: selectGender,
+        is_master:userdata?.is_master
+      };
+      const datas = objectToFormData(fullData);
+     
+
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const { data } = await Api.UserUpdateProfile(datas);
+      toast.success(data ? "Profile edited successfully" : "");
+      setIsModalOpen(false);
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
+    }
+    // const datas = objectToFormData(fullData);
+     
+
+
+    // try {
+    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //   // @ts-expect-error
+    //   const { data } = await Api.UserUpdateProfile(datas);
+    //   toast.success(data ? "Profile edited successfully" : "");
+    //   setIsModalOpen(false);
+    //   reset();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   function getInitials(fullName: string): string {
@@ -147,7 +204,7 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
                   {initials}
                 </Typography>
               ) : (
-                <img src={userdata?.image} width="100%" height="100%" />
+                <img src={userdata?.image}  width="100%" height="100%" />
               )}
 
               <input
@@ -160,7 +217,7 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
                   opacity: 0,
                   pointerEvents: "none",
                 }}
-                {...register("image")}
+                onChange={uploadesImage}
               />
               <img
                 width={30}
@@ -345,7 +402,9 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
               >Social Messengers</Typography>
               <div style={{position:"relative"}}>
               <input type="text"
+
               placeholder="Telegram" 
+              defaultValue={userdata?.telegram}
               {...register("telegram")}
               style={{
                 width: "100%",
@@ -365,7 +424,8 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
               </div>
               <div style={{position:"relative"}}>
               <input type="text"
-              placeholder="Instagram" 
+              placeholder="Instagram"
+              defaultValue={userdata?.instagram} 
               {...register("instagram")}
               style={{
                 width: "100%",
@@ -385,6 +445,7 @@ const EditModalMaster: FunctionComponent<EditModalMasterProps> = ({
               <div style={{position:"relative"}}>
               <input type="text"
               placeholder="Facebook" 
+              defaultValue={userdata?.facebook}
               {...register("facebook")}
               style={{
                 width: "100%",

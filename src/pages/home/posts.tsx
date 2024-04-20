@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { Api,} from "../../modules/auth";
+import SocialNetworks from "./socialnetworks";
 
 interface PostsProps {
      name: string;
@@ -165,16 +166,14 @@ const Posts: FunctionComponent<PostsProps> = ({
         }
       }
   }
-
+  console.log(id);
+  
 return (
-    // <Grid width="100%" container spacing={2} padding={2}>
-    //   {posts.map(({ description,is_like,favorites_count,is_saved, category: postCategory, image: postImage, user, price, id}) => (
-       
           <Card sx={{ width: "100%", boxShadow: "none" }}>
             <CardHeader
               sx={{ paddingLeft: "0px", paddingRight: "5px" }}
               avatar={<Avatar aria-label="recipe" src={user.image || logouser} sx={{ width: 40, height: 40 }} />}
-              action={!ismaster && <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginRight: "10px" }}><Booking id={user.id} /></Box>}
+              action={!ismaster && <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginRight: "10px" }}><Booking id={user.id} /><SocialNetworks id={user.id}/> </Box>}
         title={user.full_name}
         subheader={<Typography sx={{ whiteSpace: "nowrap", fontSize: "13px","@media (max-width:700px)":{whiteSpace:"wrap"}, "@media (min-width: 1150px)": { whiteSpace: "nowrap", fontSize: "10px" } }}>{`${user.address.region} ${user.address.district} ${user.address.mahalla}`}</Typography>}
       />
