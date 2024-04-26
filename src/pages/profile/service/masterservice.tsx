@@ -41,7 +41,7 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
   const deleteService = async(id:any) => {
     try {
       const {data}:any = await Api.DeleteService(id)
-       toast.success(data?"Your service deleted":"")
+       toast.success(data?"Your service deleted":"Your service deleted")
        setDeleteServices(p=>!p) 
     } catch (error) {
       console.log(error);
