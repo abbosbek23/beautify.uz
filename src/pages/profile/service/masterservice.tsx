@@ -47,7 +47,6 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
       console.log(error);
     }finally{
       console.log("salom");
-      
     }
     }
     useEffect(() => {

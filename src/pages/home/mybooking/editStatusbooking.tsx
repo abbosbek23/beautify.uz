@@ -2,7 +2,7 @@
 import { Box } from "@mui/system";
 import { Button, Typography } from "@mui/material";
 import { Modal } from "antd";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { Api } from "../../../modules/auth";
 import "../index.css";
 import toast from "react-hot-toast";
@@ -21,12 +21,14 @@ const EditStatusModal: FunctionComponent<EditStatusModalProps> = ({
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const editStatusBooker = async (body: string) => {
     try {
       const { data } = await Api.UpdateStatus({ status: body }, id);
-      toast.success(data ? "Status is updated successfully" : "");
       setIsModalOpen(false);
+      setIsDisabled(false)
+      toast.success(data ? "Status is updated successfully" : "");
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +63,12 @@ const EditStatusModal: FunctionComponent<EditStatusModalProps> = ({
                 color:"white"
               }
             }}
-            onClick={() => editStatusBooker("approved")}
+            
+            disabled={isDisabled}
+  onClick={() => {
+    editStatusBooker("approved");
+    setIsDisabled(true); // Tekshirilgan holatda tugmani `disabled` qilish
+  }}
           >
             Approve
           </Button>
@@ -80,7 +87,12 @@ const EditStatusModal: FunctionComponent<EditStatusModalProps> = ({
                 color:"white"
               }
             }}
-            onClick={() => editStatusBooker("rejected")}
+            disabled={isDisabled}
+
+            onClick={() => {
+              editStatusBooker("rejected")
+              setIsDisabled(true);
+            }}
           >
             Rejected
           </Button>
