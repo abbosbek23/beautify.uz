@@ -167,7 +167,7 @@ const MyBooking: FunctionComponent<MyBookingProps> = () => {
                                 <Box sx={{ padding: "0 15px" }}>
                                     <Box sx={{ display: "flex", gap: "20px", marginTop: "10px" }}>
                                         <img src={locationIcon} style={{ marginLeft: "0px", marginRight: "0px" }} width={30} height={30} alt="locationIcon" />
-                                        <Typography>{item.user.address.region} {item.user.address.district}</Typography>
+                                        <Typography>{item.user?.address?.region} {item.user?.address?.district}</Typography>
                                     </Box>
                                     <Box sx={{ display: "flex", gap: "20px" }}>
                                         <img src={clockIcon} style={{ marginLeft: "0px", marginRight: "0px" }} width={30} height={30} alt="clockIcon" />
