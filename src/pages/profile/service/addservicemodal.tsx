@@ -27,6 +27,7 @@ import * as yup from "yup";
 import imageicon from "../../../assets/selectImage.svg";
 import "./index.css";
 import toast from "react-hot-toast";
+import deleteimageicon from "../../../assets/deleteimageicon.svg"
 // import toast from "react-hot-toast";
 
 interface AddServiceModalProps {
@@ -91,7 +92,7 @@ const AddServiceModal: FunctionComponent<AddServiceModalProps> = ({
 
   const [category, setCategory] = useState<ICategory[]>([]); // Initialize as an empty array
   const [defaultcategory, setDefaultCategory] = useState("");
-  const [selectedTime, setSelectedTime] = useState<string>("00:15");
+  const [selectedTime, setSelectedTime] = useState<string>("00:00");
   const [selectedCategory, setSelectedCategory] = useState<number>(0)
    
   
@@ -131,7 +132,8 @@ const AddServiceModal: FunctionComponent<AddServiceModalProps> = ({
       setIsModalOpen(false);
       setDefaultCategory("")
       reset();
-
+      setFile(null)
+      setSelectedTime("00:00")
       toast.success("Your service is added");
     }
   };
@@ -141,6 +143,9 @@ const AddServiceModal: FunctionComponent<AddServiceModalProps> = ({
   };
   const SelectCategory = (id:any) =>{
      setSelectedCategory(id)
+  }
+  const deleteImage = () => {
+    setFile(null)
   }
 
   return (
@@ -302,7 +307,7 @@ const AddServiceModal: FunctionComponent<AddServiceModalProps> = ({
                     displayEmpty
                     inputProps={{ "aria-label": "Without label" }}
                     value={selectedTime} // Corrected here
-                    defaultValue="00:15"
+                    defaultValue="00:00"
                     // error={!!errors.category?.message}
                     onChange={(e) => {
                       field.onChange(e);
@@ -413,6 +418,7 @@ const AddServiceModal: FunctionComponent<AddServiceModalProps> = ({
                 >
                   Selected Image
                 </label>
+                <img src={deleteimageicon} style={{cursor:'pointer'}} onClick={deleteImage} width={25} height={25} alt="deleteimageicon" />
               </Box>
             )}
           </div>

@@ -39,10 +39,16 @@ const MasterService: FunctionComponent<MasterServiceProps> = () => {
   }, [isModalOpen,editModalOpen]);
   
   const deleteService = async(id:any) => {
-     const {data}:any = await Api.DeleteService(id)
-      toast.success(data?"Your service deleted":"")
-      setDeleteServices(true) 
-     
+    try {
+      const {data}:any = await Api.DeleteService(id)
+       toast.success(data?"Your service deleted":"")
+       setDeleteServices(p=>!p) 
+    } catch (error) {
+      console.log(error);
+    }finally{
+      console.log("salom");
+      
+    }
     }
     useEffect(() => {
       if (userID) {

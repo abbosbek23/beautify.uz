@@ -102,8 +102,8 @@ const Register2steps: FunctionComponent<Register2stepsProps> = () => {
       });
      toast.success(data?"Register process is completed":"")
       navigate("/")
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      toast.error(error.response.data.phone[0])
     }
   };
 
